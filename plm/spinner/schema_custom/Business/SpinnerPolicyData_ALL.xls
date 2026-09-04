@@ -1,0 +1,46 @@
+Name	Registry Name	Description	Store	Hidden (boolean)	"Types (use ""|"" delim)"	"Formats (use ""|"" delim)"	Default Format	Locking (boolean)	Allstate (boolean)	Minor Rev Seq (use 'continue' for '...')	Major Rev Seq (use 'continue' for '...')	Delimiter	Icon File
+JFDataTransmission	JFDataTransmission	Policy for Project Releases	STORE	FALSE	JFDataTransmission	generic	generic	FALSE	FALSE				
+JFDataOutSource	JFDataOutSource	Policy for Data Out Source	STORE	FALSE	JFDataOutSource	generic	generic	FALSE	FALSE				
+JFDataOutSourceLogs	JFDataOutSourceLogs	Policy for Data Out Source Logs	STORE	FALSE	JFDataOutSourceLogs	generic	generic	FALSE	FALSE				
+JFDR	JFDR	Policy for Data Out Source Logs	STORE	FALSE	JFDR	generic	generic	FALSE	FALSE				
+JFECR	JFECR	Policy for ECR	STORE	FALSE	JFECR	generic	generic	FALSE	FALSE				
+JFDA	JFDA	Policy for Deviation Application	STORE	FALSE	JFDA	generic	generic	FALSE	FALSE				
+JFECO	JFECO	Policy for ECO	STORE	FALSE	JFECO	generic	generic	FALSE	FALSE				
+JFChangeEventPolicy	JFChangeEventPolicy	Policy for Change Event	STORE	FALSE	JFChangeEventType	generic	generic	FALSE	FALSE				
+JFCompetitive	JFCompetitive	Policy for JFCompetitiveMode	STORE	FALSE	JFCompetitiveModel | JFCompetitiveBrand	generic	generic	FALSE	FALSE				
+JFColorPart	JFColorPart	Policy for Color Part	STORE	FALSE	JFColorPart	generic	generic	FALSE	FALSE				
+JFColorMatrix	JFColorMatrix	Policy for Color Matrix	STORE	FALSE	JFColorMatrix	generic	generic	FALSE	FALSE	"A.1,B.1,C.1,D.1,continue"			
+JFColorStyle	JFColorStyle	Policy for JFColorStyle	STORE	FALSE	JFColorStyle	generic	generic	FALSE	FALSE	"A.1,B.1,C.1,D.1,continue"			
+JFColorGroup	JFColorGroup	Policy for JFColorGroup	STORE	FALSE	JFColorGroup	generic	generic	FALSE	FALSE	"A.1,B.1,C.1,D.1,continue"			
+JFRapidOffer	JFRapidOffer	Policy for JFRapidOffer	STORE	FALSE	JFRapidOffer	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFCost	JFCost	Policy for JFRapidOffer	STORE	FALSE	JFCost	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFManufactureFee	JFManufactureFee	Policy for JFRapidOffer	STORE	FALSE	JFManufactureFee	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFModules	JFModules	Policy for JFRapidOffer	STORE	FALSE	JFModules	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFCostConfig	JFCostConfig	Policy for JFRapidOffer	STORE	FALSE	JFCostConfig	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFCostReferConst	JFCostReferConst	Policy for JFRapidOffer	STORE	FALSE	JFCostReferConst	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFFunctionModule	JFFunctionModule	Policy for JFRapidOffer	STORE	FALSE	JFFunctionModule	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFCostBreakDown	JFCostBreakDown	Policy for JFRapidOffer	STORE	FALSE	JFCostBreakDown	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFFunctionModuleTemplate	JFFunctionModuleTemplate	Policy for JFRapidOffer	STORE	FALSE	JFFunctionModuleTemplate	generic	generic	FALSE	FALSE	"A,B,C,D,continue"			
+JFSnapshot	JFSnapshot	Policy for JFSnapshot	STORE	FALSE	JFSnapshot	generic	generic	FALSE	FALSE				
+JFCostAnalysis	JFCostAnalysis	Policy for JFCostAnalysis	STORE	FALSE	JFCostAnalysis	generic	generic	FALSE	FALSE				
+JFCostAnalysisItem	JFCostAnalysisItem	Policy for JFCostAnalysisItem	STORE	FALSE	JFCostAnalysisItem	generic	generic	FALSE	FALSE				
+JFNewECR	JFNewECR	Policy for New ECR	STORE	FALSE	JFNewECR | JFFormalECR	generic	generic	FALSE	FALSE				
+JFSPRP	JFSPRP	Policy for JFSPRP	STORE	FALSE	JFSPRP	generic	generic	FALSE	FALSE				
+JFESOReview	JFESOReview	Policy for JFESOReview	STORE	FALSE	JFESOReview	generic	generic	FALSE	FALSE				
+JF_ManufacturedItem	JF_ManufacturedItem	Policy for JF_ManufacturedItem	STORE	FALSE	JF_ManufacturedItem	generic	generic	FALSE	FALSE	"AA.1,AA.2,AA.3,AA.4,continue"			
+JF_ChangeRecord	JF_ChangeRecord	Policy for JF_ChangeRecord	STORE	FALSE	JF_ChangeRecord	generic	generic	FALSE	FALSE				
+JFPartList	JFPartList	Policy for JFPartListn	STORE	FALSE	JFPartList	generic	generic	FALSE	FALSE				
+JF_SyncMBOMRecord	JF_SyncMBOMRecord	Policy for JF_SyncMBOMRecord	STORE	FALSE	JF_SyncMBOMRecord	generic	generic	FALSE	FALSE				
+JF_PCR	JF_PCR	Policy for JF_PCR	STORE	FALSE	JF_PCR	generic	generic	FALSE	FALSE				
+JFDelayedFiling	JFDelayedFiling	Policy for ECO Execution Plan Delay Filing	STORE	FALSE	JFDelayedFiling	generic	generic	FALSE	FALSE				
+JFProductConfigTable	JFProductConfigTable	Policy for JFProductConfigTable	STORE	FALSE	JFProductConfigTable	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFPositionProduct	JFPositionProduct	Policy for JFPositionProduct	STORE	FALSE	JFPositionProduct	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFVehicleConfiguration	JFVehicleConfiguration	Policy for JFVehicleConfiguration	STORE	FALSE	JFVehicleConfiguration	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFTargetSales	JFTargetSales	Policy for JFTargetSales	STORE	FALSE	JFTargetSales	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFSPartsApplication	JFSPartsApplication	Policy for JFSPartsApplication	STORE	FALSE	JFSPartsApplication	generic	generic	FALSE	FALSE				
+JFServicePartsList	JFServicePartsList	Policy for JFServicePartsList	STORE	FALSE	JFServicePartsList	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFDBList	JFDBList	Policy for JFDBList	STORE	FALSE	JFDBList	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFCustomerParts	JFCustomerParts	Policy for JFCustomerParts	STORE	FALSE	JFCustomerParts	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFConfigTableRoute	JFConfigTableRoute	Policy for JFConfigTableRoute	STORE	FALSE	JFConfigTableRoute	generic	generic	FALSE	FALSE	"AA,AB,AC,AD,continue"			
+JFExpertsGroup	JFExpertsGroup	Policy for JFExpertsGroup	STORE	FALSE	JFExpertsGroup	generic	generic	FALSE	FALSE				
+JFBatchDocumentReview	JFBatchDocumentReview	Policy for JFBatchDocumentReview	STORE	FALSE	JFBatchDocumentReview	generic	generic	FALSE	FALSE				

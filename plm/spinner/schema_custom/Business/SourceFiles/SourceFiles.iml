@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="tomcat" level="application" />
+    <orderEntry type="library" name="service" level="application" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="activation" level="application" />
+    <orderEntry type="library" name="AlternateSubstituteManagementImplJPO" level="application" />
+    <orderEntry type="library" name="TomcatLib" level="application" />
+  </component>
+</module>

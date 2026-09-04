@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>DA任务状态汇总信息</title>
+    <style>
+        table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            background-color: white;
+            color: black;
+        }
+        .context, .context1 {
+            margin-top: -15px;
+            margin-left: 30px;
+        }
+        .context1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h4>尊敬的用户：您好</h4>
+<div id="form" style="border: black 0px solid;">
+    <div class="context" id="name" style="display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;">截至</label>
+        <label id="date" style="text-align: left;color:red;font-weight:bolder"></label>
+        <div>
+            <label>&nbsp;&nbsp;DA任务状态汇总信息，请点击附件查看报表！</label>
+        </div>
+    </div>
+    <div class="mess" id="mess" style="display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;color: red">
+            注：<br>
+            1、此邮件由系统自动生成，无需进行回复。<br>
+            2、针对数据本身的问题，请联系对应DA的发起人或项目经理。<br>
+        </label>
+    </div>
+</div>
+</body>
+</html>

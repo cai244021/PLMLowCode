@@ -1,0 +1,91 @@
+{
+  "CustoAliasDefinitions": [
+  {
+      "aliasId": "The_Default_Columns",
+      "viewDefinition": [
+{
+         "uri": "ds6w:label",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6w:identifier",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6w:type",
+         "width": "auto"
+        },
+		{
+         "uri": "ds6wg:EnterpriseExtension.V_PartNumber",
+         "width": "auto"
+        },
+		{
+         "uri": "ds6wg:JF_ProjType",
+         "width": "auto"
+        },
+	{
+         "uri": "cus:ProjectRel",
+         "width": "auto"
+        },       
+        {
+         "uri": "ds6wg:JF_VPMReference.JF_PartNameCN",
+         "width": "auto"
+        },
+		{
+         "uri": "ds6wg:JF_VPMReference.JF_PartNameEN",
+         "width": "auto"
+        },
+		{
+         "uri": "ds6wg:revision",
+         "width": "auto"
+        },
+		{
+        "uri": "ds6w:status",
+        "width": "auto"
+        },
+		{
+        "uri": "ds6w:responsible",
+        "width": "auto"
+        },
+        {
+         "uri": "cus:PartType",
+         "width": "auto"
+        },
+        {
+         "uri": "cus:ProcurementType",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6wg:JF_VPMReference.JF_DirectBuy",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6wg:JF_VPMReference.JF_Material",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6wg:JF_VPMReference.JF_Weight",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6w:description",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6w:modified",
+         "width": "auto"
+        },
+        {
+         "uri": "ds6w:created",
+         "width": "auto"
+        }
+      ]
+    }
+  ],
+  "SearchColumnCustoAdminDefinition": [
+    {
+      "viewId": "###The_Default_Columns",
+      "custoAliasToUse": "The_Default_Columns"
+    }
+  ]
+}

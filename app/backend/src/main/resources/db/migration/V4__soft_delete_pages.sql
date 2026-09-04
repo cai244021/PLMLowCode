@@ -1,0 +1,1 @@
+ALTER TABLE lc_page ADD COLUMN deleted_at TIMESTAMPTZ;

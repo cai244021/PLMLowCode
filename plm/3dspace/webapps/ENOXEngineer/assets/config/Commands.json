@@ -1,0 +1,1449 @@
+{
+  "XENG_UPDATE_WIDGET_TITLE" : {
+    "commandHdr" : "XENG_UPDATE_WIDGET_TITLE" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/UpdateWidgetTitleCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true
+  },
+  "MaturityHdr" : {
+    "commandHdr" : "MaturityHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/MaturityCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "Maturity",
+    "fonticon" :"collaborative-lifecycle-management",
+    "icon" :"I_LifeCycleManagement32x",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument", "ds6w:Document"],
+    "launchDelay": 1000,
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "MaturityHdr"
+    }
+  },
+    "ReserveHdr" : {
+    "commandHdr" : "ReserveHdr" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/ReserveCmd/ActionBar_ReserveCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "Reserve",
+    "fonticon" :"lock",
+    "icon" :"I_KeyCheckOut",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOCollabSharingCmds/CollaborationCmd",
+      "resourceID": "ActionBar_ReserveCmd"
+    }
+   },
+   "UnreserveHdr" : {
+   "commandHdr" : "UnreserveHdr" ,
+   "AmdLoader" : "DS/ENOCollabSharingCmds/commands/UnreserveCmd/ActionBar_UnreserveCmd",
+   "isInternalCmd" : false,
+   "availabilityOnMultisel" : true,
+   "nls_key" : "Unreserve",
+   "fonticon" :"lock-open",
+   "icon" :"I_CheckIn",
+   "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+   "loadHelpRsc": {
+     "helpResourceFile": "ENOCollabSharingCmds/CollaborationCmd",
+     "resourceID": "ActionBar_UnreserveCmd"
+   }
+   },
+  "HistoryHdr" : {
+    "commandHdr" : "HistoryHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/HistoryCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "show-history",
+    "fonticon" :"flow-branch-list",
+    "icon" :"I_ExploreRevisions22",
+    "edit" : false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "HistoryHdr"
+    }
+  },
+  "addProductConfiguration": {
+    "commandHdr" : "addProductConfiguration" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdInsertProductConfiguration",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_existing_product_configuration",
+    "fonticon" :"3dproduct-insert",
+    "icon" :"I_PLMInsertProductConfiguration",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthInsertProductConfiguration"
+    }
+  },
+  "ActionBar_ChangeOwner" : {
+    "commandHdr" : "ActionBar_ChangeOwner" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/TransferOwnershipCmd/ActionBar_ChangeOwnerCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "change_ownership",
+    "fonticon" :"move-to",
+    "icon" :"I_ImmTransferToUser2",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument", "ds6w:Document"],
+    "launchDelay": 1000,
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOCollabSharingCmds/CollaborationCmd",
+      "resourceID": "ActionBar_ChangeOwner"
+    }
+  },
+  "ActionBar_AccessRightCmd" : {
+    "commandHdr" : "ActionBar_AccessRightCmd" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/AccessRightCmd/ActionBar_AccessRightCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "access_right",
+    "fonticon" :"fonticon fonticon-forward",
+    "icon" :"I_Share-22",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOCollabSharingCmds/CollaborationCmd",
+      "resourceID": "ActionBar_AccessRightCmd"
+    }
+  },
+  "CompareHdr" : {
+    "commandHdr" : "CompareHdr" ,
+    "AmdLoader" : "DS/CompareCmd/CompareCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "compare",
+    "fonticon" :"part-compare",
+    "icon" :"I_ProductComparison",
+    "edit" : false,
+    "nbSelectedMax": 2,
+    "multiType" : true,
+    "authorizedTypes":["ds6w:Part", "ds6w:Document", "ds6w:Filter"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "CompareHdr"
+    }
+  },
+  "DuplicateHdr" : {
+    "commandHdr" : "DuplicateHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/DuplicateCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "duplicate",
+    "fonticon" :"duplicate",
+    "icon" :"I_Duplicate",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "DuplicateHdr"
+    }
+  },
+  "DeleteHdr" : {
+    "commandHdr" : "DeleteHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/DeleteCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "delete",
+    "fonticon" :"trash",
+    "icon" :"iconActionDelete",
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "DeleteHdr"
+    }
+  },
+  "ActionBar_NewProductCmd" : {
+    "commandHdr" : "ActionBar_NewProductCmd" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/ENONew/NewProduct",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "add_new_engineering_item",
+    "fonticon" :"3dproduct-add",
+    "icon" :"I_InsertNewProd",
+    "activeTopBar": false,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ActionBar_NewProductCmd"
+    }
+  },
+  "ActionBar_InsertNewProductCmd" : {
+    "commandHdr" : "ActionBar_InsertNewProductCmd" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/ENONew/NewProduct",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "add_new_engineering_item",
+    "fonticon" :"3dproduct-add",
+    "icon" :"I_InsertNewProd",
+    "activeTopBar": false,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ActionBar_InsertNewProductCmd"
+    }
+  },
+  "ActionBar_NewPartCmd" : {
+    "commandHdr" : "ActionBar_NewPartCmd" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/ENONew/NewPart",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "add_new_part",
+    "icon" :"I_3DPart",
+    "fonticon" : "3dpart-add",
+    "activeTopBar": false,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ActionBar_NewPartCmd"
+    }
+  },
+  "ActionBar_InsertNewPartCmd" : {
+    "commandHdr" : "ActionBar_InsertNewPartCmd" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/ENONew/NewPart",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "add_new_part",
+    "icon" :"I_3DPart",
+    "fonticon" : "3dpart-add",
+    "activeTopBar": false,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ActionBar_InsertNewPartCmd"
+    }
+  },
+  "Import" : {
+    "commandHdr" : "Import",
+    "AmdLoader" : "DS/ENOXEngineer/commands/ENOXImportItemUX",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "import_items",
+    "fonticon" : "import",
+    "icon" : "I_CheckInDocument",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "Import"
+    }
+  },
+  "addExisting": {
+    "commandHdr" : "addExisting" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdInsertExistingProductOrPart",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_existing_engineering_item",
+    "fonticon" :"3dproduct-insert",
+    "icon" :"I_PADInsertExisting",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdInsertExistingProductOrPart"
+    }
+  },
+  "ActionBar_InsertNewDrawingCmd": {
+    "commandHdr" : "ActionBar_InsertNewDrawingCmd" ,
+    "AmdLoader" : "DS/ENOCollabSharingCmds/commands/ENONew/NewDrawing",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "new_drawing",
+    "icon" :"I_PLMInsertNewDrawing",
+    "fonticon" :"drawing-add",
+    "activeTopBar": false,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ActionBar_InsertNewDrawingCmd"
+    }
+  },
+  "XENG_ADD_EXISTING_DRAWING" : {
+    "commandHdr" : "XENG_ADD_EXISTING_DRAWING" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdInsertExistingProductOrPart",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "existing_drawing",
+    "icon" :"I_PLMInsertExistingDrawing",
+    "fonticon" :"drawing-insert",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdInsertExistingDrawing"
+    }
+  },
+  "UPSReplaceByLatestRevision" : {
+    "commandHdr" : "UPSReplaceByLatestRevision" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdReplaceByLatestRevision",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "replace_by_latest",
+    "fonticon" :"replace-by-latest-version",
+    "icon" :"Replace_By_Latest_Major_Version",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdReplaceByLatestRevision"
+    }
+  },
+  "UPSAuthUnparent" : {
+    "commandHdr" : "UPSAuthUnparent" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdUnparent",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "detach",
+    "fonticon" :"tree-delete",
+    "icon" :"I_UPSAuthCmdUnparent",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthUnparent"
+    }
+  },
+  "UPSAuthReplaceByExisting" : {
+    "commandHdr" : "UPSAuthReplaceByExisting" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdReplaceByExisting",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "replace_by_existing",
+    "fonticon" :"replace-by-existing",
+    "icon" :"I_UPSAuthCmdReplaceByExisting",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthReplaceByExisting"
+    }
+  },
+  "NewContent" : {
+    "commandHdr" : "NewContent",
+    "AmdLoader" : "DS/ENONewWidget/command/NewContentCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_new_engineering_item",
+    "fonticon" :"3dproduct-add",
+    "icon" :"I_InsertNewProd",
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "UPSAuthReplaceByRevision" : {
+    "commandHdr" : "UPSAuthReplaceByRevision" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdReplaceByRevision",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "replace_by_version",
+    "fonticon" :"replace-by-revision",
+    "icon" :"I_UPSAuthCmdReplaceByRevision2",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthReplaceByRevision"
+    }
+  },
+  "UPSAuthReplaceByProductConfiguration" : {
+    "commandHdr" : "UPSAuthReplaceByProductConfiguration" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdReplaceProductConfiguration",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "replace_by_product_configuration",
+    "fonticon" :"fonticon fonticon-replace-by-configuration",
+    "icon" :"I_UPSAuthCmdReplaceByRevision2",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdReplaceProductConfiguration"
+    }
+  },
+  "CfgReplaceInstantiatedConfigurationByRevision": {
+    "commandHdr": "CfgReplaceInstantiatedConfigurationByRevision",
+    "AmdLoader": "DS/ENOXEngineer/commands/ReplaceInstantiatedConfigurationByRevisionCmd",
+    "isInternalCmd": false,
+    "availabilityOnMultisel": false,
+    "nls_key": "replace_instantiated_configuration_by_revision",
+    "fonticon": "fonticon fonticon-replace-by-configuration",
+    "icon": "I_UPSAuthCmdReplaceByRevision2",
+    "nbSelectedMax":1,
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgInstantiatedConfigurationCommands/ENOCfgInstantiatedConfigurationHelpForCommands",
+      "resourceID": "ReplaceInstantiatedConfigurationByRevision"
+    }
+  },
+  "UPSAuthRevisionUpdate" : {
+    "commandHdr" : "UPSAuthRevisionUpdate" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdRevisionUpdate",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "update_version",
+    "fonticon" :"flow-line-update",
+    "icon" :"I_UPSAuthCmdUpdateRevisions",
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdRevisionUpdate"
+    }
+  },
+  "UPSAuthCmdUpdateRevOnEntireStructure" : {
+    "commandHdr" : "UPSAuthCmdUpdateRevOnEntireStructure" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdUpdateRevOnEntireStructure",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "update_version_recursive",
+    "fonticon" :"tree-revision-update",
+    "icon" :"I_UPSAuthCmdUpdateRevisions",
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdUpdateRevOnEntireStructure"
+    }
+  },
+  "UPSAuthCut" : {
+    "commandHdr" : "UPSAuthCut" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/XEngineerCutCopyPaste",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "Cut",
+    "fonticon" :"cut",
+    "icon" :"I_Cut",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCut"
+    }
+  },
+  "UPSAuthCopy" : {
+    "commandHdr" : "UPSAuthCopy" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/XEngineerCutCopyPaste",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "Copy",
+    "fonticon" :"copy",
+    "icon" :"I_Copy",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCopy"
+    }
+  },
+  "Reparent" : {
+    "commandHdr" : "Reparent" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/ProductStructureEdition",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "reparent",
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "Reorder" : {
+    "commandHdr" : "Reorder" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/ProductStructureEdition",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "reorder",
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "UPSAuthPaste" : {
+    "commandHdr" : "UPSAuthPaste" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/XEngineerCutCopyPaste",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "Paste",
+    "fonticon" :"paste",
+    "icon" :"I_Paste",
+    "authorizedTypes":["ds6w:Part", "ds6w:Document"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthPaste"
+    }
+  },
+  "UPSAuthReorderProduct" : {
+    "commandHdr" : "UPSAuthReorderProduct" ,
+    "AmdLoader" : "DS/UPSCommands/commands/UPSAuthCmdReorder",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "reorder-cmd",
+    "fonticon" :"paste",
+    "icon" :"I_Reorder",
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthReorderProduct"
+    }
+  },
+  "SetThePartNumber" : {
+    "commandHdr" : "SetThePartNumber" ,
+    "AmdLoader" : "DS/EngineeringItemCmd/SetPartNumberCmd/SetPartCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "edit_part_number",
+    "fonticon" :"progress-3",
+    "icon" :"I_PartNumber",
+    "authorizedTypes":["ds6w:Part"],
+    "launchDelay": 1000,
+    "loadHelpRsc": {
+      "helpResourceFile": "EngineeringItemCmd/EngineeringHelpForCommands",
+      "resourceID": "SetThePartNumber"
+    }
+  },
+    "ChangeTheQuantity" : {
+    "commandHdr" : "ChangeTheQuantity" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/ENOXChangeQuantityCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "change_quantity",
+    "fonticon" :"presentation-slides",
+    "icon" :"I_Switch",
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part", "ds6w:Material"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ChangeTheQuantity"
+    }
+  },
+  "ChangeRawQuantity" : {
+    "commandHdr" : "ChangeRawQuantity" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/ChangeRawQuantityCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "update_raw_quantity",
+    "fonticon" :"pencil",
+    "icon" :"I_Switch",
+    "nbSelectedMax": 1,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "ChangeMassQuantity" : {
+    "commandHdr" : "ChangeMassQuantity" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/ChangeMassQuantityCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "update_mass_quantity",
+    "fonticon" :"pencil",
+    "icon" :"I_Switch",
+    "nbSelectedMax": 1,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "ChangeVolumeQuantity" : {
+    "commandHdr" : "ChangeVolumeQuantity" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/ChangeVolumeQuantityCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "update_volume_quantity",
+    "fonticon" :"pencil",
+    "icon" :"I_Switch",
+    "nbSelectedMax": 1,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "XENG_ADD_NEW_DOC" : {
+    "commandHdr" : "XENG_ADD_NEW_DOC" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/AddNewSubTypeDocumentCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_new_document",
+    "fonticon" :"doc-upload",
+    "nbSelectedMax": 1,
+    "icon" :"I_UploadFile",
+    "authorizedTypes":["ds6w:Part"],
+    "launchDelay": 1000,
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UploadDocumentsCmd"
+    }
+  },
+  "XENG_ADD_EXISTING_DOC" : {
+    "commandHdr" : "XENG_ADD_EXISTING_DOC" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/AddExistingDocumentCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_existing_document",
+    "fonticon" :"doc-insert",
+    "nbSelectedMax": 1,
+    "icon" :"I_CMD_docattach",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "AddExistingDocumentsCmd"
+    }
+  },
+  "addNewMaterialQuantity" : {
+    "commandHdr" : "addNewMaterialQuantity" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/AddNewMaterialQuantityCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_material_quantity",
+    "fonticon" :"material-add",
+    "icon" :"I_Material_CreateMaterials",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "addNewMaterialQuantity"
+    }
+  },
+  "addExistingRawMaterialQuantity" : {
+    "commandHdr" : "addExistingRawMaterialQuantity" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/AddExistingRawMaterialQuantityCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "add_existing_raw_material_quantity",
+    "fonticon" :"raw-material-add",
+    "icon" :"I_Material_CreateMaterials",
+    "authorizedTypes":["ds6w:Part"],
+    "nbSelectedMax": 1,
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "insertExistingRawMatrerialCmd"
+    }
+  },
+  "XENG_EDIT_CONF_CONTEXT" : {
+    "commandHdr" : "XENG_EDIT_CONF_CONTEXT" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditConfigurationContextCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "eng.attached.model",
+    "fonticon" :"pencil",
+    "icon" :"I_EditConfigurationContext"
+  },
+
+  "XENG_SET_PROD_CONF" : {
+    "commandHdr" : "XENG_SET_PROD_CONF" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/SetProdConfCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "eng.ui.dialog.selectProdConf",
+    "fonticon" :"part-replace",
+    "icon" :""
+  },
+
+  "EditVariant" : {
+    "commandHdr" : "EditVariant" ,
+    "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgVariantEffectivityCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "fonticon" :"pencil",
+    "nls_key" : "edit_variant_effectivity",
+    "icon" :"I_EditVariantEffectivity",
+    "authorizedTypes":["ds6w:Part"],
+    "launchDelay": 1000,
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+      "resourceID": "EditVariant"
+    }
+  },
+
+  "CopyVariantEffectivity" : {
+    "commandHdr" : "CopyVariantEffectivity" ,
+    "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgCopyEffectivityCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "fonticon" :"copy",
+    "nls_key" : "copy_variant_effectivity",
+    "icon" :"I_CopyVariantEffectivity",
+    "nbSelectedMax": 1,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+      "resourceID": "CopyVariantEffectivity"
+    }
+  },
+
+  "PasteVariantEffectivity" : {
+    "commandHdr" : "PasteVariantEffectivity" ,
+    "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgPasteEffectivityCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "fonticon" :"paste",
+    "nls_key" : "paste_variant_effectivity",
+    "icon" :"I_PasteVariantEffectivity",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+      "resourceID": "PasteVariantEffectivity"
+    }
+  },
+
+  "CopyEvolutionEffectivity" : {
+    "commandHdr" : "CopyEvolutionEffectivity" ,
+    "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgCopyEvolutionEffectivityCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "fonticon" :"copy",
+    "nls_key" : "copy_variant_effectivity",
+    "icon" :"I_CopyVariantEffectivity",
+    "nbSelectedMax": 1,
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+      "resourceID": "CopyEvolutionEffectivity"
+    }
+  },
+
+  "PasteEvolutionEffectivity" : {
+    "commandHdr" : "PasteEvolutionEffectivity" ,
+    "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgPasteEvolutionEffectivityCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : true,
+    "fonticon" :"paste",
+    "nls_key" : "paste_variant_effectivity",
+    "icon" :"I_PasteVariantEffectivity",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+      "resourceID": "PasteEvolutionEffectivity"
+    }
+  },
+
+  "EditEvolution" : {
+    "commandHdr" : "EditEvolution" ,
+    "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgEvolutionCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "set_evolution_effectivity",
+    "fonticon" :"pencil",
+    "icon" :"I_NE_Evolution",
+    "nbSelectedMax": 1,
+    "authorizedTypes": ["ds6w:Part"],
+    "launchDelay": 1000,
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+      "resourceID": "EditEvolution"
+    }
+  },
+  "EditConfigContext": {
+    "commandHdr": "EditConfigContext",
+    "AmdLoader": "DS/ENOXEngineer/commands/AttachMultipleModels",
+    "isInternalCmd": false,
+    "availabilityOnMultisel": true,
+    "nls_key": "edit_config_context",
+    "fonticon": "3dproduct-pencil",
+    "icon": "I_EditConfigurationContext",
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgConfigurationCommands/ENOCfgEditContextHelpForCommands",
+      "resourceID": "EditConfigurationContext"
+    }
+  },
+
+  "RelatedObjectsHdr" : {
+    "commandHdr" : "RelatedObjectsHdr" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/RelatedObjectsCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "launch-related-objects",
+    "fonticon" : "object-related",
+    "icon" : "I_RelatedObjects",
+    "edit" : false,
+    "nbSelectedRefMax": 1,
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "RelationsCmd"
+    }
+  },
+    "RevisionHdr" : {
+    "commandHdr" : "RevisionHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/ReviseCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "launch-revise-object",
+    "fonticon" :"flow-line-add",
+    "icon" :"I_Revise",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "RevisionHdr"
+    }
+  },
+
+  "ReviseFromHdr" : {
+    "commandHdr" : "ReviseFromHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/ReviseFromCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "revision-from",
+    "fonticon" :"flow-branch-add wux-ui-3ds-flip-vertical",
+    "icon" :"I_ReviseFrom",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+    "nbSelectedRefMax": 1,
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "ReviseFromHdr"
+    }
+  },
+
+    "NewBranchHdr" : {
+    "commandHdr" : "NewBranchHdr" ,
+    "AmdLoader" : "DS/LifecycleCmd/NewBranchCmd",
+    "isInternalCmd" : false,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "new-revision",
+    "fonticon" :"flow-branch-add",
+    "icon" :"I_NewBranch",
+    "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "NewBranchHdr"
+    }
+  },
+
+  "Export": {
+    "commandHdr": "Export",
+    "AmdLoader": "DS/ENOXEngineer/commands/ExportEngineeringItems",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "export-items",
+    "fonticon": "export-to-csv",
+    "icon": "I_Export_CSV",
+    "edit": false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "Export"
+    }
+  },
+  "Unified_Export": {
+    "commandHdr": "Unified_Export",
+    "AmdLoader": "DS/UnifiedExportCommand/Commands/UnifiedExportCommand",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": true,
+    "nls_key": "unified-export",
+    "fonticon": "export",
+    "icon": "I_Export_CSV",
+    "edit": false,
+    "authorizedTypes": ["ds6w:Part", "ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "UnifiedExportCommand/UnifiedExportCommand",
+      "resourceID": "UnifiedExportCommand"
+    }
+  },
+  "Export_DataGrid": {
+    "commandHdr": "Export_DataGrid",
+    "AmdLoader": "DS/ENOXEngineer/commands/ExportDataGridCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "ExportTableCSV",
+    "fonticon": "export-to-csv",
+    "icon": "I_Export_CSV",
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "Export_DataGrid"
+    }
+  },
+  "SetWorkunderEvolution" : {
+    "commandHdr" : "SetWorkunderEvolution" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/SetWorkUnderEvolutionPrefCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "set-work-under",
+    "fonticon" : "hardhat",
+    "icon" : "I_AuthCtxEmpty"
+  },
+  "launchAttributesManager" : {
+    "commandHdr" : "launchAttributesManager" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/AttributesManagementCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "label_attributesManagement",
+    "fonticon" : "attributes",
+    "icon" : "I_AuthCtxEmpty",
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "launchAttributesManager"
+    }
+  },
+  "XENG_OPEN_ENG_ITEM" : {
+    "commandHdr" : "XENG_OPEN_ENG_ITEM" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/OpenEngineeringItemCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "Open",
+    "fonticon" :"part-open",
+    "icon" :"I_PADOpen",
+    "edit" : false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part", "ds6w:Filter"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "OpenEngineeringItemCmd"
+    }
+  },
+  "XENG_OPEN_DEFORMABLE_ENG_ITEM" : {
+    "commandHdr" : "XENG_OPEN_DEFORMABLE_ENG_ITEM" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/OpenEngineeringItemCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "OpenDeformable",
+    "fonticon" :"part-open",
+    "icon" :"I_PADOpen",
+    "edit" : false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "DefineFilter" : {
+    "commandHdr" : "DefineFilter" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/XenNextGenFilterCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "NG_Filtering",
+    "fonticon" : "filter",
+    "icon" : "I_PADFilterBadge",
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "DefineFilter"
+    }
+  },
+  "edit-properties":{
+    "commandHdr" : "edit-properties" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "Information",
+    "fonticon" :"info",
+    "edit" : false,
+    "multiType" : true,
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "InformationCmd"
+    }
+  },
+  "edit-properties-ref":{
+    "commandHdr" : "edit-properties-ref" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "facet.properties.title",
+    "fonticon" :"properties",
+    "edit" : false,
+    "multiType" : true
+  },
+  "edit-properties-inst":{
+    "commandHdr" : "edit-properties-inst" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "facet.properties.instance.title",
+    "fonticon" :"properties",
+    "edit" : false,
+    "multiType" : true,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-comments":{
+    "commandHdr" : "edit-comments" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "facet.comments.title",
+    "fonticon" :"comment",
+    "edit" : false
+  },
+  "edit-attachments":{
+    "commandHdr" : "edit-attachments" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "title_related_Documents",
+    "fonticon" :"attach",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-materials":{
+    "commandHdr" : "edit-materials" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "materialFacet.title",
+    "fonticon" :"material",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-alternates":{
+    "commandHdr" : "edit-alternates" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "eng.alternate.facet.title",
+    "fonticon" :"exchange",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-made-from":{
+    "commandHdr" : "edit-made-from" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "eng.makefrom.facet.title",
+    "fonticon" :"product-made-from-part",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-derived-output":{
+    "commandHdr" : "edit-derived-output" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "derived_output",
+    "fonticon" :"derived-output",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Document"]
+  },
+  "edit-manufacturing":{
+    "commandHdr" : "edit-manufacturing" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "eng.manufacture.facet.title",
+    "fonticon" :"factory",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-spec-doc":{
+    "commandHdr" : "edit-spec-doc" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "document.asspec",
+    "fonticon" :"docs",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "edit-meiColumn":{
+    "commandHdr" : "edit-meiColumn" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/EditPropertiesCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : false,
+    "nls_key" : "eng.MEI.facet.title",
+    "edit" : false,
+    "authorizedTypes":["ds6w:Part"]
+  },
+  "download-document":{
+    "commandHdr" : "download-document" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/DownloadDocumentCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "download",
+    "fonticon" :"download",
+    "icon" :"I_DownloadDocument",
+    "edit" : false,
+    "authorizedTypes":["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "DownloadDocumentCmd"
+    }
+  },
+  "detach-document":{
+      "commandHdr" : "detach-document" ,
+    "AmdLoader" : "DS/ENOXEngineer/commands/DetachDocumentCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "detach",
+    "fonticon" :"tree-delete",
+    "icon" :"I_DeleteDocument",
+    "authorizedTypes":["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "DetachDocumentCmd"
+    }
+  },
+  "delete-document":{
+      "commandHdr" : "delete-document" ,
+    "AmdLoader" : "DS/LifecycleCmd/DeleteCmd",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "delete",
+    "fonticon" :"trash",
+    "icon" :"I_Delete",
+    "authorizedTypes":["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "LifecycleWidget/LifecycleCmd",
+      "resourceID": "DeleteHdr"
+    }
+  },
+  "OpenProduct" : {
+      "commandHdr" : "OpenProduct" ,
+      "AmdLoader" : "DS/ENOXEngineer/commands/OpenProduct",
+      "isInternalCmd" : true,
+      "availabilityOnMultisel" : false,
+      "nls_key" : "launch-eng-item",
+      "fonticon" : "compass-services",
+      "icon" : "I_ENORIPE32",
+      "edit" : false,
+      "nbSelectedRefMax": 1
+    },
+    "SubscribeHdr" : {
+      "commandHdr" : "SubscribeHdr" ,
+      "AmdLoader" : "DS/ENOSubscriptionMgmt/Commands/Subscribe",
+      "isInternalCmd" : false,
+      "availabilityOnMultisel" : false,
+      "nls_key" : "subscribe-cmd",
+      "fonticon" : "bell-add",
+      "icon" : "I_Subscribe22@2x",
+      "edit" : false,
+      "nbSelectedRefMax": 1,
+      "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+      "loadHelpRsc": {
+        "helpResourceFile": "ENOSubscriptionMgmt/ENOSubscriptionHelp",
+        "resourceID": "SubscribeHdr"
+      }
+    },
+    "UnSubscribeHdr" : {
+      "commandHdr" : "UnSubscribeHdr" ,
+      "AmdLoader" : "DS/ENOSubscriptionMgmt/Commands/UnSubscribe",
+      "isInternalCmd" : false,
+      "availabilityOnMultisel" : false,
+      "nls_key" : "unsubscribe-cmd",
+      "fonticon" : "bell-delete",
+      "icon" : "I_iconActionUnsubscribe22@2x",
+      "edit" : false,
+      "nbSelectedRefMax": 1,
+      "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+      "loadHelpRsc": {
+        "helpResourceFile": "ENOSubscriptionMgmt/ENOSubscriptionHelp",
+        "resourceID": "UnSubscribeHdr"
+      }
+    },
+    "EditSubscribeHdr" : {
+      "commandHdr" : "EditSubscribeHdr" ,
+      "AmdLoader" : "DS/ENOSubscriptionMgmt/Commands/EditSubscribe",
+      "isInternalCmd" : false,
+      "availabilityOnMultisel" : false,
+      "nls_key" : "edit-subscriptions-cmd",
+      "fonticon" : "bell-pencil",
+      "icon" : "I_EditSubscription22@2x",
+      "edit" : false,
+      "nbSelectedRefMax": 1,
+      "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+      "loadHelpRsc": {
+        "helpResourceFile": "ENOSubscriptionMgmt/ENOSubscriptionHelp",
+        "resourceID": "EditSubscribeHdr"
+      }
+    },
+    "MySubscriptionsHdr" : {
+      "commandHdr" : "MySubscriptionsHdr" ,
+      "AmdLoader" : "DS/ENOSubscriptionMgmt/Commands/MySubscriptions",
+      "isInternalCmd" : false,
+      "availabilityOnMultisel" : false,
+      "nls_key" : "my-subscriptions-cmd",
+      "fonticon" : "bell",
+      "icon" : "I_iconMySubscription22@2x",
+      "edit" : false,
+      "nbSelectedRefMax": 1,
+      "authorizedTypes":["ds6w:Part", "ds6w:FileDocument"],
+      "loadHelpRsc": {
+        "helpResourceFile": "ENOSubscriptionMgmt/ENOSubscriptionHelp",
+        "resourceID": "MySubscriptionsHdr"
+      }
+    },
+    "RemoveRecentCmd" : {
+      "commandHdr" : "RemoveRecentCmd" ,
+      "AmdLoader" : "DS/ENOXEngineer/commands/RemoveRecentCmd",
+      "isInternalCmd" : true,
+      "availabilityOnMultisel" : true,
+      "nls_key" : "remove-recent-cmd",
+      "fonticon" : "remove",
+      "icon" : "I_CameraTrash",
+      "edit" : false,
+      "multiType" : true,
+      "loadHelpRsc": {
+        "helpResourceFile": "ENOXEngineer/help",
+        "resourceID": "RemoveRecentCmd"
+      }
+    },
+    "ExtendEvolutionEffectivity" : {
+      "commandHdr" : "ExtendEvolutionEffectivity" ,
+      "AmdLoader" : "DS/CfgEffectivityCommands/commands/CfgExtendEvolutionEffectivityCmd",
+      "isInternalCmd" : false,
+      "availabilityOnMultisel" : false,
+      "fonticon" :"evolution-effectivity-extension",
+      "nls_key" : "extend_evolution_effectivity",
+      "icon" :"I_EditVariantEffectivity",
+      "authorizedTypes":["ds6w:Part"],
+      "loadHelpRsc": {
+        "helpResourceFile": "CfgEffectivityCommands/ENOCfgEffectivityHelpForCommands",
+        "resourceID": "ExtendEvolutionEffectivity"
+      }
+    },
+    "ReplaceDocumentByLatestRevisionCmd": {
+    "commandHdr": "ReplaceDocumentByLatestRevisionCmd",
+    "AmdLoader": "DS/ENOXEngineer/commands/DocumentManagementCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "replace_by_latest",
+    "fonticon" :"replace-by-latest-version",
+    "icon" :"Replace_By_Latest_Major_Version",
+    "nbSelectedMax": 1,
+    "authorizedTypes": ["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthCmdReplaceByLatestRevision"
+    }
+  },
+  "ReplaceDocumentByRevisionCmd": {
+    "commandHdr": "ReplaceDocumentByRevisionCmd",
+    "AmdLoader": "DS/ENOXEngineer/commands/DocumentManagementCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key" : "replace_by_version",
+    "fonticon" :"replace-by-revision",
+    "icon" :"I_UPSAuthCmdReplaceByRevision2",
+    "nbSelectedMax": 1,
+    "authorizedTypes": ["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UPSAuthReplaceByRevision"
+    }
+  },
+  "EditDocumentCmd": {
+    "commandHdr": "EditDocumentCmd",
+    "AmdLoader": "DS/ENOXEngineer/commands/DocumentManagementCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "edit_document",
+    "fonticon": "pencil",
+    "availabilityOnCheckedOut": false,
+    "nbSelectedMax": 1,
+    "authorizedTypes": ["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "EditDocumentCmd"
+    }
+  },
+  "UpdateDocumentCmd": {
+    "commandHdr": "UpdateDocumentCmd",
+    "AmdLoader": "DS/ENOXEngineer/commands/DocumentManagementCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "update_document",
+    "fonticon": "upload",
+    "availabilityOnCheckedOut": true,
+    "nbSelectedMax": 1,
+    "authorizedTypes": ["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UpdateDocumentCmd"
+    }
+  },
+  "UndoEditDocumentCmd": {
+    "commandHdr": "UndoEditDocumentCmd",
+    "AmdLoader": "DS/ENOXEngineer/commands/DocumentManagementCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "undo_edit_document",
+    "fonticon": "undo",
+    "availabilityOnCheckedOut": true,
+    "nbSelectedMax": 1,
+    "authorizedTypes": ["ds6w:FileDocument"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "UndoEditDocumentCmd"
+    }
+  },
+  "ExpandCmd" : {
+    "commandHdr" : "ExpandCmd" ,
+    "AmdLoader" : "DS/ENOXEngineer/componentsHelpers/ExpandLevelCmds/js/Expand",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "expand_menu",
+    "fonticon" :"flow-tree-child-1-expand-down",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ExpandCmd"
+    }
+  },
+  "ExpandTaggerGroupCmd" : {
+    "commandHdr" : "ExpandTaggerGroupCmd" ,
+    "AmdLoader" : "DS/ENOXEngineer/componentsHelpers/ExpandLevelCmds/js/ExpandTaggerGroup",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "expand_menu",
+    "fonticon" :"flow-tree-child-1-expand-down",
+    "authorizedTypes":["groupNodeFromTagger"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ExpandTaggerGroupCmd"
+    }
+  },
+  "CollapsedViewTaggerGroup" : {
+    "commandHdr" : "CollapsedViewTaggerGroup" ,
+    "AmdLoader" : "DS/ENOXEngineer/componentsHelpers/ExpandLevelCmds/js/CollapsedViewTaggerGroup",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "collapse_group",
+    "fonticon" : "flow-tree-expand-up",
+    "authorizedTypes":["groupNodeFromTagger"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "CollapsedViewTaggerGroup"
+    }
+  },
+  "ExpandAllLevelCmd" : {
+    "commandHdr" : "ExpandAllLevelCmd" ,
+    "AmdLoader" : "DS/ENOXEngineer/componentsHelpers/ExpandLevelCmds/js/ExpandAllLevel",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "expand_all_level",
+    "fonticon" :"flow-tree-expand-down",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ExpandAllLevelCmd"
+    }
+  },
+  "ExpandNLevelCmd" : {
+    "commandHdr" : "ExpandNLevelCmd" ,
+    "AmdLoader" : "DS/ENOXEngineer/componentsHelpers/ExpandLevelCmds/js/ExpandNLevel",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "expand_n_level",
+    "fonticon" :"flow-tree-expand-down-cog",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ExpandNLevelCmd"
+    }
+  },
+  "CollapseAllCmd" : {
+    "commandHdr" : "CollapseAllCmd" ,
+    "AmdLoader" : "DS/ENOXEngineer/componentsHelpers/ExpandLevelCmds/js/CollapseAll",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "collapse_all_levels",
+    "fonticon" :"flow-tree-expand-up",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "CollapseAllCmd"
+    }
+  },
+  "FindCmd" : {    
+    "commandHdr" : "FindCmd",
+    "AmdLoader" :  "DS/ENOXEngineer/componentsHelpers/ENOXFindCommand/js/FindCommand",
+    "isInternalCmd" : true,
+    "availabilityOnMultisel" : true,
+    "nls_key" : "find-cmd",
+    "fonticon" :"find",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "FindCmd"
+    }
+  },
+  "CustomizeHeader" : {
+    "commandHdr" : "CustomizeHeader",
+    "AmdLoader" : "DS/ENOXEngineer/commands/CustomizeHeaderCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "customize-header-cmd",
+    "fonticon": "cog",
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "CustomizeHeaderCmd"
+    }
+  },
+  "SelectByConfigurationCriteria" : {
+    "commandHdr": "SelectByConfigurationCriteria",
+    "AmdLoader": "DS/ENOXEngineer/commands/SelectByConfigurationCriteriaCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "select-by-configuration-criteria-cmd",
+    "fonticon": "configuration-effectivity",
+    "authorizedTypes": ["ds6w:Part"],
+    "nbSelectedMax": 1,
+    "loadHelpRsc": {
+      "helpResourceFile": "CfgAnalysisCommands/ENOCfgSelectByConfigurationCriteriaCmdHelpForCommands",
+      "resourceID": "SelectByConfigurationCriteria"
+    }
+  },
+  "TerminologyManagementCommand" : {
+    "commandHdr" : "TerminologyManagementCommand",
+    "AmdLoader" : "DS/ENOXEngineer/commands/BrowsingStructureMgmtCmd",
+    "isInternalCmd" : true,
+    "nls_key" : "manage_browsig_structure_cmd",
+    "fonticon" : "browsing-structure-cog",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "TerminologyManagementCommand"
+    }
+  },
+  "AssociateTerminologiesCommand" : {
+    "commandHdr" : "AssociateTerminologiesCommand",
+    "AmdLoader": "DS/ENOXEngineer/commands/AssociateBrowsingStructureCmd",
+    "isInternalCmd" : true,
+    "nls_key" : "browsing_structure_cmd",
+    "fonticon": "browsing-structure-root-add-to",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "AssociateTerminologiesCommand"
+    }
+  },
+  "AssociateTermsCommand" : {
+    "commandHdr" : "AssociateTermsCommand",
+    "AmdLoader": "DS/ENOXEngineer/commands/AssociateBrowsingNodeCmd",
+    "isInternalCmd" : true,
+    "nls_key" : "browsing_node_cmd",
+    "fonticon": "browsing-structure-node-add-to",
+    "authorizedTypes":["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "AssociateTermsCommand"
+    }
+  },
+  "SetWorkUnderBookmark": {
+    "commandHdr": "SetWorkUnderBookmark",
+    "CATAfrHeaderCheck": true,
+    "AmdLoader": "DS/FolderActive/commands/ActionBar_ActiveBookmarkCmd",
+    "isInternalCmd": false,
+    "nls_key": "SetWorkUnderBookmark",
+    "fonticon": "bookmark-pin",
+    "loadHelpRsc": {
+      "helpResourceFile": "FolderActive/ActiveBookmarkCmd",
+      "resourceID": "ActionBar_ActiveBookmarkCmd"
+    }
+  },
+  "ReportWizardCommand": {
+    "commandHdr": "ReportWizardCommand",
+    "AmdLoader": "DS/ENOXEngineer/commands/ReportWizardCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "report-items",
+    "fonticon": "report",
+    "icon": "I_Export_CSV",
+    "edit": false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ReportWizardCommand"
+    }
+  },
+  "JF_EditBomLine": {
+    "commandHdr": "JF_EditBomLine",
+    "AmdLoader": "DS/ENOXEngineer/commands/EditBomLine",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "JF_EditBomLine",
+    "fonticon": "pencil",
+    "icon": "I_EditMode",
+    "edit": false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "JF_EditBomLine"
+    }
+  },
+  "ListReportsCommand": {
+    "commandHdr": "ListReportsCommand",
+    "AmdLoader": "DS/ENOXEngineer/commands/ListReportsCmd",
+    "isInternalCmd": true,
+    "availabilityOnMultisel": false,
+    "nls_key": "list-report-items",
+    "fonticon": "report",
+    "icon": "I_Export_CSV",
+    "edit": false,
+    "nbSelectedRefMax": 1,
+    "authorizedTypes": ["ds6w:Part"],
+    "loadHelpRsc": {
+      "helpResourceFile": "ENOXEngineer/help",
+      "resourceID": "ListReportsCommand"
+    }
+  }
+
+}

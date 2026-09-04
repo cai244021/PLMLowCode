@@ -1,0 +1,251 @@
+{
+    "content": {
+        "Write": {
+            "attributes": [{
+                "name": "type"
+            },
+            {
+                "name": "V_Name",
+                "status": "RW"
+            },
+            {
+                "name": "PLM_ExternalID"
+            },
+            {
+                "name": "revision"
+            },
+            {
+                "name": "V_versionComment",
+                "status": "RW"
+            },
+            {
+                "name": "V_description",
+                "status": "RW"
+            },
+            {
+                "name": "originated"
+            },
+            {
+                "name": "V_fromExternalID"
+            },
+            {
+                "name": "V_Scale"
+            },
+            {
+                "name": "policy"
+            },
+            {
+                "name": "modified"
+            },
+            {
+                "name": "current"
+            },
+            {
+                "name": "owner",
+                "status": "RW"
+            },
+            {
+                "name": "organization"
+            },
+            {
+                "name": "project"
+            },
+            {
+                "name": "reservedby"
+            },
+            {
+                "name": "V_IsManufacturable",
+                "status": "RW"
+            },            
+	     {
+                "name": "JF_VPMReference.JF_PartNameCN",
+                "status": "RW"
+            },{
+                "name": "JF_VPMReference.JF_PartNameEN",
+                "status": "RW"
+            },
+            {
+                "name": "JF_VPMReference.JF_PartType",
+                "status": "RO"
+            },{
+                "name": "JF_VPMReference.JF_PartSubType",
+                "status": "RO"
+            },{
+                "name": "JF_VPMReference.JF_Detail_CN",
+                "status": "RO"
+            },{
+                "name": "JF_VPMReference.JF_Detail_EN",
+                "status": "RO"
+            },{
+                "name": "JF_VPMReference.JF_ProcurementType",
+                "status": "RW"
+            },{
+                "name": "JF_VPMReference.JF_DirectBuy",
+                "status": "RW"
+            },
+	     
+	     {
+                "name": "JF_VPMReference.JF_PartDes",
+                "status": "RW"
+            },
+	     {
+                "name": "JF_VPMReference.JF_Material",
+                "status": "RW"
+            },
+	     {
+                "name": "JF_VPMReference.JF_MaterialStar",
+                "status": "RW"
+            },
+	     {
+                "name": "JF_VPMReference.JF_MaterialCode",
+                "status": "RW"
+            }, {
+                "name": "JF_VPMReference.JF_MaterialDensity",
+                "status": "RW"
+            },
+	     
+	     {
+                "name": "JF_VPMReference.JF_Fabric",
+                "status": "RW"
+            },
+	     {
+                "name": "JF_VPMReference.JF_Area",
+                "status": "RW"
+            },
+            {
+                "name": "JF_VPMReference.JF_Weight",
+                "status": "RO"
+            },{
+                "name": "JF_VPMReference.JF_WeightTarget",
+                "status": "RW"
+            },
+            {
+                "name": "JFLength",
+                "status": "RW"
+		
+            },
+            {
+                "name": "JFWidth",
+                "status": "RW"
+		
+            },
+            {
+                "name": "JFHeight",
+                "status": "RW"
+		
+            }]
+        },
+        "Create": {
+            "attributes": [{
+                "name": "V_Name",
+                "status": "RW"
+            },
+            {
+                "name": "PLM_ExternalID",
+                "status": "RO"
+            },
+	    {
+                "name": "JF_VPMReference.JF_WeightTarget",
+                "status": "RO"
+            },{
+                "name": "JF_VPMReference.JF_OriginalPart",
+                 "hidden": true,
+		  "status": "RO"
+            },
+            {
+                "name": "V_description",
+                "status": "RW"
+            },
+            {
+                "name": "policy",
+                "status": "RO"
+            }]
+        },
+        "details": {
+            "attributes": {
+                "owner": {
+                    "mandatory": true
+                },
+                "V_Name": {
+                    "mandatory": true
+                },
+                "PLM_ExternalID": {
+                    "forbiddenChar": "\\/:*?\"<>|#$@%,[]"
+                }, "JF_VPMReference.JF_ISXPDM": {
+                    "hidden": true
+                }, "JF_VPMReference.JF_RevisionFamily": {
+                    "hidden": true
+                }, "JF_VPMReference.JF_UniqueID": {
+                    "hidden": true
+                }, "JF_VPMReference.JF_RevisionIndex": {
+                    "hidden": true
+                }, "JF_VPMReference.JF_copySorce": {
+                    "hidden": true
+                }, "JF_VPMReference.JF_PartNameCN": {
+                   "group":"g1",
+		    "status": "RW"
+                }
+		, "JF_VPMReference.JF_PartNameEN": {
+                   "group":"g1",
+		    "status": "RW"
+                }, "JF_VPMReference.JF_PartType": {
+                   "group":"g1",
+		    "status": "RO"
+                }, "JF_VPMReference.JF_PartSubType": {
+                 
+		    "status": "RO"
+                },"JF_VPMReference.JF_Detail_CN": {
+                   "group":"g1",
+		    "status": "RO"
+                },"JF_VPMReference.JF_Detail_EN": {
+                   "group":"g1",
+		    "status": "RO"
+                },"JF_VPMReference.JF_ProcurementType": {
+                   "group":"g1",
+		    "status": "RW"
+                },"JF_VPMReference.JF_DirectBuy": {
+                   "group":"g1",
+		    "status": "RW"
+                },"LPAbstractReference.V_Scale": {                 
+		    "hidden": true
+                },"PLMReference.V_fromExternalID": {                 
+		    "hidden": true
+                },"JF_VPMReference.JF_ProcurementGroup": {                 
+		    "hidden": true
+                },"JF_VPMReference.JF_OriginalPart": {                 
+		    "hidden": true
+                },"JF_VPMReference.JF_Fabric": {                 
+		    "hidden": true
+                },"JF_VPMReference.JF_PartSubType": {                 
+		    "hidden": true
+                },"JF_VPMReference.JF_ISWholeChair": {                 
+		    "hidden": true
+                },"JF_VPMReference.JF_SupplyLevelorNot": {                 
+		    "hidden": true
+                },"PLMReference.V_versionComment": {                 
+		    "hidden": true
+                },"PLMEntity.V_description": {                 
+		    "hidden": true
+                },"policy": {                 
+		    "hidden": true
+                },"PLMEntity.V_Name": {            
+		    "hidden": true
+                },"project": {            
+		    "hidden": true
+                },"VPMReference.V_IsManufacturable": {            
+		    "hidden": true
+                }
+		
+            }
+        },"groups":{
+		"g1":{
+		"NLS":"基本属性",
+		"weight":1
+		}
+	}
+    },
+    "folder": "masks/bus",
+    "version": "3DEXPERIENCE R2024x HotFix 3",
+    "revision": "0",
+    "page_replaced_by_ootb": "TRUE"
+}

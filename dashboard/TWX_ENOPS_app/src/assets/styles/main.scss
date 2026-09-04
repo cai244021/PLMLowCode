@@ -1,0 +1,28 @@
+@use './base';
+@use '@/assets/styles/home';
+
+// app {
+// 	margin: 0 auto !important;
+// 	padding: 2rem !important;
+// 	width: 100% !important;
+// }
+
+a,
+.green {
+	padding: 3px;
+	text-decoration: none;
+	color: hsl(160deg 100% 37% / 100%);
+	transition: 0.4s;
+}
+
+@media (hover: hover) {
+	// a:hover {
+	// 	// background-color: hsl(160deg 100% 37% / 20%);
+	// }
+}
+
+@media (width >= 1024px) {
+	#app {
+		padding: 0 2rem;
+	}
+}

@@ -1,0 +1,10 @@
+Rel Name	from.type	from.name	from.revision	to.type	to.name	to.revision	Override Settings	Create Trigger	Modify Trigger	Delete Trigger
+eService Number Generator	eService Object Generator	type_JFDataTransmission		eService Number Generator	type_JFDataTransmission	
+eService Number Generator	eService Object Generator	type_JFDataOutSource		eService Number Generator	type_JFDataOutSource	
+eService Number Generator	eService Object Generator	type_JFECR		eService Number Generator	type_JFECR	
+eService Number Generator	eService Object Generator	type_JFProductConfigTable		eService Number Generator	type_JFProductConfigTable					
+eService Number Generator	eService Object Generator	type_JFPositionProduct		eService Number Generator	type_JFPositionProduct					
+eService Number Generator	eService Object Generator	type_JFTargetSales		eService Number Generator	type_JFTargetSales					
+eService Number Generator	eService Object Generator	type_JFVehicleConfiguration		eService Number Generator	type_JFVehicleConfiguration					
+eService Number Generator	eService Object Generator	type_JFDBList		eService Number Generator	type_JFDBList					
+eService Number Generator	eService Object Generator	type_JFServicePartsList		eService Number Generator	type_JFServicePartsList					

@@ -1,0 +1,208 @@
+{            
+    "selectedTypes": ["VPMReference", "VPMRepReference", "3DShape"],
+    "selectedExtensions": ["XCADExtension", "EnterpriseExtension"],
+    "default": true,
+    "order": ["tree",
+        "bookmarkLocation",
+        "ds6wg:revision",
+         "ds6w:reserved" , 
+	 "ds6wg:PLMReference.V_isLastVersion",
+         "ds6w:description",
+         "ds6w:modified",
+         "ds6w:created", 
+         "ds6w:responsible",
+         "ds6w:type",     
+         "ds6w:status",
+         "ds6w:policy", 
+         "ds6w:organizationResponsible",
+         "ds6w:project",
+         "ds6w:reservedBy"],
+    "attributes": [{
+        "dataIndex": "tree",
+        "ds6w": "ds6w:label",
+        "tree": true,
+        "pinned": "left",
+        "customisation": {
+            "layout": {
+                "removableFromView": false,
+                "removable": false
+            },
+            "exportable": {
+                "lock": true,
+                "value": true
+            }
+        }
+    },{
+        "dataIndex": "bookmarkLocation",
+        "customisation": {
+            "exportable": {
+                "lock": true,
+                "value": false
+            },
+            "layout": {
+                "removable": false
+            }
+        }
+    },{
+        "ds6w": "ds6wg:revision",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:type",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:description",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:responsible",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:status",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:policy",
+        "sortableFlag": false,
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:reserved",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:created",
+        "kind": "dateTime",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:modified",
+        "kind": "dateTime",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:organizationResponsible",
+        "sortableFlag": false,
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:project",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6w:reservedBy",
+        "customisation": {
+            "layout": {
+                "removable": false
+            },
+            "exportable": {
+                "lock": false,
+                "value": true
+            }
+        }
+    },{
+        "ds6w": "ds6wg:PLMReference.V_isLastVersion",
+        "kind": "boolean",
+        "customisation": {
+            "layout": {
+                "removable": false
+            }
+        }
+    }], 
+    "commandColumns": [],
+    "typeRepresentations": {},
+    "allowedIndexAttributes" : ["ds6w:label",
+                    "ds6wg:revision",
+                    "ds6w:reserved" , 
+                    "ds6w:description",
+                    "ds6w:modified",
+                    "ds6w:created", 
+                    "ds6w:responsible",
+                    "ds6w:type",     
+                    "ds6w:status",
+                    "ds6w:policy", 
+                    "ds6w:organizationResponsible",
+                    "ds6w:project",
+                    "ds6w:reservedBy",
+                    "isLastRevision",
+                    "ContextualMenuColumn"]
+}

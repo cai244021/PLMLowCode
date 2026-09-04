@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset='utf-8'>
+    <title> 任务分配通知</title>
+    <style>
+        table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            background-color: white;
+            color: black;
+        }
+        .context,.context1 {
+            margin-top: -15px; /* 这里将上下左右的外边距都设置为10px，你可以根据需要调整数值 */
+            margin-left: 30px;
+        }
+        .context1 {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<h4>尊敬的用户： 您好</h4>
+<div id="form" style="border: black 0px solid;">
+    <div class="context" id="name" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>任务号：</b></label>	 <label id="projectTask" style="text-align: left;color:red;font-weight:bolder"></label>	
+			<div>
+		<label >&nbsp;&nbsp;已经分配给您,请尽快完成该任务</label>
+		</div>
+    </div>
+
+	<div class="context" id="connectName" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;">关联的ECR/ECO/DA:</label>
+    </div>        
+    <div class="context" id="linkText" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;">请点击下面的链接: &nbsp;&nbsp;&nbsp;</label>
+    </div>
+    <div class="context" id="linkAddress" style=" display: flex;height: 50px;align-items: flex-start;">
+            <a  id="Address" href="" target="_blank" style="text-align: left;"></a>
+    </div>
+    <div class="mess" id="mess" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;color: red">
+            注: </br>
+            1、此邮件由系统自动生成,无需进行回复</br>
+        </label>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+

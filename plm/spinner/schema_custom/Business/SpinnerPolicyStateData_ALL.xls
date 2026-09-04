@@ -1,0 +1,125 @@
+Policy Name	State Name	State Registry Name	Version (boolean)	Promote (boolean)	Checkout History (boolean)	"Notify Users (use ""|"" delim)"	Notify Message	Route User	Route Message	Minor Revision (boolean)	Major Revision (boolean)	Published (boolean)	Enforce Reserve Access (boolean)	Before State Name	Icon File
+JFDataTransmission	Draft	Draft	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFDataTransmission	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFDataTransmission	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFDataOutSource	In_Work	In_Work	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Approve	
+JFDataOutSource	Approve	Approve	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFDataOutSource	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	OutsourceComplete	
+JFDataOutSource	OutsourceComplete	OutsourceComplete	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFDataOutSourceLogs	Inactive	Inactive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Active	
+JFDataOutSourceLogs	Active	Active	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFDR	In_Work	In_Work	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Approve	
+JFDR	Approve	Approve	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFDR	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFECR	Create	Create	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Submit	
+JFECR	Submit	Submit	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFECR	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Countersign	
+JFECR	Countersign	Countersign	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	APR	
+JFECR	APR	APR	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Quotation	
+JFECR	Quotation	Quotation	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFECR	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFDA	In_Work	In_Work	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Approve	
+JFDA	Approve	Approve	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	DAImplementationPlan	
+JFDA	DAImplementationPlan	DAImplementationPlan	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Implement	
+JFDA	Implement	Implement	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Close	
+JFDA	Close	Close	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFChangeEventPolicy	Create	Create	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	In_Work	
+JFChangeEventPolicy	In_Work	In_Work	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFChangeEventPolicy	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFECO	Create	Create	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	In_Work	
+JFECO	In_Work	In_Work	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	ExecuteFeedback	
+JFECO	ExecuteFeedback	ExecuteFeedback	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFECO	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCompetitive	In_Work	In_Work	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Approve	
+JFCompetitive	Approve	Approve	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFCompetitive	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFColorPart	In_Work	In_Work	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Freeze	
+JFColorPart	Freeze	Freeze	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Release	
+JFColorPart	Release	Release	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFColorMatrix	Create	Create	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFColorMatrix	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Release	
+JFColorMatrix	Release	Release	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Obsolete	
+JFColorMatrix	Obsolete	Obsolete	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFColorStyle	Exist	Exist	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFColorGroup	Exist	Exist	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFRapidOffer	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Release	
+JFRapidOffer	Release	Release	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Obsolete	
+JFRapidOffer	Obsolete	Obsolete	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCost	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFCost	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFManufactureFee	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFManufactureFee	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFModules	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFModules	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCostConfig	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFCostConfig	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCostReferConst	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFCostReferConst	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFFunctionModule	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFFunctionModule	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCostBreakDown	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFCostBreakDown	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFFunctionModuleTemplate	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFFunctionModuleTemplate	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFSnapshot	DRAFT	DRAFT	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	APPROVE	
+JFSnapshot	APPROVE	APPROVE	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	FROZEN	
+JFSnapshot	FROZEN	FROZEN	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Close	
+JFSnapshot	Close	Close	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCostAnalysis	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFCostAnalysis	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCostAnalysisItem	Active	Active	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	InActive	
+JFCostAnalysisItem	InActive	InActive	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFNewECR	Create	Create	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFNewECR	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Countersign	
+JFNewECR	Countersign	Countersign	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	APR	
+JFNewECR	APR	APR	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Quotation	
+JFNewECR	Quotation	Quotation	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFNewECR	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFSPRP	Create	Create	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFSPRP	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFSPRP	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFESOReview	Create	Create	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFESOReview	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFESOReview	Released	Released	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JF_ManufacturedItem	Exist	Exist	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JF_ChangeRecord	Exist	Exist	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFPartList	InWork	InWork	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFPartList	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFPartList	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JF_SyncMBOMRecord	Exist	Exist	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JF_PCR	Draft	Draft	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	IN_Approve	
+JF_PCR	IN_Approve	IN_Approve	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	IN_Evaluation	
+JF_PCR	IN_Evaluation	IN_Evaluation	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Verification	
+JF_PCR	Verification	Verification	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Execution	
+JF_PCR	Execution	Execution	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Closed	
+JF_PCR	Closed	Closed	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFDelayedFiling	Draft	Draft	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFDelayedFiling	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Complete	
+JFDelayedFiling	Complete	Complete	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFProductConfigTable	InWork	InWork	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFProductConfigTable	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFProductConfigTable	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	ManagerFillsIn	
+JFProductConfigTable	ManagerFillsIn	ManagerFillsIn	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Obsolete	
+JFProductConfigTable	Obsolete	Obsolete	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFPositionProduct	InWork	InWork	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFVehicleConfiguration	InWork	InWork	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFTargetSales	InWork	InWork	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFSPartsApplication	Draft	Draft	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFSPartsApplication	Review	Review	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Finished	
+JFSPartsApplication	Finished	Finished	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFDBList	InWork	InWork	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFDBList	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFDBList	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Obsolete	
+JFDBList	Obsolete	Obsolete	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFServicePartsList	InWork	InWork	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFServicePartsList	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFServicePartsList	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Obsolete	
+JFServicePartsList	Obsolete	Obsolete	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFCustomerParts	InWork	InWork	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFConfigTableRoute	InWork	InWork	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFConfigTableRoute	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFConfigTableRoute	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFExpertsGroup	Exist	Exist	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		
+JFBatchDocumentReview	InWork	InWork	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Review	
+JFBatchDocumentReview	Review	Review	FALSE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE	Released	
+JFBatchDocumentReview	Released	Released	TRUE	FALSE	TRUE					TRUE	TRUE	FALSE	FALSE		

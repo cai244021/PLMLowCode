@@ -1,0 +1,16 @@
+Name	Registry Name	Description	Label	Href	Alt	Setting Name (use "|" delim)	Setting Value (use "|" delim)	"Channels (use "","" w/ ""|"" delims)"	Hidden (boolean)	Icon File
+JFECRAffectedItemsPortal	JFECRAffectedItemsPortal		emxFramework.Portal.JFECRAffectedItemsPortal	${COMMON_DIR}/emxPortal.jsp?portal=ECMMyChangesPortal&header=emxFramework.Portal.JFECRAffectedItemsPortal		Registered Suite	Framework	JFECRAffectedItemsChannel	FALSE	
+JFTaskPortal	JFTaskPortal		emxFramework.Portal.JFTaskPortal			Registered Suite	Framework	JFTaskChannel	FALSE	
+JFECRPerprotiesPortal	JFECRPerprotiesPortal		emxFramework.Portal.JFECRPerprotiesPortal			Registered Suite	Framework	JFECRPerprotiesChannel	FALSE	
+JFCostPortal	JFCostPortal		emxFramework.Portal.JFCostPortal			Registered Suite	Framework	JFCostChannel	FALSE	
+JFRapidOfferPortal	JFRapidOfferPortal		emxFramework.Portal.JFRapidOfferPortal			Registered Suite	Framework	JFModulesChannel | <<JFManufactureFeeChannel>>	FALSE	
+JFProjectChangePortal	JFProjectChangePortal		emxFramework.Portal.JFProjectChangePortal			Registered Suite	Framework	JFProjectChangeChannel	FALSE	
+JFNewECRAffectedItemsPortal	JFNewECRAffectedItemsPortal		emxFramework.Portal.JFECRAffectedItemsPortal			Registered Suite	Framework	JFECRNewAffectedItemsChannel	FALSE	
+JFNewECRPerprotiesPortal	JFNewECRPerprotiesPortal		emxFramework.Portal.JFECRPerprotiesPortal			Registered Suite	Framework	JFECRNewPerprotiesChannel	FALSE	
+JFPartListPartsPortal	JFPartListPartsPortal		emxFramework.Portal.JFPartListPartsPortal			Registered Suite	Framework	JFPartListPartsChannel	FALSE	
+JFPCRPortal	JFPCRPortal		emxFramework.Portal.JFPCRPortal			Registered Suite	Framework	JFPCRChannel1 | JFPCRChannel2	FALSE	
+JFMBOMECRListPortal	JFMBOMECRListPortal		emxFramework.Command.JFProject2ECRCmd			Registered Suite	Framework	JFMBOMECRListChannel	FALSE	
+JFFormalECRPerprotiesPortal	JFFormalECRPerprotiesPortal		emxFramework.Portal.JFECRPerprotiesPortal			Registered Suite	Framework	JFECRFormalPerprotiesChannel	FALSE	
+JFFormalECRAffectedItemsPortal	JFFormalECRAffectedItemsPortal		emxFramework.Portal.JFECRAffectedItemsPortal			Registered Suite	Framework	JFECRFormalAffectedItemsChannel	FALSE	
+JFProductConfigPortal	JFProductConfigPortal		emxFramework.Portal.JFProductConfigPortal			Registered Suite	Framework	JFProductConfigChannel	FALSE	
+JFMyDocumentPortal	JFMyDocumentPortal		emxProgramCentral.Command.JFMyDocumentCmd			Registered Suite	ProgramCentral	JFMyDocumentChannel	FALSE	

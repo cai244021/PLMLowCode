@@ -1,0 +1,5 @@
+NewContentWebServices.jar  这个jar是反编译ootb的
+目的:新增加批量创建数模的方法，批量创建样版件需要该功能
+需要把这个jar包替换到如下目录，因为配置文件把这个路径放在前面
+/ds/R2024x/3DSpace/linux_a64/docs/javaserver/
+# add by chenyan /2026/03/11  TWXSearchConfig.jar用于Dashboard右键打开跳转3dspace

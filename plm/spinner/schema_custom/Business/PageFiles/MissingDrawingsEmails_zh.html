@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>零件缺失图纸提醒</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000000; padding: 5px; text-align: center; }
+        th { background-color: #ffffff; color: #000000; }
+        .notice { color: red; }
+    </style>
+</head>
+<body>
+<h4>尊敬的 <span id="recipientName"></span>：</h4>
+<p id="projectInfo">项目：<b id="projectName"></b></p>
+<p id="mailScope"></p>
+<table>
+    <thead>
+    <tr>
+        <th>零件号</th>
+        <th>版本</th>
+        <th>零件英文名称</th>
+        <th>零件中文名称</th>
+        <th>项目名称</th>
+        <th>零件类型</th>
+        <th>详细类别-CN</th>
+        <th>详细类别-EN</th>
+        <th>零件采购类型</th>
+        <th>是否缺图纸</th>
+    </tr>
+    </thead>
+    <tbody id="missingDrawingsTbody"></tbody>
+</table>
+<div class="notice">
+    注：此邮件由系统自动生成，无需回复。<br>
+    Note: This email is generated automatically by the system. Please do not reply.
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset='utf-8'>
+    <title>数据发送链接及提取码</title>
+    <style>
+        table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            background-color: white;
+            color: black;
+        }
+        .context,.context1 {
+            margin-top: -15px; /* 这里将上下左右的外边距都设置为10px，你可以根据需要调整数值 */
+            margin-left: 30px;
+        }
+        .context1 {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<h4>尊敬的用户： 您好</h4>
+<div id="form" style="border: black 0px solid;">
+    <div class="context" id="name" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>发放号：</b></label>
+    </div>
+    <div class="context" id="JSTopic" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>发放主题：</b></label>
+    </div>
+    <div class="context" id="Owner" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>发起工程师：</b></label>
+    </div>
+    <div class="context" id="OwnerEmail" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>工程师邮箱：</b></label>
+    </div>
+    <div class="context" id="description" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>发放数据描述：</b></label>
+    </div>
+    <div class="context" id="linkText" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;">请点击下面的链接提取相对应的文件: &nbsp;&nbsp;&nbsp;</label>
+    </div>
+    <div class="context" id="linkAddress" style=" display: flex;height: 50px;align-items: flex-start;">
+            <a  id="Address" href="" target="_blank" style="text-align: left;"></a>
+    </div>
+    <div class="context" id="password" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>提取密码: &nbsp;</b></label>
+    </div>
+    <div class="context" id="contentNotice" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>外发数据清单如下: </b></label>
+    </div>
+    <table class="context1" id="contentTable">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>版本</th>
+                <th>类型</th>
+            </tr>
+        </thead>
+        <tbody id="content">
+
+        </tbody>
+    </table>
+    <div class="mess" id="mess" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;color: red">
+            注: </br>
+            1、此邮件由系统自动生成,无需进行回复</br>
+            2、针对数据本身的问题,请与我单位发起该数据外发单的工程师联系</br>
+        </label>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+

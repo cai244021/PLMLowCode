@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset='utf-8'>
+    <title> MBOM结构责任方设置通知</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            background-color: white;
+            color: black;
+        }
+        .context,.context1 {
+            margin-top: -15px; /* 这里将上下左右的外边距都设置为10px，你可以根据需要调整数值 */
+            margin-left: 30px;
+        }
+        .context1 {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<h4>尊敬的用户： 您好</h4>
+<div id="form" style="border: black 0px solid;">
+    <div class="context" id="name" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;"><b>项目/Project Space: </b></label>	 <label id="Project" style="text-align: left;color:red;font-weight:bolder"></label>
+		<div>
+		    <label >&nbsp;&nbsp;MBOM结构责任方已修改！</label>
+            <br>
+            <label style="text-align: left;">&nbsp; The responsible party for the MBOM structure has been updated!</label>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <!--相关ECR信息-->
+    <div class="context" id="ECRInfo">
+        <div class="context"style="height: 80px;align-items: flex-start;">
+            <label  style="text-align: left;"><b>项目中已更新的ECR信息: </b></label>
+            <br>
+            <label  style="text-align: left;"><b>Updated ECR information in the project: </b></label>
+        </div>
+        <div class="context" id="ECRInfoList">
+            <table>
+                <table id="ECRInfoListTable">
+                    <thead>
+                    <tr>
+                        <th>更新记录
+                            <br>
+                            Record Change
+                        </th>
+                        <th>更新日期
+                            <br>
+                            Change Date
+                        </th>
+                        <th>更新时间
+                            <br>
+                            Change Time
+                        </th>
+                        <th>更新人
+                            <br>
+                            Updated by
+                        </th>
+                        <th>变更说明
+                            <br>
+                            Change Desc
+                        </th>
+                        <th>相关ECR
+                            <br>
+                            Related ECR
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="ECRInfoListTbody">
+
+                    </tbody>
+                </table>
+            </table>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <div class="context" id="linkText" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;">请点击下面的链接: &nbsp;&nbsp;&nbsp;</label>
+        <br>
+        <label style="text-align: left;">Please click on the link below: &nbsp;&nbsp;&nbsp;</label>
+    </div>
+    <div class="context" id="linkAddress" style=" display: flex;height: 50px;align-items: flex-start;">
+            <a  id="Address" href="" target="_blank" style="text-align: left;"></a>
+    </div>
+    <div class="mess" id="mess" style=" display: flex;height: 50px;align-items: flex-start;">
+        <label style="text-align: left;color: red">
+            注: </br>
+            1、此邮件由系统自动生成,无需进行回复</br>
+            2、针对数据本身的问题,请与我单位发起该ECR的工程师联系</br>
+        </label>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+

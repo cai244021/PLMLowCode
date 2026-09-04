@@ -1,0 +1,36 @@
+
+<ProfessionalCategories>
+    <Category id="GC" name="整椅件" expanded="false">
+        <Description>只限整椅总成</Description>
+    </Category>
+    <Category id="GM" name="金属件" expanded="false">
+        <Description>金属骨架单件及其组合</Description>
+    </Category>
+    <Category id="GP" name="塑料件" expanded="false">
+        <Description>各种塑料件及其组合</Description>
+    </Category>
+    <Category id="GU" name="发泡件" expanded="false">
+        <Description>发泡各组件及其组合</Description>
+    </Category>
+    <Category id="GT" name="面套件" expanded="false">
+        <Description>面套各组件及其组合</Description>
+    </Category>
+    <Category id="GE" name="电器件" expanded="false">
+        <Description>电器各组件及其组合</Description>
+    </Category>
+    <Category id="GK" name="功能件" expanded="false">
+        <Description>头枕、扶手、腿托、小桌板、悬簧等</Description>
+    </Category>
+    <Category id="GA" name="辅料件" expanded="false">
+        <Description>硅油等油类、标签、无纺布、防尘套等</Description>
+    </Category>
+    <Category id="GW" name="核心件" expanded="false">
+        <Description>滑轨、调高泵、调角器等</Description>
+    </Category>
+    <Category id="GZ" name="电机件" expanded="false">
+        <Description>各电机</Description>
+    </Category>
+    <Category id="GF" name="标准件" expanded="false">
+        <Description>螺栓、螺母、扎带、卡扣等</Description>
+    </Category>
+</ProfessionalCategories>

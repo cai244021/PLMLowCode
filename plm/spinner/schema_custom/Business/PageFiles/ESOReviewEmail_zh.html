@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset='utf-8'>
+    <title> ESO 总工确认通知(ESO Chief Engineer Confirmation Notice) </title>
+    <style>
+        table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            background-color: white;
+            color: black;
+        }
+        .context,.context1 {
+            margin-top: -15px; /* 这里将上下左右的外边距都设置为10px，你可以根据需要调整数值 */
+            margin-left: 30px;
+        }
+        .context1 {
+            margin-bottom: 20px;
+        }
+        #name label {
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+
+</head>
+<body>
+<h4>尊敬的用户： 您好</h4>
+<div id="form" style="border: black 0px solid;">
+    <!-- add by LIUJR 20260707 调整总工确认邮件开头中英文分行展示，避免内容横向挤压。 -->
+    <div class="context" id="name" style=" display: block;min-height: 110px;line-height: 24px;word-break: break-word;">
+        <label style="text-align: left;" id="info1">ps项目下phase阶段下的ESO中的ESO任务cs的签发记录发起的签发流程route已被总工确认！</label>
+        <br>
+        <label style="text-align: left;" id="info2">The issuance process route initiated by the issuance record of ESO task cs in the ESO phase of the PS project has been confirmed by the chief engineer!</label>
+    </div>
+    </br>
+    <label style="text-align: left;">ESO任务信息(ESO task information): </label>
+    <br>
+    <br>
+    <!-- add by LIUJR 20260706 总工确认邮件ESO任务信息增加职能、排数、研发地点和部门 -->
+    <div class="context" id="JF_Function" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">职能(Function): </label>
+    </div>
+    <div class="context" id="JF_Rows" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">排数(Rows): </label>
+    </div>
+    <!-- end -->
+    <div class="context" id="JF_Modules" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">模块(Modules): </label>
+    </div>
+    <!-- add by LIUJR 20260706 总工确认邮件ESO任务信息增加研发地点和部门 -->
+    <div class="context" id="JF_Locations" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">研发地点(Development Location): </label>
+    </div>
+    <div class="context" id="JF_Department" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">部门(Department): </label>
+    </div>
+    <!-- end -->
+    <div class="context" id="JF_ESOType" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">类型(ESO Type): </label>
+    </div>
+    <div class="context" id="JF_ColorIdentification" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">颜色标识(Color Identification): </label>
+    </div>
+    <!-- add by LIUJR 20260616 总工确认邮件ESO任务信息增加任务签发次数 -->
+    <div class="context" id="JF_ReviewCount" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">签发次数(Review Count): </label>
+    </div>
+    <!-- end -->
+    <br>
+    <label style="text-align: left;">总工确认信息(Chief Engineer Confirmation information): </label>
+    <br>
+    <br>
+    <div class="context" id="zg" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">总工程师(chief engineer): </label>
+    </div>
+    <div class="context" id="status" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">会签结果(Approval Status): </label>
+    </div>
+    <div class="context" id="advice" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">会签意见(Review Comments): </label>
+    </div>
+    <div class="context" id="fileNameOld" style=" display: none;">
+        <label style="text-align: left;">签发表名称(Review Sign Document): </label>
+    </div>
+    <!-- add by LIUJR 20260616 总工确认信息增加签发表颜色标识和签发次数 -->
+    <div class="context" id="JF_PhaseState" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">签发表颜色标识(Review Sign Color Identification): </label>
+    </div>
+    <div class="context" id="JF_ReviewCounte" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">签发表次数(Review Sign Count): </label>
+    </div>
+    <!-- end -->
+    <!-- add by LIUJR 20260706 总工确认邮件增加计划签发时间和实际签发时间 -->
+    <div class="context" id="JF_EstimatedSignDate" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">计划签发时间(Planned Review Sign Time): </label>
+    </div>
+    <div class="context" id="JF_ActualSignDate" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">实际签发时间(Actual Review Sign Time): </label>
+    </div>
+    <!-- end -->
+    <!-- add by LIUJR 20260707 签发表名称移动到签发时间后方，并允许长名称自动换行。 -->
+    <div class="context" id="fileName" style=" display: block;min-height: 30px;line-height: 24px;word-break: break-all;">
+        <label style="text-align: left;">签发表名称(Review Sign Document): </label>
+    </div>
+    </br>
+    </br>
+    <div class="context" id="linkText" style=" display: flex;height: 30px;align-items: flex-start;">
+        <label style="text-align: left;">请点击下面的链接(Please click on the link below): &nbsp;&nbsp;&nbsp;</label>
+    </div>
+    <div class="context" id="linkAddress" style=" display: flex;height: 30px;align-items: flex-start;">
+            <a  id="Address" href="" target="_blank" style="text-align: left;"></a>
+    </div>
+    <div class="mess" id="mess" style=" display: flex;height: 50px;align-items: flex-start;color: red">
+        <label style="text-align: left;color: red">
+            注: </br>
+            1、此邮件由系统自动生成,无需进行回复</br>
+        </label>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+

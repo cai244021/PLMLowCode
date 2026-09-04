@@ -1,0 +1,31 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: plm-lowcode-platform
+  datasource:
+    url: ${PLM_LOWCODE_DB_URL}
+    username: ${PLM_LOWCODE_DB_USERNAME}
+    password: ${PLM_LOWCODE_DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    placeholder-replacement: false
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 1h
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

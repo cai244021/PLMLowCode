@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Target Sales</title>
+    <link rel="stylesheet" href="./style.css?v=20260727_summary_object_count_style" />
+</head>
+<body>
+<div id="app" v-cloak>
+    <main class="main">
+        <div v-if="message" class="message" :class="{ error: messageType === 'error' }">
+            <span>{{ message }}</span>
+            <button type="button" class="message-close" @click.stop="clearMessage">x</button>
+        </div>
+
+        <section class="panel">
+            <div class="panel-title" @click="toggleSection('basicInfo')">
+                <span class="drawer-toggle" :class="{ open: sections.basicInfo }"></span>
+                <span>{{ t("emxFramework.JFProductConfigTargetSales.BasicInfo") }}</span>
+            </div>
+            <div v-if="sections.basicInfo" class="top-field">
+                <label for="projectLevelAPRDiscount">{{ t("emxFramework.Attribute.JFProjectLevelAPRDiscount") }}</label>
+                <input id="projectLevelAPRDiscount" :value="projectLevelAPRDiscount" type="text" inputmode="numeric" :readonly="!canEdit" @input="handleProjectLevelAPRDiscountInput($event)" @change="flushProjectLevelAPRDiscountSave" @blur="flushProjectLevelAPRDiscountSave" />
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title" @click="toggleSection('targetSales')">
+                <span class="drawer-toggle" :class="{ open: sections.targetSales }"></span>
+                <span>{{ t("emxFramework.JFProductConfigTargetSales.AnnualTargetSales") }}</span>
+            </div>
+            <div v-if="sections.targetSales" class="section-toolbar">
+                <input v-model="newYear" type="text" inputmode="numeric" maxlength="4" :readonly="!canEdit" :placeholder="t('emxFramework.JFProductConfigTargetSales.Year')" @input="newYear = sanitizeNumber(newYear)" />
+                <button type="button" :disabled="loading || !canEdit" @click="createYear">
+                    {{ t("emxFramework.JFProductConfigTargetSales.AddYear") }}
+                </button>
+                <button type="button" :disabled="loading || !canEdit || selectedTargetSalesIds.length === 0" @click="deleteSelectedTargetSales">
+                    {{ t("emxFramework.JFProductConfigTargetSales.Delete") }}
+                </button>
+            </div>
+            <table v-if="sections.targetSales">
+                <thead>
+                <tr>
+                    <th class="row-header">{{ t("emxFramework.JFProductConfigTargetSales.Year") }}</th>
+                    <th v-for="item in targetSales" :key="item.id" :class="{ 'editable-header': canEdit }">
+                        <label class="year-check">
+                            <input type="checkbox" :value="item.id" v-model="selectedTargetSalesIds" />
+                            <span>{{ item.year }}</span>
+                        </label>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.Overseas") }}</th>
+                    <td v-for="item in targetSales" :key="item.id + '-overseas'">
+                        <input :value="item.overseas" type="text" inputmode="numeric" :readonly="!canEdit" @input="handleTargetSalesInput(item, 'overseas', $event)" @change="flushTargetSalesSave(item)" @blur="flushTargetSalesSave(item)" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.Domestic") }}</th>
+                    <td v-for="item in targetSales" :key="item.id + '-domestic'">
+                        <input :value="item.domestic" type="text" inputmode="numeric" :readonly="!canEdit" @input="handleTargetSalesInput(item, 'domestic', $event)" @change="flushTargetSalesSave(item)" @blur="flushTargetSalesSave(item)" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.Other") }}</th>
+                    <td v-for="item in targetSales" :key="item.id + '-other'">
+                        <input :value="item.other" type="text" inputmode="numeric" :readonly="!canEdit" @input="handleTargetSalesInput(item, 'other', $event)" @change="flushTargetSalesSave(item)" @blur="flushTargetSalesSave(item)" />
+                    </td>
+                </tr>
+                <tr v-if="targetSales.length === 0">
+                    <td colspan="2" class="empty-row">{{ t("emxFramework.JFProductConfigTargetSales.NoYears") }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title" @click="toggleSection('vehicleRatio')">
+                <span class="drawer-toggle" :class="{ open: sections.vehicleRatio }"></span>
+                <span>{{ t("emxFramework.JFProductConfigTargetSales.ConfigurationRatio") }}</span>
+            </div>
+            <table v-if="sections.vehicleRatio">
+                <thead>
+                <tr>
+                    <th class="row-header">{{ t("emxFramework.JFProductConfigTargetSales.Configuration") }}</th>
+                    <th v-for="config in vehicleConfigs" :key="config.id" :class="{ 'editable-header': canEdit }">{{ config.title }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.OverseasPercent") }}</th>
+                    <td v-for="config in vehicleConfigs" :key="config.id + '-overseas'">
+                        <input :value="config.overseas" type="text" inputmode="decimal" :readonly="!canEdit" :class="{ 'input-error': isVehicleRatioFieldInvalid(config, 'overseas') }" @input="handleVehicleRatioInput(config, 'overseas', $event)" @change="flushVehicleRatioSave(config)" @blur="flushVehicleRatioSave(config)" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.DomesticPercent") }}</th>
+                    <td v-for="config in vehicleConfigs" :key="config.id + '-domestic'">
+                        <input :value="config.domestic" type="text" inputmode="decimal" :readonly="!canEdit" :class="{ 'input-error': isVehicleRatioFieldInvalid(config, 'domestic') }" @input="handleVehicleRatioInput(config, 'domestic', $event)" @change="flushVehicleRatioSave(config)" @blur="flushVehicleRatioSave(config)" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.OtherPercent") }}</th>
+                    <td v-for="config in vehicleConfigs" :key="config.id + '-other'">
+                        <input :value="config.other" type="text" inputmode="decimal" :readonly="!canEdit" :class="{ 'input-error': isVehicleRatioFieldInvalid(config, 'other') }" @input="handleVehicleRatioInput(config, 'other', $event)" @change="flushVehicleRatioSave(config)" @blur="flushVehicleRatioSave(config)" />
+                    </td>
+                </tr>
+                <tr v-if="vehicleConfigs.length === 0">
+                    <td colspan="2" class="empty-row">{{ t("emxFramework.JFProductConfigTargetSales.NoVehicleConfigs") }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title" @click="toggleSection('summary')">
+                <span class="drawer-toggle" :class="{ open: sections.summary }"></span>
+                <span>{{ t("emxFramework.JFProductConfigTargetSales.Summary") }}</span>
+                <span class="object-count"><span class="object-count-number">{{ parts.length }}</span> {{ t("emxFramework.JFProductConfigParts.ObjectCountUnit") }}</span>
+            </div>
+            <div v-if="sections.summary" class="section-toolbar">
+                <button type="button" :disabled="loading || !canEdit" @click="calculateSummary">{{ t("emxFramework.JFProductConfigTargetSales.CalculateSummary") }}</button>
+                <button type="button" :disabled="loading || !canEdit" @click="exportSummary">{{ t("emxFramework.JFProductConfigTargetSales.ExportModify") }}</button>
+                <button type="button" :disabled="loading || !canEdit" @click="openSummaryImportFile">{{ t("emxFramework.JFProductConfigTargetSales.Import") }}</button>
+                <input ref="summaryImportFile" class="hidden-file" type="file" accept=".xlsx,.xls" @change="importSummary" />
+            </div>
+            <table v-if="sections.summary">
+                <thead>
+                <tr>
+                    <th class="checkbox-column"></th>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.PartNumber") }}</th>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.PartName") }}</th>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.CustomerPartNumber") }}</th>
+                    <th>{{ t("emxFramework.Attribute.JFCustomerPartName") }}</th>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.PartInfo") }}</th>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.Ratio") }}</th>
+                    <th v-for="item in targetSales" :key="item.id + '-summary'" :class="{ 'editable-header': canEdit }">{{ item.year }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="part in parts" :key="part.id" :class="{ 'selected-part-row': selectedPartIds.indexOf(part.id) > -1 }">
+                    <td class="checkbox-column">
+                        <input type="checkbox" :value="part.id" v-model="selectedPartIds" />
+                    </td>
+                    <td>
+                        <a class="part-number-link" :href="getPartLink(part)" @click.stop.prevent="openPartNavigator(part)">{{ part.partNumber || part.name }}</a>
+                    </td>
+                    <td>{{ part.partNameCN }}</td>
+                    <td>{{ part.customerPartNumber }}</td>
+                    <td>{{ part.customerPartName }}</td>
+                    <td>{{ part.partInfo }}</td>
+                    <td>{{ part.ratio }}</td>
+                    <td v-for="item in targetSales" :key="part.id + '-' + item.id">
+                        <input type="text" inputmode="numeric" :readonly="!canEdit" :value="getAnnualQuantity(part, item.id)" @input="setAnnualQuantity(part, item.id, $event.target.value)" @change="updatePartAnnualQuantity(part, item)" />
+                    </td>
+                </tr>
+                <tr v-if="parts.length === 0">
+                    <td :colspan="7 + targetSales.length" class="empty-row">{{ t("emxFramework.JFProductConfigTargetSales.NoParts") }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title" @click="toggleSection('managerTasks')">
+                <span class="drawer-toggle" :class="{ open: sections.managerTasks }"></span>
+                <span>{{ t("emxFramework.JFProductConfigTargetSales.ManagerTask") }}</span>
+            </div>
+            <table v-if="sections.managerTasks" class="manager-task-table">
+                <thead>
+                <tr>
+                    <th class="checkbox-column">
+                        <input type="checkbox" :disabled="managerTasks.length === 0" :checked="managerTasks.length > 0 && selectedManagerTaskIds.length === managerTasks.length" @change="toggleAllManagerTasks($event)" />
+                    </th>
+                    <th class="task-sequence-column">{{ t("emxFramework.JFProductConfigTargetSales.Sequence") }}</th>
+                    <th class="task-name-column">{{ t("emxFramework.JFProductConfigTargetSales.TaskName") }}</th>
+                    <th>{{ t("emxFramework.JFProductConfigTargetSales.Status") }}</th>
+                    <th class="task-time-column">{{ t("emxFramework.JFProductConfigTargetSales.CreateTime") }}</th>
+                    <th class="task-time-column">{{ t("emxFramework.JFProductConfigTargetSales.CompleteTime") }}</th>
+                    <th class="task-owner-column">{{ t("emxFramework.JFProductConfigTargetSales.Owner") }}</th>
+                    <th class="task-comment-column">{{ t("emxFramework.JFProductConfigTargetSales.ApprovalComment") }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(task, index) in managerTasks" :key="task.id">
+                    <td class="checkbox-column">
+                        <input type="checkbox" :value="task.id" v-model="selectedManagerTaskIds" />
+                    </td>
+                    <td class="task-sequence-column">{{ index + 1 }}</td>
+                    <td class="task-name-column">{{ task.title }}</td>
+                    <td><span class="task-status" :class="{ complete: task.current === 'Complete' }">{{ task.currentNls || task.current }}</span></td>
+                    <td class="task-time-column">{{ task.createTime }}</td>
+                    <td class="task-time-column">{{ task.completeTime }}</td>
+                    <td class="task-owner-column">{{ task.ownerFullName }}</td>
+                    <td class="task-comment-column">{{ task.description }}</td>
+                </tr>
+                <tr v-if="managerTasks.length === 0">
+                    <td colspan="8" class="empty-row">{{ t("emxFramework.JFProductConfigTargetSales.NoManagerTasks") }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="submit-bar">
+            <button type="button" class="submit-button" :disabled="loading || !canEdit" @click="openSubmitDialog">
+                {{ t("emxFramework.JFProductConfigTargetSales.Submit") }}
+            </button>
+        </div>
+    </main>
+
+    <div v-if="loading" class="loading-mask">
+        <div class="loading-panel">
+            <span class="loading-spinner"></span>
+            <span>{{ t("emxFramework.JFProductConfigTargetSales.Processing") }}</span>
+        </div>
+    </div>
+    <div v-if="calculateDialogVisible" class="dialog-mask">
+        <div class="choice-dialog">
+            <div class="choice-dialog-title">{{ t("emxFramework.JFProductConfigTargetSales.CalculateSummary") }}</div>
+            <div class="choice-dialog-body">{{ t("emxFramework.JFProductConfigTargetSales.CalculateModePrompt") }}</div>
+            <div class="choice-dialog-actions">
+                <button type="button" @click="runCalculateSummary(true)">{{ t("emxFramework.JFProductConfigTargetSales.Confirm") }}</button>
+                <button type="button" @click="closeCalculateSummaryDialog">{{ t("emxFramework.JFProductConfigTargetSales.Cancel") }}</button>
+            </div>
+        </div>
+    </div>
+    <div v-if="submitDialogVisible" class="dialog-mask" @click.self="closeSubmitDialog" @keydown.esc="closeSubmitDialog">
+        <div class="choice-dialog approval-dialog">
+            <div class="choice-dialog-title">{{ t("emxFramework.JFProductConfigTargetSales.ApprovalDialogTitle") }}</div>
+            <div class="choice-dialog-body">
+                <label class="approval-comment-label" for="approvalComment">{{ t("emxFramework.JFProductConfigTargetSales.ApprovalComment") }}</label>
+                <textarea id="approvalComment" v-model="approvalComment" class="approval-comment-input" rows="5" autofocus :placeholder="t('emxFramework.JFProductConfigTargetSales.ApprovalCommentPlaceholder')"></textarea>
+            </div>
+            <div class="choice-dialog-actions">
+                <button type="button" class="approval-agree-button" :disabled="loading || !approvalComment.trim()" @click="submitTargetSales">{{ t("emxFramework.JFProductConfigTargetSales.Agree") }}</button>
+                <button type="button" :disabled="loading" @click="closeSubmitDialog">{{ t("emxFramework.JFProductConfigTargetSales.Cancel") }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../JFProductConfigParts/vue.global.prod.js"></script>
+<script src="./app.js?v=20260727_summary_object_count"></script>
+</body>
+</html>

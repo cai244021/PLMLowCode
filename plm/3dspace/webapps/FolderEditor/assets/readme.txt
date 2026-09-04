@@ -1,0 +1,1 @@
+增加了默认显示这列 "ds6wg:PLMReference.V_isLastVersion"

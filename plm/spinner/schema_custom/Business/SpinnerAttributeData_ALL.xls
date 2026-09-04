@@ -1,0 +1,414 @@
+Attribute Name	Registry Name	Scope	Owner	Type	Description	Default	"Ranges (use ""|"" delim)"	Multiline (boolean)	Hidden (boolean)	Dimension	Max Length (int)	ResetonClone (boolean)	ResetonRevision (boolean)	Icon File	ValueType	CustomerExposition(ReadOnly)	Protection(ReadOnly)
+JFProjectName	JFProjectName			string	ProjectName			FALSE	FALSE		0	FALSE	FALSE				
+Project Role	Project Role			string	Project Members role on the project		= Project manager | = Internal Supplier | = Business manager | = SQD Representative | = Purchasing representative | = Launch manager | = Trim AME representative | = Foam AME representative | = AME representative | = Logistics representative | = AQE representative/PQL | = Chair manager | = Costing | = Financial BP | <<= IT representative>> | <<= Technical Designer>> | <<= CGR Designer>> | <<= CGR Product Developer>> | = | <<= Design Engineer>> | <<= Project Lead>> | <<= Program Manager>> | <<= Core Team Member>> | <<= Financial Reviewer>> | <<= Project Assessor>> | != ! | <<!= ~Manual Entry>> | <<= Clinical>> | <<= Finance>> | <<= Idea Champion>> | <<= Marketing>> | <<= Medical>> | <<= NBD>> | <<= Operations>> | <<= Operations Sponsor>> | <<= Quality>> | <<= Quality Sponsor>> | <<= R&D>> | <<= R&D Sponsor>> | <<= Regulatory>> | <<= Service>> | <<= Technical Services>>	FALSE	TRUE		0	FALSE	FALSE			Programmer	Free
+<<JSTopic>>	JSTopic			string	JSTopic			FALSE	FALSE		0	FALSE	FALSE				
+JSAddressee	JSAddressee			string	JSAddressee			FALSE	FALSE		0	FALSE	FALSE				
+JSConnectProject	JSConnectProject			string	JSConnectProject			FALSE	FALSE		0	FALSE	FALSE				
+JSCode	JSCode			string	JSCode			FALSE	FALSE		0	FALSE	FALSE				
+JSSecret	JSSecret			string	JSSecret			FALSE	FALSE		0	FALSE	FALSE				
+JSWaterMark	JSWaterMark			string	JSWaterMark	Y	= Y | =N | <<=J21 N>>	FALSE	FALSE		0	FALSE	FALSE				
+Schedule From	Schedule From			string	Holds information about project scheduling	Project Finish Date	= Project Finish Date | = Project Start Date	FALSE	FALSE		0	FALSE	FALSE			Programmer	Free
+Schedule	Schedule			string	Project Schedule for Rollup(Auto/Manual)	Manual	= Auto | = Manual	FALSE	TRUE		0	FALSE	FALSE				
+JSLogdata	JSLogdata			string	JSLogdata			FALSE	FALSE		0	FALSE	FALSE				
+JSLogStutas	JSLogStutas			string	JSLogStutas			FALSE	FALSE		0	FALSE	FALSE				
+JSOutSourceRev	JSOutSourceRev			string	JSOutSourceRev		= | = 2016 | = 2017 | = 2018 | = 2020 | = 2022 | = 2019 | = 2021 | = 2023 | = 2024 |=NoCatiaFile	FALSE	FALSE		0	FALSE	FALSE				
+JFPublicPurpose	JFPublicPurpose			string	JFPublicPurpose			FALSE	FALSE		0	FALSE	FALSE				
+JSApprovePerson	JSApprovePerson			string	JSApprovePerson			FALSE	FALSE		0	FALSE	FALSE				
+JSdataProcessProgress	JSdataProcessProgress			string	JSdataProcessProgress		= EnoviaProcess | = PendingCAAProcess | = CurrentCAAProcess | =CAAProcessingComplete | =OutsourceDataComplete | = CAAProcessingFailed | = SentEmail	FALSE	FALSE		0	FALSE	FALSE				
+JFChangeSource	JFChangeSource			string	JFChangeSource		=  | = Both | = External Changes | = Internal Changes	FALSE	FALSE		0	FALSE	FALSE				
+JFECRChangeType	JFECRChangeType			string	JFECRChangeType		= Design Optimizer | = Process Improvement | = Quality Improvement | = Supplier Improvement | = Reduce Costs | <<= First Distribution>> | = Government Regulations | = QBOM Distribution | = TKO Distribution	FALSE	FALSE		0	FALSE	FALSE				
+JFProjectPhase	JFProjectPhase			string	JFProjectPhase		= | <<= PV>> | <<= DV>> | <<= BatchProduction>> | = phase1 | = phase2 | = phase2+3 | = phase3 | = phase4 | = phase5	FALSE	FALSE		0	FALSE	FALSE				
+JFIsPlatformPart	JFIsPlatformPart			string	JFIsPlatformPart	No	= Yes | = No	FALSE	FALSE		0	FALSE	FALSE				
+JFAffectedFactory	JFAffectedFactory			string	JFAffectedFactory		= | = 1021 | = 1031 | = 1071 | = 1091 | = 1121 | = 1151 | = 1161 | = 9061 | = 9071 | = 2031 | = 1211 | = 2021 | =TBD | = 2061 | = 1311 | = 1191 | = 1361 | = 1381	TRUE	FALSE		0	FALSE	FALSE		multivalue		
+JFChangeReson	JFChangeReson			string	JFChangeReson			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesDeveExpensesManHours	JFChangesDeveExpensesManHours			string	JFChangesDeveExpensesManHours			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesTrialExpensesManHours	JFChangesTrialExpensesManHours			string	JFChangesTrialExpensesManHours			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesDeveExpensesManHoursExternal	JFChangesDeveExpensesManHoursExternal			string	JFChangesDeveExpensesManHoursExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesTrialExpensesManHoursExternal	JFChangesTrialExpensesManHoursExternal			string	JFChangesTrialExpensesManHoursExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFECRType	JFECRType			string	JFECRType	Urgent	 = Urgent | = Ordinary	FALSE	FALSE		0	FALSE	FALSE				
+JFBreakpointMode	JFBreakpointMode			string	JFBreakpointMode		 = | = Vertical Switching | = Natural Switching | = NA	FALSE	FALSE		0	FALSE	FALSE				
+JFBreakpointTime	JFBreakpointTime			timestamp	JFBreakpointTime			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeCyclesOutsourcing	JFChangeCyclesOutsourcing			string	JFChangeCyclesOutsourcing			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeDevelopmentCostsOutsourcing	JFChangeDevelopmentCostsOutsourcing			string	JFChangeDevelopmentCostsOutsourcing			FALSE	FALSE		0	FALSE	FALSE				
+JFSupplierOrScrapDepotOutsourcing	JFSupplierOrScrapDepotOutsourcing			string	JFSupplierOrScrapDepotOutsourcing			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeCyclesSelfMake	JFChangeCyclesSelfMake			string	JFChangeCyclesSelfMake			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeDevelopmentCostsSelfMake	JFChangeDevelopmentCostsSelfMake			string	JFChangeDevelopmentCostsSelfMake			FALSE	FALSE		0	FALSE	FALSE				
+JFSupplierOrScrapDepotSelfMake	JFSupplierOrScrapDepotSelfMake			string	JFSupplierOrScrapDepotSelfMake			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentsWholeChair	JFChangesInvestmentsWholeChair			string	JFChangesInvestmentsWholeChair			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentsFoaming	JFChangesInvestmentsFoaming			string	JFChangesInvestmentsFoaming			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentsFaceCovers	JFChangesInvestmentsFaceCovers			string	JFChangesInvestmentsFaceCovers			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentsWholeChairExternal	JFChangesInvestmentsWholeChairExternal			string	JFChangesInvestmentsWholeChairExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentsFoamingExternal	JFChangesInvestmentsFoamingExternal			string	JFChangesInvestmentsFoamingExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentsFaceCoversExternal	JFChangesInvestmentsFaceCoversExternal			string	JFChangesInvestmentsFaceCoversExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesFixtures	JFChangesFixtures			string	JFChangesFixtures			FALSE	FALSE		0	FALSE	FALSE				
+JFCostOfQuality	JFCostOfQuality			string	JFCostOfQuality			FALSE	FALSE		0	FALSE	FALSE				
+JFCostOfTrial	JFCostOfTrial			string	JFCostOfTrial			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesFixturesExternal	JFChangesFixturesExternal			string	JFChangesFixturesExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFCostOfQualityExternal	JFCostOfQualityExternal			string	JFCostOfQualityExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFCostOfTrialExternal	JFCostOfTrialExternal			string	JFCostOfTrialExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFCostPackagingLogistics	JFCostPackagingLogistics			string	JFCostPackagingLogistics			FALSE	FALSE		0	FALSE	FALSE				
+JFCostPackagingLogisticsExternal	JFCostPackagingLogisticsExternal			string	JFCostPackagingLogisticsExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFMaterialsFinishedProductsRework	JFMaterialsFinishedProductsRework			string	JFMaterialsFinishedProductsRework			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesUnitPriceCost	JFChangesUnitPriceCost			string	JFChangesUnitPriceCost			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesMouldCost	JFChangesMouldCost			string	JFChangesMouldCost			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesUnitPriceCostExternal	JFChangesUnitPriceCostExternal			string	JFChangesUnitPriceCostExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesMouldCostExternal	JFChangesMouldCostExternal			string	JFChangesMouldCostExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestment	JFChangesInvestment			string	JFChangesInvestment			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesDevelopment	JFChangesDevelopment			string	JFChangesDevelopment			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesMould	JFChangesMould			string	JFChangesMould			FALSE	FALSE		0	FALSE	FALSE				
+JFSumInventoryScrapAmount	JFSumInventoryScrapAmount			string	JFSumInventoryScrapAmount			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesInvestmentExternal	JFChangesInvestmentExternal			string	JFChangesInvestmentExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesDevelopmentExternal	JFChangesDevelopmentExternal			string	JFChangesDevelopmentExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangesMouldExternal	JFChangesMouldExternal			string	JFChangesMouldExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFSumInventoryScrapAmountExternal	JFSumInventoryScrapAmountExternal			string	JFSumInventoryScrapAmountExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFAcknowledgmentContentAmount	JFAcknowledgmentContentAmount			string	JFAcknowledgmentContentAmount			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeType	JFChangeType			string	ChangeType		=  | = CustomerRequirements | = DesignDeviations | = ProcessDeviations | = QualityDeviations | = SupplierDeviations | = VAVE	FALSE	FALSE		0	FALSE	FALSE				
+JFAffectsFactory	JFAffectsFactory			string	Affects Factory		<<=>> | = 1021 | = 1031 | = 1071 | = 1091 | = 1121 | = 1151 | = 1161 | = 9061 | = 9071 | = 2031 | = 1211 | = 2021 | = TBD | = 2061 | = 1311 | = 1191 | = 1361 | = 1381	TRUE	FALSE		0	FALSE	FALSE		multivalue		
+JFBeforeChange	JFBeforeChange			string	Before Change			FALSE	FALSE		0	FALSE	FALSE				
+JFAfterChange	JFAfterChange			string	After Change			FALSE	FALSE		0	FALSE	FALSE				
+JFDAStartTime	JFDAStartTime			string	JFDAStartTime			FALSE	FALSE		0	FALSE	FALSE				
+JFDACloseTime	JFDACloseTime			string	JFDACloseTime			FALSE	FALSE		0	FALSE	FALSE				
+JFDAExtensionTime	JFDAExtensionTime			string	JFDAExtensionTime			FALSE	FALSE		0	FALSE	FALSE				
+JFDAIsDelay	JFDAIsDelay			string	JFDAIsDelay	FALSE	=  TRUE | = FALSE	FALSE	FALSE		0	FALSE	FALSE				
+<<JFRouteNoteApproverRole>>	JFRouteNoteApproverRole			string	JFRouteNoteApproverRole			FALSE	FALSE		0	FALSE	FALSE				
+JFRouteNoteApprovalRole	JFRouteNoteApprovalRole			string	JFRouteNoteApprovalRole			FALSE	FALSE		0	FALSE	FALSE				
+JFRouteObjectStatus	JFRouteObjectStatus			string	JFRouteObjectStatus			FALSE	FALSE		0	FALSE	FALSE				
+JFECR2PartPrice	JFECR2PartPrice			real	JFECR2PartPrice			FALSE	FALSE		0	FALSE	FALSE				
+JFSubPartId	JFSubPartId			string	JFSubPartId			FALSE	FALSE		0	FALSE	FALSE				
+JFSubIFReplace	JFSubIFReplace			string	JFSubIFReplace		=  | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFSubConnectId	JFSubConnectId			string	JFSubConnectId			FALSE	FALSE		0	FALSE	FALSE				
+JFCustomerECRNumber	JFCustomerECRNumber			string	CustomerECRNumber			FALSE	FALSE		0	FALSE	FALSE				
+JFZeroPart	JFZeroPart			string	JFZeroPart	N	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFChangeUnitPrice	JFChangeUnitPrice			string	JFChangeUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeMold	JFChangeMold			string	JFChangeMold			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeUnitPriceExternal	JFChangeUnitPriceExternal			string	JFChangeUnitPriceExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeMoldCostExternal	JFChangeMoldCostExternal			string	JFChangeMoldCostExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeUnitPriceCost	JFChangeUnitPriceCost			string	JFChangeUnitPriceCost			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeMoldCost	JFChangeMoldCost			string	JFChangeMoldCost			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeUnitPriceCostExternal	JFChangeUnitPriceCostExternal			string	JFChangeUnitPriceCostExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeMoldPriceCostExternal	JFChangeMoldPriceCostExternal			string	JFChangeMoldPriceCostExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFECRName	JFECRName			string	JFECRName			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeMan-hour	JFChangeMan-hour			string	JFChangeMan-hour			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeMan-hourExternal	JFChangeMan-hourExternal			string	JFChangeMan-hourExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeSeatCost	JFChangeSeatCost			string	JFChangeSeatCost			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeTargetPrice	JFChangeTargetPrice			string	JFChangeTargetPrice			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeSeatCostExternal	JFChangeSeatCostExternal			string	JFChangeSeatCostExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeTargetPriceExternal	JFChangeTargetPriceExternal			string	JFChangeTargetPriceExternal			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeWholeSeatPrice	JFChangeWholeSeatPrice			string	JFChangeWholeSeatPrice			FALSE	FALSE		0	FALSE	FALSE				
+JFChangeWholeSeatPriceExternal	JFChangeWholeSeatPriceExternal			string	JFChangeWholeSeatPriceExternal			FALSE	FALSE		0	FALSE	FALSE				
+Severity	Severity			string	Severity of the incident	Low	= | = Low | = Medium | = High	FALSE	FALSE		0	FALSE	FALSE				
+JSReason	JSReason			string	JSReason			FALSE	FALSE		0	FALSE	FALSE				
+JFWholeChair	JFWholeChair			string	JFWholeChair		=  | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFIsFollow	JFIsFollow			string	JFIsFollow	Y	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFAssociatedOtherProjects	JFAssociatedOtherProjects			string	JFAssociatedOtherProjects	N	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFQQ	JFQQ			string	JFQQ			FALSE	FALSE		0	FALSE	FALSE				
+JFStagnationOfSuppliersInternal	JFStagnationOfSuppliersInternal			string	JFStagnationOfSuppliersInternal			FALSE	FALSE		0	FALSE	FALSE				
+JFStagnationOfSuppliersExternal	JFStagnationOfSuppliersExternal			string	JFStagnationOfSuppliersExternal			FALSE	FALSE		0	FALSE	FALSE				
+JF_DAActualFinishTime	JF_DAActualFinishTime			timestamp	JF_DAActualFinishTime			FALSE	FALSE		0	FALSE	FALSE				
+JFReasonDeviation	JFReasonDeviation			string	Reason Deviation			FALSE	FALSE		0	FALSE	FALSE				
+JF_Style	JF_Style			string	Color Part Style		<<= Y>> | <<= N>>	FALSE	FALSE		0	FALSE	FALSE				
+JF_ColorCode	JF_ColorCode			string	Color Part ColorCode			FALSE	FALSE		0	FALSE	FALSE				
+JF_Comment	JF_Comment			string	Color Part Comment			FALSE	FALSE		0	FALSE	FALSE				
+JF_ColorGroupName	JF_ColorGroupName			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_InternalColorCode	JF_InternalColorCode			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ColorStyleName	JF_ColorStyleName			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_CustormColorCode	JF_CustormColorCode			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuntionOption	JF_FuntionOption			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ReferPrice	JF_ReferPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_CostClass	JF_CostClass			string	JF_CostClass		= Plastic | = Frame Assy | = Metal | = Lumber | = Foam Assy | = Venting | = H/R | = Trim Assy | = Harness | = Heating | = S-C Parts | = Electrics | = SBR | = S-Stamping | = S-Others | = S-Felt | = Latch | = A/R	FALSE	FALSE		0	FALSE	FALSE				
+JFCostCount	JFCostCount			string				FALSE	FALSE		0	FALSE	FALSE				
+JFCost	JFCost			string				FALSE	FALSE		0	FALSE	FALSE				
+JFManufacturingCost	JFManufacturingCost			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ReferUsage	JF_ReferUsage			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_OfferOption	JF_OfferOption			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_OfferUsage	JF_OfferUsage			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_EvaluatePrice	JF_EvaluatePrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_OEMName	JF_OEMName			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ProjectNumber	JF_ProjectNumber			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ProjectState	JF_ProjectState			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_SeatOrigin	JF_SeatOrigin			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_SOPDate	JF_SOPDate			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JF_PredictedYield	JF_PredictedYield			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ProductNumber	JF_ProductNumber			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_SeatWeight	JF_SeatWeight			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_SalePrice	JF_SalePrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_MaterialCost	JF_MaterialCost			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_NumberofRows	JF_NumberofRows			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_BackAdjust	JF_BackAdjust			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_CushionAdjust	JF_CushionAdjust			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_SeatAdjust	JF_SeatAdjust			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucVentila	JF_FucVentila			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucVentilaPrices	JF_FucVentilaPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHeating	JF_FucHeating			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHeatingPrices	JF_FucHeatingPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_Fucheadrest	JF_Fucheadrest			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucheadrestPrices	JF_FucheadrestPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucLumbar	JF_FucLumbar			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucLumbarPrices	JF_FucLumbarPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucMassagePrice	JF_FucMassagePrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucMassage	JF_FucMassage			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucLegrest	JF_FucLegrest			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucLegrestPrices	JF_FucLegrestPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverMaterial	JF_FucCoverMaterial			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverPunching	JF_FucCoverPunching			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverNetarea	JF_FucCoverNetarea			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverUtilization	JF_FucCoverUtilization			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucSewingHours	JF_FucSewingHours			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverPatternNB	JF_FucCoverPatternNB			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverSupplyType	JF_FucCoverSupplyType			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverMainPrices	JF_FucCoverMainPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverAxuPrices	JF_FucCoverAxuPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverMaterialPrices	JF_FucCoverMaterialPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverMFGPrices	JF_FucCoverMFGPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverTotalPrices	JF_FucCoverTotalPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverComments	JF_FucCoverComments			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamMaterial	JF_FucFoamMaterial			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamSingleWeight	JF_FucFoamSingleWeight			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamChemiUPrices	JF_FucFoamChemiUPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamChemiTotalPrices	JF_FucFoamChemiTotalPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamTotalWeight	JF_FucFoamTotalWeight			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamMainPrices	JF_FucFoamMainPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamAxuPrices	JF_FucFoamAxuPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamMFGPrices	JF_FucFoamMFGPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamSupplyType	JF_FucFoamSupplyType			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamTotalPrices	JF_FucFoamTotalPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamComments	JF_FucFoamComments			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFrameWeight	JF_FucFrameWeight			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFrameIsDB	JF_FucFrameIsDB			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFrameCorePrices	JF_FucFrameCorePrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFrameTotalPrices	JF_FucFrameTotalPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFrameComments	JF_FucFrameComments			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucOthMetalWeight	JF_FucOthMetalWeight			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucOthMetalPrices	JF_FucOthMetalPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucComPlasticNumber	JF_FucComPlasticNumber			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucComPlasticWeight	JF_FucComPlasticWeight			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucComPlasticPrices	JF_FucComPlasticPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucComPlasticComments	JF_FucComPlasticComments			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHarnessLength	JF_FucHarnessLength			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHarnessLoopsNB	JF_FucHarnessLoopsNB			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHarnessSpecial	JF_FucHarnessSpecial			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHarnessPrices	JF_FucHarnessPrices			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHarnessRemark	JF_FucHarnessRemark			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncEPPPrice	JF_FuncEPPPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncTablePrice	JF_FuncTablePrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncBackrestPrice	JF_FuncBackrestPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncPedalPrice	JF_FuncPedalPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncContainerPrice	JF_FuncContainerPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSBRPrice	JF_FuncSBRPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSwitchPrice	JF_FuncSwitchPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncECUPrice	JF_FuncECUPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncGuyPrice	JF_FuncGuyPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncCarpetPrice	JF_FuncCarpetPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncFasterPrice	JF_FuncFasterPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSmallBagPrice	JF_FuncSmallBagPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncDamperPrice	JF_FuncDamperPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSTPSPrice	JF_FuncSTPSPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncArmchairPrice	JF_FuncArmchairPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncIpadPrice	JF_FuncIpadPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FreeOfferDate	JF_FreeOfferDate			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JF_ManufactureLocate	JF_ManufactureLocate			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FreeProject	JF_FreeProject			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ProductionLine	JF_ProductionLine			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_Annual	JF_Annual			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FreeLife	JF_FreeLife			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ProjectYear	JF_ProjectYear			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_UPH	JF_UPH			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyTotalPrice	JF_assemblyTotalPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyQualityPrice	JF_assemblyQualityPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyStartPrice	JF_assemblyStartPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyRDPrice	JF_assemblyRDPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyLogisticsPrice	JF_assemblyLogisticsPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyTimePrice	JF_assemblyTimePrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_assemblyManufacturingPrice	JF_assemblyManufacturingPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FoamTotalPrice	JF_FoamTotalPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FoamManufacturingPrice	JF_FoamManufacturingPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_TrimTotalPrice	JF_TrimTotalPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_TrimTotalTimePrice	JF_TrimTotalTimePrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_TrimTotalManufacturingPrice	JF_TrimTotalManufacturingPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ConnInterface	JF_ConnInterface			string				FALSE	FALSE		0	FALSE	FALSE				
+JFSnapshotType	JFSnapshotType			string	JFSnapshotType	KeyShot	= KeyShot | <<=TempShot>>	FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncEPP	JF_FuncEPP			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncTable	JF_FuncTable			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncBackrest	JF_FuncBackrest			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncPedal	JF_FuncPedal			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncContainer	JF_FuncContainer			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSBR	JF_FuncSBR			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSwitch	JF_FuncSwitch			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncECU	JF_FuncECU			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncGuy	JF_FuncGuy			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncCarpet	JF_FuncCarpet			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncFaster	JF_FuncFaster			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSmallBag	JF_FuncSmallBag			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncDamper	JF_FuncDamper			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncSTPS	JF_FuncSTPS			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncArmchair	JF_FuncArmchair			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FuncIpad	JF_FuncIpad			string				FALSE	FALSE		0	FALSE	FALSE				
+JFRollUpCost	JFRollUpCost			string				FALSE	FALSE		0	FALSE	FALSE				
+JFActualcCost	JFActualcCost			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ToolingCharge	JF_ToolingCharge			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_Backlock	JF_Backlock			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_BacklockPrice	JF_BacklockPrice			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_FoamModesNumber	JF_FoamModesNumber			string				FALSE	FALSE		0	FALSE	FALSE				
+JFSnapshotSubType	JFSnapshotSubType			string	JFSnapshotSubType		= | = Quote | <<= SOURCING>> | = DV SOURCING | = PV SOURCING | = DV TKO | = PV TKO | <<= TKO>> | = CAE | = MOCKUP | = Others | = SOP | = OTS | = Review data	FALSE	FALSE		0	FALSE	FALSE				
+JF_ColorGroupNameEdit	JF_ColorGroupNameEdit			string	JF_ColorGroupNameEdit	work	= work | = freeze	FALSE	FALSE		0	TRUE	TRUE				
+JFTestFee	JFTestFee			string				FALSE	FALSE		0	FALSE	FALSE				
+JFOtherFee	JFOtherFee			string				FALSE	FALSE		0	FALSE	FALSE				
+JFAPRNotes	JFAPRNotes			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ColorMatrixName	JF_ColorMatrixName			string	JF_ColorMatrixName			FALSE	FALSE		0	FALSE	FALSE				
+JSOutsourceUnit	JSOutsourceUnit			string	JSOutsourceUnit			FALSE	FALSE		0	FALSE	FALSE				
+JSOutsourcePurpose	JSOutsourcePurpose			string	JSOutsourcePurpose			FALSE	FALSE		0	FALSE	FALSE				
+JF_BOMQuantity	JF_BOMQuantity			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_BOMChangeDes	JF_BOMChangeDes			string				FALSE	FALSE		0	FALSE	FALSE				
+JFAMENotes	JFAMENotes			string				FALSE	FALSE		0	FALSE	FALSE				
+JFFoamAMENotes	JFFoamAMENotes			string				FALSE	FALSE		0	FALSE	FALSE				
+JFTrimAMENotes	JFTrimAMENotes			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ECRID	JF_ECRID			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_ChangeBeforeRev	JF_ChangeBeforeRev			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_freeState	JF_freeState			string	JF_freeState	N	= | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFIslocked	JFIslocked			string	JFIslocked	N	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverUnitPrice	JF_FucCoverUnitPrice			real	JF_FucCoverUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucCoverUnitPriceLabor	JF_FucCoverUnitPriceLabor			real	JF_FucCoverUnitPriceLabor			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamCostPerMold	JF_FucFoamCostPerMold			real	JF_FucFoamCostPerMold			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamNumberMoldFrames	JF_FucFoamNumberMoldFrames			real	JF_FucFoamNumberMoldFrames			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucFoamUnitPricePerKilogram	JF_FucFoamUnitPricePerKilogram			real	JF_FucFoamUnitPricePerKilogram			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucOthMetalUnitPricePerKilogram	JF_FucOthMetalUnitPricePerKilogram			real	JF_FucOthMetalUnitPricePerKilogram			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucComPlasticAverageUnitPrice	JF_FucComPlasticAverageUnitPrice			real	JF_FucComPlasticAverageUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucComPlasticCompensationCoefficient	JF_FucComPlasticCompensationCoefficient			real	JF_FucComPlasticCompensationCoefficient			FALSE	FALSE		0	FALSE	FALSE				
+JF_FucHarnessLoopUnitPrice	JF_FucHarnessLoopUnitPrice			real	JF_FucHarnessLoopUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JF_TrimUnitPrice	JF_TrimUnitPrice			real	JF_TrimUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JF_FoamingUnitPrice	JF_FoamingUnitPrice			real	JF_FoamingUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JF_AssemblyPriceUnitPrice	JF_AssemblyPriceUnitPrice			real	JF_AssemblyPriceUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JF_BOMChangeQuantity	JF_BOMChangeQuantity			real	JF_BOMChangeQuantity			FALSE	FALSE		0	FALSE	FALSE				
+JF_ConnectRole	JF_ConnectRole			string	JF_ConnectRole		= wholechair | = Engineer	FALSE	FALSE		0	FALSE	FALSE				
+JF_ReviewCounte	JF_ReviewCounte			string	JF_ReviewCounte			FALSE	FALSE		0	FALSE	FALSE				
+JF_EstimatedSignDate	JF_EstimatedSignDate			timestamp	JF_EstimatedSignDate			FALSE	FALSE		0	FALSE	FALSE				
+JF_ActualSignDate	JF_ActualSignDate			timestamp	JF_ActualSignDate			FALSE	FALSE		0	FALSE	FALSE				
+JF_PhaseState	JF_PhaseState			string	JF_PhaseState		= G | = R | = Y | = RN	FALSE	FALSE		0	FALSE	FALSE				
+JF_Dosage	JF_Dosage			string	JF_Dosage			FALSE	FALSE		0	FALSE	FALSE				
+JF_PartNameEN	JF_PartNameEN			string	JF_PartNameEN			FALSE	FALSE		0	FALSE	FALSE				
+JF_PartNameCN	JF_PartNameCN			string	JF_PartNameCN			FALSE	FALSE		0	FALSE	FALSE				
+JF_PartType	JF_PartType			string	JF_PartType		= | = P | = C | = D | = T | = X | = K | = M | = A | = W | = E | = U | = F | = Z |= B | = S	FALSE	FALSE		0	FALSE	FALSE				
+JF_ProcurementType	JF_ProcurementType			string	JF_ProcurementType			FALSE	FALSE		0	FALSE	FALSE				
+JF_DirectBuy	JF_DirectBuy			string	JF_DirectBuy	non-DB	 = consignment | = direct-buy | = non-DB	FALSE	FALSE		0	FALSE	FALSE				
+JF_Unit	JF_Unit			string	JF_Unit		= MM | = PC | = M2 | = KG | = ML | = M | = G	FALSE	FALSE		0	FALSE	FALSE				
+JF_PartDes	JF_PartDes			string	JF_PartDes			FALSE	FALSE		0	FALSE	FALSE				
+JF_PartENDes	JF_PartENDes			string	JF_PartENDes			FALSE	FALSE		0	FALSE	FALSE				
+JF_Width	JF_Width			real	JF_Width			FALSE	FALSE		0	FALSE	FALSE				
+JF_Utilizationrate	JF_Utilizationrate			real	JF_Utilizationrate			FALSE	FALSE		0	FALSE	FALSE				
+JF_PartNumber	JF_PartNumber			string	JF_PartNumber			FALSE	FALSE		0	FALSE	FALSE				
+JF_IsSyncMBOM	JF_IsSyncMBOM			string	JF_IsSyncMBOM	No	=Yes | =No	FALSE	FALSE		0	FALSE	FALSE				
+JF_ECR2AffectedPartId	JF_ECR2AffectedPartId			string	JF_ECR2AffectedPartId			FALSE	FALSE		0	FALSE	FALSE				
+JF_ECR2AffectedGCPartId	JF_ECR2AffectedGCPartId			string	JF_ECR2AffectedGCPartId			FALSE	FALSE		0	FALSE	FALSE				
+<<JF_UpdateDate>>	JF_UpdateDate			string	JF_UpdateDate			FALSE	FALSE		0	FALSE	FALSE				
+<<JF_UpdateTime>>	JF_UpdateTime			string	JF_UpdateTime			FALSE	FALSE		0	FALSE	FALSE				
+JF_UpdatePerson	JF_UpdatePerson			string	JF_UpdatePerson			FALSE	FALSE		0	FALSE	FALSE				
+JF_BelongPart	JF_BelongPart			string	JF_BelongPart	Y	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_UpdateDateTime	JF_UpdateDateTime			timestamp	JF_UpdateDateTime			FALSE	FALSE		0	FALSE	FALSE				
+JFSyncSRM	JFSyncSRM			string	JFSyncSRM	unsynchronized	= | = synchronized | = unsynchronized | = fail | = synchronizing | = NotFullsynchronized	FALSE	FALSE		0	FALSE	FALSE				
+JFPartListType	JFPartListType			string	JFPartListType		= | = Pre-DV | <<= DV-TKO>> | = Pre-PV | <<= PV-TKO>> | <<= SOP>>	FALSE	FALSE		0	FALSE	FALSE				
+JFIsInit	JFIsInit			string	JFIsInit	N	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFCarryOver	JFCarryOver			string	JFCarryOver		= New | = CarryOver | = 	FALSE	FALSE		0	FALSE	FALSE				
+JFPartSpecifications	JFPartSpecifications			string	JFPartSpecifications			FALSE	FALSE		0	FALSE	FALSE				
+JFBicycleUsage	JFBicycleUsage			string	JFBicycleUsage			FALSE	FALSE		0	FALSE	FALSE				
+JFTotalDemand	JFTotalDemand			string	JFTotalDemand			FALSE	FALSE		0	FALSE	FALSE				
+JFDeliveryDate	JFDeliveryDate			timestamp	JFDeliveryDate			FALSE	FALSE		0	FALSE	FALSE				
+JFCurrency	JFCurrency			string	JFCurrency			FALSE	FALSE		0	FALSE	FALSE				
+JFBudgetUnitPrice	JFBudgetUnitPrice			string	JFBudgetUnitPrice			FALSE	FALSE		0	FALSE	FALSE				
+JFBudgetMoldFee	JFBudgetMoldFee			string	JFBudgetMoldFee			FALSE	FALSE		0	FALSE	FALSE				
+JFBudgetExperimentalFee	JFBudgetExperimentalFee			string	JFBudgetExperimentalFee			FALSE	FALSE		0	FALSE	FALSE				
+JFBudgetInspectionToolFee	JFBudgetInspectionToolFee			string	JFBudgetInspectionToolFee			FALSE	FALSE		0	FALSE	FALSE				
+JFBudgetLeatherTextureFee	JFBudgetLeatherTextureFee			string	JFBudgetLeatherTextureFee			FALSE	FALSE		0	FALSE	FALSE				
+JFOutputLocation	JFOutputLocation			string	JFOutputLocation		= C | = NC | = G | = 	FALSE	FALSE		0	FALSE	FALSE				
+JFDeliveryPhase	JFDeliveryPhase			string	JFDeliveryPhase			FALSE	FALSE		0	FALSE	FALSE				
+JFSSOWIssueDate	JFSSOWIssueDate			timestamp	JFSSOWIssueDate			FALSE	FALSE		0	FALSE	FALSE				
+JFDrawDataCompletionPlanDate	JFDrawDataCompletionPlanDate			timestamp	JFDrawDataCompletionPlanDate			FALSE	FALSE		0	FALSE	FALSE				
+JFSupplierDesignatedPlanDate	JFSupplierDesignatedPlanDate			timestamp	JFSupplierDesignatedPlanDate			FALSE	FALSE		0	FALSE	FALSE				
+JFStopUsingFlag	JFStopUsingFlag			string	JFStopUsingFlag	N	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFPartRequirementPlanDate 	JFPartRequirementPlanDate 			timestamp	JFPartRequirementPlanDate 			FALSE	FALSE		0	FALSE	FALSE				
+JFPartRequirementCommitmentDate	JFPartRequirementCommitmentDate 			timestamp	JFPartRequirementCommitmentDate 			FALSE	FALSE		0	FALSE	FALSE				
+JFPartSupplierInfo	JFPartSupplierInfo			string	JFPartSupplierInfo			FALSE	FALSE		0	FALSE	FALSE				
+<<JFPartListId>>	JFPartListId			string	JFPartListId			FALSE	FALSE		0	FALSE	FALSE				
+JFSupplierSouringDate	JFSupplierSouringDate 			timestamp	JFSupplierSouringDate 			FALSE	FALSE		0	FALSE	FALSE				
+JFSouringRespName	JFSouringRespName			string	JFSouringRespName			FALSE	FALSE		0	FALSE	FALSE				
+JFSouringSupCode	JFSouringSupCode			string	JFSouringSupCode			FALSE	FALSE		0	FALSE	FALSE				
+JFSouringSupName	JFSouringSupName			string	JFSouringSupName			FALSE	FALSE		0	FALSE	FALSE				
+JF_PMChangeDesc	JF_PMChangeDesc			string	JF_PMChangeDesc			FALSE	FALSE		0	FALSE	FALSE				
+JF_AMEChangeDesc	JF_AMEChangeDesc			string	JF_AMEChangeDesc			FALSE	FALSE		0	FALSE	FALSE				
+JF_Responsible	JF_Responsible			string	JF_Responsible		= AME | = PM | = 	FALSE	FALSE		0	FALSE	FALSE				
+JF_SyncStatus	JF_SyncStatus			string	JF_SyncStatus	unsynchronized	= synchronized | = unsynchronized	FALSE	FALSE		0	FALSE	FALSE				
+<<JF_SouringDate>>	JF_SouringDate			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JF_ExpertsDocSpecialty	JF_ExpertsDocSpecialty			string	JF_ExpertsDocSpecialty		=GK | =GU | =GP | =GC | =GE | =GT | =GM 	FALSE	FALSE		0	FALSE	FALSE		multivalue		
+JF_ExpertsDocType	JF_ExpertsDocType			string	JF_ExpertsDocType			FALSE	FALSE		0	FALSE	FALSE		multivalue		
+JF_SyncMBOMUpdateDateTime	JF_SyncMBOMUpdateDateTime			timestamp	JF_SyncMBOMUpdateDateTime			FALSE	FALSE		0	FALSE	FALSE				
+JF_SpecialProcurementType	JF_SpecialProcurementType			string	JF_SpecialProcurementType	NA	= NA | = outsource | = DualDistribution | = outsourceAssembly	FALSE	FALSE		0	FALSE	FALSE				
+JFPartListProfessional	JFPartListProfessional			string	JFPartListProfessional		= GC | = GU | = GT | = 	FALSE	FALSE		0	FALSE	FALSE				
+JFProcurementType	JFProcurementType			string	JFProcurementType		= make | = buy | = ICO | = 	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRType	JF_PCRType			string	JF_PCRType		= Human | = Measurement | = Method | = Environment | = Machine | = Material | = 	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRLevel	JF_PCRLevel			string	JF_PCRLevel			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRProductUnit	JF_PCRProductUnit			string	JF_PCRProductUnit		= GC | = GU | = GT | = Other | = GG | = 	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRIsInOFactories	JF_PCRIsInOFactories			string	JF_PCRIsInOFactories	 	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRProjectPhase	JF_PCRProjectPhase			string	JF_PCRProjectPhase	 	= | = Phase2 | = Phase3 | = Phase4 | = Phase5 | = SOP | = Phase2+3	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRRelatedZone	JF_PCRRelatedZone			string	JF_PCRRelatedZone			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRRelatedProcess	JF_PCRRelatedProcess			string	JF_PCRRelatedProcess			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRIsAProductChar	JF_PCRIsAProductChar			string	JF_PCRIsAProductChar	 	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRProductSAChar	JF_PCRProductSAChar			string	JF_PCRProductSAChar			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRChangeReason	JF_PCRChangeReason			string	JF_PCRChangeReason			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRDBeforeChange	JF_PCRDBeforeChange			string	JF_PCRDBeforeChange			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRDAfterChange	JF_PCRDAfterChange			string	JF_PCRDAfterChange			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRIsAffectFKPI	JF_PCRIsAffectFKPI			string	JF_PCRIsAffectFKPI	 	= Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRKPI	JF_PCRKPI			string	JF_PCRKPI			FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRDemandBPDate	JF_PCRDemandBPDate			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JF_PCRSwitchingMethod	JF_PCRSwitchingMethod			string	JF_PCRSwitchingMethod	 	= Seamless_Switching | = Vertical_Switching | = 	FALSE	FALSE		0	FALSE	FALSE				
+JFPCRFactory	JFPCRFactory			string	JFPCRFactory		= | = 1021 | = 1031 | = 1071 | = 1091 | = 1121 | = 1151 | = 1161 | = 9061 | = 9071 | = 2031 | = 1211 | = 2021 | = TBD | = 2061 | = 1311 | = 1191 | = 1361 | = 1381	FALSE	FALSE		0	FALSE	FALSE				
+JF_NeedValidation	JF_NeedValidation			string	JF_NeedValidation	 	= | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_validateConclusion	JF_validateConclusion			string	JF_validateConclusion	 	= | = Success | = Fail	FALSE	FALSE		0	FALSE	FALSE				
+JFRootPartNumber	JFRootPartNumber			string	JFRootPartNumber			FALSE	FALSE		0	FALSE	FALSE				
+JFRootPartDescription	JFRootPartDescription			string	JFRootPartDescription			FALSE	FALSE		0	FALSE	FALSE				
+JFProjectLevel	JFProjectLevel			string	JFProjectLevel		= | =NA  | = A | = B | = C | = Derive	FALSE	FALSE		0	FALSE	FALSE				
+JFIsLastQuote	JFIsLastQuote			string	JFIsLastQuote		= |= Yes | = No	FALSE	FALSE		0	FALSE	FALSE				
+JFIsTKOData	JFIsTKOData			string	JFIsTKOData		= |= Yes | = No	FALSE	FALSE		0	FALSE	FALSE				
+JFQuestionsList	JFQuestionsList			string	JFQuestionsList			FALSE	FALSE		0	FALSE	FALSE				
+JF_BreakpointSwitchingDate	JF_BreakpointSwitchingDate			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JF_EvaluationConclusion	JF_EvaluationConclusion			string	JF_EvaluationConclusion	 	= | = Success | = Fail	FALSE	FALSE		0	FALSE	FALSE				
+JF_PCREvaluationInformResponsible	JF_PCREvaluationInformResponsible			string	JF_PCREvaluationInformResponsible			FALSE	FALSE		0	FALSE	FALSE				
+JF_IsEvaluationInformCustomer	JF_IsEvaluationInformCustomer			string	JF_IsEvaluationInformCustomer	 	= | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JF_LogisticsFees	JF_LogisticsFees			string	JF_LogisticsFees			FALSE	FALSE		0	TRUE	TRUE				
+<<JF_LogisticsFeesExternal>>	JF_LogisticsFeesExternal			string	JF_LogisticsFeesExternal			FALSE	FALSE		0	TRUE	TRUE				
+JF_OriginateFlag	JF_OriginateFlag			string	JF_OriginateFlag	EBOM	= EBOM | = ADD	FALSE	FALSE		0	FALSE	FALSE				
+JFCustomerChangeNum	JFCustomerChangeNum			string	JFCustomerChangeNum			FALSE	FALSE		0	FALSE	FALSE				
+JFExpectedLaunchTime	JFExpectedLaunchTime			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JFAllowableReview	JFAllowableReview			string	JFAllowableReview	Y	= | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFReviewMessage	JFReviewMessage			string	JFReviewMessage			FALSE	FALSE		0	FALSE	FALSE				
+JF_BOMBeforeQuantity	JF_BOMBeforeQuantity			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_EvaluateMessage	JF_EvaluateMessage			string				FALSE	FALSE		0	FALSE	FALSE				
+JF_BubbleStartTime	JF_BubbleStartTime			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JF_BubbleEndTime	JF_BubbleEndTime			timestamp				FALSE	FALSE		0	FALSE	FALSE				
+JFReasonForDelay	JFReasonForDelay			string	JFReasonForDelay			TRUE	FALSE		0	FALSE	FALSE				
+JFDelayThePlannedDate	JFDelayThePlannedDate			timestamp	JFDelayThePlannedDate			FALSE	FALSE		0	FALSE	FALSE				
+<<whetherToPostpone>>	whetherToPostpone			string	whetherToPostpone	No	= Yes | = No	FALSE	FALSE		0	FALSE	FALSE				
+JF3DReleasedDesignatedPlanDate	JF3DReleasedDesignatedPlanDate			timestamp	JF3DReleasedDesignatedPlanDate			FALSE	FALSE		0	FALSE	FALSE				
+<<JFProductConfigCategory>>	JFProductConfigCategory			string	JFProductConfigCategory	WholeChair		FALSE	FALSE		0	FALSE	FALSE				
+JFProjectLevelAPRDiscount	JFProjectLevelAPRDiscount			string	JFProjectLevelAPRDiscount			FALSE	FALSE		0	FALSE	FALSE				
+JFPPType	JFPPType			string	JFPPType	 	= | = wholeChair | = nonWholeChair	FALSE	FALSE		0	FALSE	FALSE				
+JFVCInfo	JFVCInfo			string	JFVCInfo			FALSE	FALSE		0	FALSE	FALSE				
+JFOrder	JFOrder			string	JFOrder			FALSE	FALSE		0	FALSE	FALSE				
+JFOverseas	JFOverseas			string	JFOverseas			FALSE	FALSE		0	FALSE	FALSE				
+JFDomestic	JFDomestic			string	JFDomestic			FALSE	FALSE		0	FALSE	FALSE				
+JFOther	JFOther			string	JFOther			FALSE	FALSE		0	FALSE	FALSE				
+JFAssemblyLevel	JFAssemblyLevel			string	JFAssemblyLevel			FALSE	FALSE		0	FALSE	FALSE				
+JFOptionalOrNot	JFOptionalOrNot			string	JFOptionalOrNot	 	= | = O	FALSE	FALSE		0	FALSE	FALSE				
+JFNumberOfChairsInTotal	JFNumberOfChairsInTotal			string	JFNumberOfChairsInTotal			FALSE	FALSE		0	FALSE	FALSE				
+JFAnnualQuantity	JFAnnualQuantity			string	JFAnnualQuantity			FALSE	FALSE		0	FALSE	TRUE				
+JFPPTitle	JFPPTitle			string	JFPPTitle	 	= | = leftFrontSeat | = rightFrontSeat | = secondRowSeat | = secondRowLeftSeat | = secondRowMiddleSeat | = secondRowRightSeat | <<= thirdRow>> | = thirdRowSeat | = thirdRowLeftSeat | = thirdRowMiddleSeat | = thirdRowRightSeat | != !	FALSE	FALSE		0	FALSE	FALSE				
+JFSBOMType	JFSBOMType			string	JFSBOMType	 	= | = PureAfterSalesParts | = SupplyParts | = Other	FALSE	FALSE		0	FALSE	FALSE				
+JFCustomerPartNumber	JFCustomerPartNumber			string	JFCustomerPartNumber			FALSE	FALSE		0	FALSE	FALSE				
+JFCustomerPartName	JFCustomerPartName			string	JFCustomerPartName			FALSE	FALSE		0	FALSE	FALSE				
+JFCustomerPartRevision	JFCustomerPartRevision			string	JFCustomerPartRevision			FALSE	FALSE		0	FALSE	FALSE				
+JF_RelDescription	JF_RelDescription			string	JF_RelDescription			TRUE	FALSE		0	FALSE	FALSE				
+JFProductConfigSummaryRatioReady	JFProductConfigSummaryRatioReady			string	JFProductConfigSummaryRatioReady	TRUE	= TRUE | = FALSE	FALSE	TRUE		0	FALSE	FALSE				
+JF_IsBreakpointInvalid	JF_IsBreakpointInvalid			string	JFProductConfigSummaryRatioReady	FALSE	= TRUE | = FALSE	FALSE	TRUE		0	FALSE	FALSE				
+JFDADelayCount	JFDADelayCount			integer	JFDADelayCount	0		TRUE	FALSE		0	FALSE	FALSE				
+JF_IsTheFinalQuotationVersionAvailable	JF_IsTheFinalQuotationVersionAvailable			string	JF_IsTheFinalQuotationVersionAvailable		= | = Y | = N	FALSE	FALSE		0	FALSE	FALSE				
+JFDAExtensionTimeBak	JFDAExtensionTimeBak			string	JFDAExtensionTimeBak			FALSE	FALSE		0	FALSE	FALSE				
+JFRollPartNumber	JFRollPartNumber			string	JFRollPartNumber			FALSE	FALSE		0	FALSE	FALSE				>>>>>>> .r4297
+JFOriginalPlannedDate	JFOriginalPlannedDate			timestamp	JFOriginalPlannedDate			FALSE	FALSE		0	FALSE	FALSE				

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>项目任务到期/超期汇总提醒</title>
+    <style>
+        body {
+            color: #111;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 8px 0 18px;
+            text-align: center;
+        }
+
+        p {
+            margin: 4px 0;
+        }
+
+        .project-block {
+            margin-top: 20px;
+        }
+
+        .project-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 14px 0 8px;
+        }
+
+        .section {
+            margin-top: 16px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-bottom: 12px;
+            max-width: 100%;
+            width: 960px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 5px 8px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        a {
+            color: #0645ad;
+        }
+
+        .footer {
+            color: red;
+            margin-top: 26px;
+        }
+    </style>
+</head>
+<body>
+<h2>项目任务到期/超期汇总提醒</h2>
+<p>尊敬的用户：您好</p>
+<p>截至<span id="reportDate"></span>，系统检测到您负责的项目任务存在即将到期或已超期的情况，汇总信息如下：</p>
+<div id="content">
+    <div class="project-block" id="projectBlockTemplate">
+        <p class="project-title">项目：<span class="projectName">XXX项目Desc(Name)</span></p>
+        <div class="section due10Section">
+            <p class="section-title">任务还有10个工作日到期，请及时处理</p>
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>任务名称</th>
+                    <th>项目阶段</th>
+                    <th>计划完成时间</th>
+                    <th>责任人</th>
+                    <th>链接地址</th>
+                </tr>
+                </thead>
+                <tbody class="due10Body"></tbody>
+            </table>
+        </div>
+        <div class="section due3Section">
+            <p class="section-title">任务还有3个工作日到期，请及时处理</p>
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>任务名称</th>
+                    <th>项目阶段</th>
+                    <th>计划完成时间</th>
+                    <th>责任人</th>
+                    <th>链接地址</th>
+                </tr>
+                </thead>
+                <tbody class="due3Body"></tbody>
+            </table>
+        </div>
+        <div class="section overdueSection">
+            <p class="section-title">任务已超期，请尽快处理</p>
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>任务名称</th>
+                    <th>项目阶段</th>
+                    <th>计划完成时间</th>
+                    <th>责任人</th>
+                    <th>链接地址</th>
+                </tr>
+                </thead>
+                <tbody class="overdueBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>注：</p>
+    <p>1、此邮件由系统自动生成，无需进行回复。<!-- TODO 2026-10-02后恢复：超期任务项在未完成前，系统将每日邮件提醒。 --></p>
+    <p>2、请及时进入 PLM 系统查看并处理相关项目任务；如任务计划或责任人信息有误，请联系项目经理确认。</p>
+</div>
+</body>
+</html>

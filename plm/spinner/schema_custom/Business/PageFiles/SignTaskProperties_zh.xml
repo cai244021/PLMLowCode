@@ -1,0 +1,1063 @@
+<configurations>
+    <configuration id="JFECRCosting">
+        <config id="level" value="level" selectValue="level"  isEdit="false"/>
+        <config id="id" value="id" selectValue="id" isEdit="false"/>
+        <config id="id[connection]" value="id[connection]" selectValue="id[connection]" isEdit="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false"/>
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false"/>
+        <config id="ProcurementType" value="JF_VPMReference.JF_ProcurementType" selectValue="attribute[JF_VPMReference.JF_ProcurementType]" isEdit="false"/>
+        <config id="DirectBuy" value="JF_VPMReference.JF_DirectBuy" selectValue="attribute[JF_VPMReference.JF_DirectBuy]" isEdit="false"/>
+        <config id="JFChangeResource" value="JFChangeSource" selectValue="attribute[JFChangeSource]" isEdit="false"/>
+        <config id="JFChangesTrialExpensesManHours" value="JFChangesTrialExpensesManHours" selectValue="attribute[JFChangesTrialExpensesManHours]" isEdit="true"/>
+        <config id="JFStagnationOfSuppliersInternal" value="JFStagnationOfSuppliersInternal" selectValue="attribute[JFStagnationOfSuppliersInternal]" isEdit="true"/>
+        <config id="JFChangeUnitPrice" value="JFChangeUnitPrice" selectValue="attribute[JFChangeUnitPrice]" isEdit="true"/>
+        <config id="JFChangeMold" value="JFChangeMold" selectValue="attribute[JFChangeMold]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCost" value="JFChangeUnitPriceCost" selectValue="attribute[JFChangeUnitPriceCost]" isEdit="true"/>
+        <config id="JFChangeMoldCost" value="JFChangeMoldCost" selectValue="attribute[JFChangeMoldCost]" isEdit="true"/>
+        <config id="JFChangesTrialExpensesManHoursExternal" value="JFChangesTrialExpensesManHoursExternal" selectValue="attribute[JFChangesTrialExpensesManHoursExternal]" isEdit="true"/>
+        <config id="JFStagnationOfSuppliersExternal" value="JFStagnationOfSuppliersExternal" selectValue="attribute[JFStagnationOfSuppliersExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceExternal" value="JFChangeUnitPriceExternal" selectValue="attribute[JFChangeUnitPriceExternal]" isEdit="true"/>
+        <config id="JFChangeMoldCostExternal" value="JFChangeMoldCostExternal" selectValue="attribute[JFChangeMoldCostExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCostExternal" value="JFChangeUnitPriceCostExternal" selectValue="attribute[JFChangeUnitPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeMoldPriceCostExternal" value="JFChangeMoldPriceCostExternal" selectValue="attribute[JFChangeMoldPriceCostExternal]" isEdit="true"/>
+    </configuration>
+    <configuration id="JFNewECRCosting">
+        <config id="level" value="level" selectValue="level"  isEdit="false"/>
+        <config id="id" value="id" selectValue="id" isEdit="false"/>
+        <config id="id[connection]" value="id[connection]" selectValue="id[connection]" isEdit="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false"/>
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false"/>
+        <config id="ProcurementType" value="JF_VPMReference.JF_ProcurementType" selectValue="attribute[JF_VPMReference.JF_ProcurementType]" isEdit="false"/>
+        <config id="DirectBuy" value="JF_VPMReference.JF_DirectBuy" selectValue="attribute[JF_VPMReference.JF_DirectBuy]" isEdit="false"/>
+        <config id="JFChangeResource" value="JFChangeSource" selectValue="attribute[JFChangeSource]" isEdit="false"/>
+        <config id="JFChangesTrialExpensesManHours" value="JFChangesTrialExpensesManHours" selectValue="attribute[JFChangesTrialExpensesManHours]" isEdit="true"/>
+        <config id="JFStagnationOfSuppliersInternal" value="JFStagnationOfSuppliersInternal" selectValue="attribute[JFStagnationOfSuppliersInternal]" isEdit="true"/>
+        <config id="JFChangeUnitPrice" value="JFChangeUnitPrice" selectValue="attribute[JFChangeUnitPrice]" isEdit="true"/>
+        <config id="JFChangeMold" value="JFChangeMold" selectValue="attribute[JFChangeMold]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCost" value="JFChangeUnitPriceCost" selectValue="attribute[JFChangeUnitPriceCost]" isEdit="true"/>
+        <config id="JFChangeMoldCost" value="JFChangeMoldCost" selectValue="attribute[JFChangeMoldCost]" isEdit="true"/>
+        <config id="JFChangesTrialExpensesManHoursExternal" value="JFChangesTrialExpensesManHoursExternal" selectValue="attribute[JFChangesTrialExpensesManHoursExternal]" isEdit="true"/>
+        <config id="JFStagnationOfSuppliersExternal" value="JFStagnationOfSuppliersExternal" selectValue="attribute[JFStagnationOfSuppliersExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceExternal" value="JFChangeUnitPriceExternal" selectValue="attribute[JFChangeUnitPriceExternal]" isEdit="true"/>
+        <config id="JFChangeMoldCostExternal" value="JFChangeMoldCostExternal" selectValue="attribute[JFChangeMoldCostExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCostExternal" value="JFChangeUnitPriceCostExternal" selectValue="attribute[JFChangeUnitPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeMoldPriceCostExternal" value="JFChangeMoldPriceCostExternal" selectValue="attribute[JFChangeMoldPriceCostExternal]" isEdit="true"/>
+    </configuration>
+    <configuration id="JFECRController">
+        <config id="level" value="level" selectValue="level" isEdit="false"/>
+        <config id="id" value="id" selectValue="id" isEdit="false"/>
+        <config id="id[connection]" value="id[connection]" selectValue="id[connection]" isEdit="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false"/>
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false"/>
+        <config id="OnePartQuantity" value="OnePartQuantity" selectValue="OnePartQuantity" isEdit="false"/>
+        <config id="JFChangeResource" value="JFChangeSource" selectValue="attribute[JFChangeSource]" isEdit="false"/>
+        <config id="JFChangeMan-hour" value="JFChangeMan-hour" selectValue="attribute[JFChangeMan-hour]" isEdit="true"/>
+        <config id="JFChangeMan-hourExternal" value="JFChangeMan-hourExternal" selectValue="attribute[JFChangeMan-hourExternal]" isEdit="true"/>
+        <config id="JFChangeSeatCost" value="JFChangeSeatCost" selectValue="attribute[JFChangeSeatCost]" isEdit="true"/>
+        <config id="JFChangeSeatCostExternal" value="JFChangeSeatCostExternal" selectValue="attribute[JFChangeSeatCostExternal]" isEdit="true"/>
+        <config id="JFChangeTargetPrice" value="JFChangeTargetPrice" selectValue="attribute[JFChangeTargetPrice]" isEdit="true"/>
+        <config id="JFChangeWholeSeatPrice" value="JFChangeWholeSeatPrice" selectValue="attribute[JFChangeWholeSeatPrice]" isEdit="false"/>
+        <config id="JFChangeWholeSeatPriceExternal" value="JFChangeWholeSeatPriceExternal" selectValue="attribute[JFChangeWholeSeatPriceExternal]" isEdit="false"/>
+    </configuration>
+    <configuration id="JFNewECRController">
+        <config id="level" value="level" selectValue="level" isEdit="false"/>
+        <config id="id" value="id" selectValue="id" isEdit="false"/>
+        <config id="id[connection]" value="id[connection]" selectValue="id[connection]" isEdit="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false"/>
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false"/>
+        <config id="OnePartQuantity" value="OnePartQuantity" selectValue="OnePartQuantity" isEdit="false"/>
+        <config id="JFChangeResource" value="JFChangeSource" selectValue="attribute[JFChangeSource]" isEdit="false"/>
+        <config id="JFChangeMan-hour" value="JFChangeMan-hour" selectValue="attribute[JFChangeMan-hour]" isEdit="true"/>
+        <config id="JFChangeMan-hourExternal" value="JFChangeMan-hourExternal" selectValue="attribute[JFChangeMan-hourExternal]" isEdit="true"/>
+        <config id="JFChangeSeatCost" value="JFChangeSeatCost" selectValue="attribute[JFChangeSeatCost]" isEdit="true"/>
+        <config id="JFChangeSeatCostExternal" value="JFChangeSeatCostExternal" selectValue="attribute[JFChangeSeatCostExternal]" isEdit="true"/>
+        <config id="JFChangeMold" value="JFChangeMold" selectValue="attribute[JFChangeMold]" isEdit="true"/>
+        <config id="JFChangeMoldCostExternal" value="JFChangeMoldCostExternal" selectValue="attribute[JFChangeMoldCostExternal]" isEdit="true"/>
+        <config id="JFChangeMoldCost" value="JFChangeSeatCostExternal" selectValue="attribute[JFChangeMoldCost]" isEdit="true"/>
+        <config id="JFChangeMoldPriceCostExternal" value="JFChangeMoldPriceCostExternal" selectValue="attribute[JFChangeMoldPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCost" value="JFChangeUnitPriceCost" selectValue="attribute[JFChangeUnitPriceCost]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCostExternal" value="JFChangeUnitPriceCostExternal" selectValue="attribute[JFChangeUnitPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeTargetPrice" value="JFChangeTargetPrice" selectValue="attribute[JFChangeTargetPrice]" isEdit="true"/>
+        <config id="JFChangeWholeSeatPrice" value="JFChangeWholeSeatPrice" selectValue="attribute[JFChangeWholeSeatPrice]" isEdit="true"/>
+        <config id="JFChangeWholeSeatPriceExternal" value="JFChangeWholeSeatPriceExternal" selectValue="attribute[JFChangeWholeSeatPriceExternal]" isEdit="true"/>
+    </configuration>
+
+    <configuration id="JFFormalECRCosting">
+        <config id="level" value="level" selectValue="level"  isEdit="false"/>
+        <config id="id" value="id" selectValue="id" isEdit="false"/>
+        <config id="id[connection]" value="id[connection]" selectValue="id[connection]" isEdit="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService" />
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false"/>
+        <config id="ProcurementType" value="JF_VPMReference.JF_ProcurementType" selectValue="attribute[JF_VPMReference.JF_ProcurementType]" isEdit="false"/>
+        <config id="DirectBuy" value="JF_VPMReference.JF_DirectBuy" selectValue="attribute[JF_VPMReference.JF_DirectBuy]" isEdit="false"/>
+        <config id="JFChangeResource" value="JFChangeSource" selectValue="to[JFRelateItem].attribute[JFChangeSource]" isEdit="false" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService"/>
+        <config id="JF_BOMChangeDes" value="JF_BOMChangeDes" selectValue="attribute[JF_BOMChangeDes]" isEdit="false"/>
+        <config id="JF_BeforeRev" value="JFBeforeRev" selectValue="attribute[JF_BOMChangeDes]" isEdit="false" funName="getECRPartChangeDetails" jpoName="JF_FormalECRService"/>
+        <config id="JF_ChangeBeforeRev" value="JFChangeBeforeRev" selectValue="attribute[JF_BOMChangeDes]" isEdit="false" funName="getECRPartChangeDetails" jpoName="JF_FormalECRService"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false"/>
+<!--        <config id="JF_LogisticsFees" value="JF_LogisticsFees" selectValue="to[JFPS2VPM].attribute[JF_LogisticsFees]" isEdit="true"/>-->
+        <config id="JFChangesTrialExpensesManHours" value="JF_VPMReferenceCost.JF_ChangesTrialExpensesManHours" selectValue="attribute[JF_VPMReferenceCost.JF_ChangesTrialExpensesManHours]" isEdit="true"/>
+        <config id="JFStagnationOfSuppliersInternal" value="JF_VPMReferenceCost.JF_StagnationOfSuppliersInternal" selectValue="attribute[JF_VPMReferenceCost.JF_StagnationOfSuppliersInternal]" isEdit="true"/>
+        <config id="JFChangeUnitPrice" value="JF_VPMReferenceCost.JF_ChangeUnitPrice" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeUnitPrice]" isEdit="true"/>
+        <config id="JFChangeMold" value="JF_VPMReferenceCost.JF_ChangeMold" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMold]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCost" value="JF_VPMReferenceCost.JF_ChangeUnitPriceCost" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeUnitPriceCost]" isEdit="true"/>
+        <config id="JFChangeMoldCost" value="JF_VPMReferenceCost.JF_ChangeMoldCost" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMoldCost]" isEdit="true"/>
+        <config id="JFChangesTrialExpensesManHoursExternal" value="JF_VPMReferenceCost.JF_ChangesTrialExpensesManHoursExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangesTrialExpensesManHoursExternal]" isEdit="true"/>
+        <config id="JFStagnationOfSuppliersExternal" value="JF_VPMReferenceCost.JF_StagnationOfSuppliersExternal" selectValue="attribute[JF_VPMReferenceCost.JF_StagnationOfSuppliersExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceExternal" value="JF_VPMReferenceCost.JF_ChangeUnitPriceExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeUnitPriceExternal]" isEdit="true"/>
+        <config id="JFChangeMoldCostExternal" value="JF_VPMReferenceCost.JF_ChangeMoldCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMoldCostExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCostExternal" value="JF_VPMReferenceCost.JF_ChangeUnitPriceCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeUnitPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeMoldPriceCostExternal" value="JF_VPMReferenceCost.JF_ChangeMoldPriceCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMoldPriceCostExternal]" isEdit="true"/>
+    </configuration>
+
+    <configuration id="JFFormalECRController">
+        <config id="level" value="level" selectValue="level" isEdit="false"/>
+        <config id="id" value="id" selectValue="id" isEdit="false"/>
+        <config id="id[connection]" value="id[connection]" selectValue="id[connection]" isEdit="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false" />
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService" />
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false" />
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false"/>
+<!--        <config id="OnePartQuantity" value="OnePartQuantity" selectValue="OnePartQuantity" isEdit="false" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService"/>-->
+        <config id="OnePartQuantity" value="OnePartQuantity" selectValue="attribute[JF_BOMQuantity]" isEdit="false" />
+        <config id="JFChangeResource" value="JFChangeSource" selectValue="to[JFRelateItem].attribute[JFChangeSource]" isEdit="false" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService"/>
+        <config id="JF_BOMChangeDes" value="JF_BOMChangeDes" selectValue="attribute[JF_BOMChangeDes]" isEdit="false"/>
+        <config id="JF_BeforeRev" value="JFBeforeRev" selectValue="attribute[JF_BOMChangeDes]" isEdit="false" funName="getECRPartChangeDetails" jpoName="JF_FormalECRService"/>
+        <config id="JF_ChangeBeforeRev" value="JFChangeBeforeRev" selectValue="attribute[JF_BOMChangeDes]" isEdit="false" funName="getECRPartChangeDetails" jpoName="JF_FormalECRService"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false"/>
+        <config id="JFChangeMan-hour" value="JF_VPMReferenceCost.JF_ChangeMan_hour" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMan_hour]" isEdit="true"/>
+        <config id="JFChangeMan-hourExternal" value="JF_VPMReferenceCost.JF_ChangeMan_hourExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMan_hourExternal]" isEdit="true"/>
+        <config id="JFChangeSeatCost" value="JF_VPMReferenceCost.JF_ChangeSeatCost" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeSeatCost]" isEdit="true"/>
+        <config id="JFChangeSeatCostExternal" value="JF_VPMReferenceCost.JF_ChangeSeatCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeSeatCostExternal]" isEdit="true"/>
+        <config id="JFChangeMold" value="JF_VPMReferenceCost.JF_ChangeMold" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMold]" isEdit="true"/>
+        <config id="JFChangeMoldCostExternal" value="JF_VPMReferenceCost.JF_ChangeMoldCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMoldCostExternal]" isEdit="true"/>
+        <config id="JFChangeMoldCost" value="JF_VPMReferenceCost.JF_ChangeMoldCost" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMoldCost]" isEdit="true"/>
+        <config id="JFChangeMoldPriceCostExternal" value="JF_VPMReferenceCost.JF_ChangeMoldPriceCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeMoldPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCost" value="JF_VPMReferenceCost.JF_ChangeUnitPriceCost" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeUnitPriceCost]" isEdit="true"/>
+        <config id="JFChangeUnitPriceCostExternal" value="JF_VPMReferenceCost.JF_ChangeUnitPriceCostExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeUnitPriceCostExternal]" isEdit="true"/>
+        <config id="JFChangeTargetPrice" value="JF_VPMReferenceCost.JF_ChangeTargetPrice" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeTargetPrice]" isEdit="true"/>
+        <config id="JFChangeWholeSeatPrice" value="JF_VPMReferenceCost.JF_ChangeWholeSeatPrice" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeWholeSeatPrice]" isEdit="true"/>
+        <config id="JFChangeWholeSeatPriceExternal" value="JF_VPMReferenceCost.JF_ChangeWholeSeatPriceExternal" selectValue="attribute[JF_VPMReferenceCost.JF_ChangeWholeSeatPriceExternal]" isEdit="true"/>
+    </configuration>
+    <configuration id="signTask_old">
+        <config id="signTask1" check="NA"   name="专业评审（采购）/Professional Review(Procure)"         role="Purchasing representative"/>
+        <config id="signTask2" check="NA"   name="专业评审（总装AME）/Professional Review(Final assembly AME)"            role="AME representative"/>
+        <config id="signTask3" check="NA"   name="专业评审（AQE）/Professional Review(AQE)"            role="AQE representative/PQL"/>
+        <config id="signTask4" check="NA"   name="专业评审（物流）/Professional Review(Logistics)"            role="Logistics representative"/>
+        <config id="signTask5" check="NA"   name="专业评审（Launch Manager）/Professional Review(Launch Manager)"     role="Launch manager"/>
+        <config id="signTask6" check="NA"   name="专业评审（Costing）/Professional Review(Costing)"        role="Costing"/>
+        <config id="signTask7" check="DirectBuy"  name="专业评审（商务经理）/Professional Review(Business)"       role="Business manager"/>
+        <config id="signTask8" check="ICO"  name="专业评审（内部供应商）/Professional Review(Internal Suppliers)"       role="Internal Supplier"/>
+        <config id="signTask9" check="attribute[JF_VPMReference.JF_PartType]=U"  name="专业评审（发泡AME）/Professional Review(Foam AME)"       role="Foam AME representative"/>
+        <config id="signTask10" check="attribute[JF_VPMReference.JF_PartType]=T"  name="专业评审（面套AME）/Professional Review(Trim AME)"       role="Trim AME representative"/>
+    </configuration>
+    <configuration id="signTask-BP-APR_old">
+        <config id="signTask9" check="NA"  name="专业评审（财务BP-APR）/Professional Review(Financial review)"       role="Financial BP"/>
+    </configuration>
+    <configuration id="customerTask_old">
+        <config id="customerTask" check="NA"  name="专业评审（向客户报价）/Professional Review(Quotation)"       role="Business manager"/>
+    </configuration>
+<!--    20260624  会签任务名称修改 更新-->
+    <configuration id="signTask">
+        <config id="signTask1" check="NA"   name="专业评审（项目采购经理/PUR）/Professional Review(Procure/PUR)"         role="Purchasing representative"/>
+        <config id="signTask2" check="NA"   name="专业评审（项目工艺经理/总装AME）/Professional Review(Final assembly AME)"            role="AME representative"/>
+        <config id="signTask3" check="NA"   name="专业评审（项目质量经理/PQL）/Professional Review(AQE/PQL)"            role="AQE representative/PQL"/>
+        <config id="signTask4" check="NA"   name="专业评审（项目物流经理/Log）/Professional Review(Logistics/Log)"            role="Logistics representative"/>
+        <config id="signTask5" check="NA"   name="专业评审（Launch经理/LM）/Professional Review(Launch Manager/LM)"     role="Launch manager"/>
+        <config id="signTask6" check="NA"   name="专业评审（项目成本控制经理/Costing）/Professional Review(Costing)"        role="Costing"/>
+        <config id="signTask7" check="DirectBuy"  name="专业评审（项目客户经理/Sales）/Professional Review(Business/Sales)"       role="Business manager"/>
+        <config id="signTask8" check="ICO"  name="专业评审（内部供应商）/Professional Review(Internal Suppliers)"       role="Internal Supplier"/>
+        <config id="signTask9" check="attribute[JF_VPMReference.JF_PartType]=U"  name="专业评审（项目工艺经理/发泡AME）/Professional Review(Foam AME)"       role="Foam AME representative"/>
+        <config id="signTask10" check="attribute[JF_VPMReference.JF_PartType]=T"  name="专业评审（项目工艺经理/面套AME）/Professional Review(Trim AME)"       role="Trim AME representative"/>
+    </configuration>
+    <configuration id="signTask-BP-APR">
+        <config id="signTask9" check="NA"  name="专业评审（项目财务经理/PC）/Professional Review(Financial review/PC)"       role="Financial BP"/>
+    </configuration>
+    <configuration id="customerTask">
+        <config id="customerTask" check="NA"  name="专业评审（向客户报价）/Professional Review(Quotation)"       role="Business manager"/>
+    </configuration>
+<!--    end    -->
+    <configuration id="Fastener">
+        <common required="JF_VPMReference.JF_Material,JF_VPMReference.JF_Weight,EnterpriseExtension.V_PartNumber,JF_VPMReference.JF_PartNameCN"/>
+        <config name="六角法兰面螺母"   		required="Fastener Specifications,strengthgrade,Surface Treatment,Salt Spray Test Time" />
+        <config name="焊接四角螺母"   		required="Fastener Specifications,strengthgrade" />
+        <config name="焊接螺母"   		required="Fastener Specifications,strengthgrade" />
+        <config name="内六角花形盘头螺栓"   	required="Fastener Specifications,strengthgrade,Surface Treatment,Salt Spray Test Time,Beatle,IS Anti Loosening Adhesive,length" />
+        <config name="内六角花形盘头台阶螺栓"   required="Fastener Specifications,strengthgrade,Surface Treatment,Salt Spray Test Time,Beatle,IS Anti Loosening Adhesive,length,Step Height" />
+        <config name="六角法兰面螺栓"   	    required="Fastener Specifications,strengthgrade,Surface Treatment,Salt Spray Test Time,IS Anti Loosening Adhesive,length" />
+        <config name="六角法兰面台阶螺栓"   	required="Fastener Specifications,strengthgrade,Surface Treatment,Salt Spray Test Time,IS Anti Loosening Adhesive,length,Step Height" />
+        <config name="焊接螺栓"   			required="Fastener Specifications,strengthgrade,length" />
+        <config name="焊接台阶螺栓"   		required="Fastener Specifications,strengthgrade,length,Step Height" />
+        <config name="PT自攻钉"   			required="Fastener Specifications,Surface Treatment,Salt Spray Test Time,Beatle,length" />
+        <config name="ST自攻钉"   			required="Fastener Specifications,Surface Treatment,Salt Spray Test Time,Beatle,length" />
+        <config name="抽芯铆钉"   			required="Fastener Specifications,Surface Treatment,Salt Spray Test Time,length,Grip Range" />
+        <config name="衬套"   				required="Fastener Specifications,length,Inside Diameter,Outside Diameter" />
+        <config name="销"   		    required="Fastener Specifications,strengthgrade,length,Step Height" />
+        <config name="止推帽"   		required="" />
+        <config name="圣诞树卡扣"   			required="Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="W型卡扣"   			required="Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="塑料推钉（子母扣）" 	    required="Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="卡钉"  			required="Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="金属卡扣"  			required="Surface Treatment,Salt Spray Test Time,Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="橡胶钉"   			    required="Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="螺母夹片"   			required="Surface Treatment,Salt Spray Test Time" />
+        <config name="圣诞树扎带"   		    required="Matching Hole Dameter,Match The Thickness of the Structure" />
+        <config name="塑料紧箍带"   				required="" />
+        <config name="塑料卡扣"   		required="" />
+        <config name="嵌件螺母"   			required="Fastener Specifications,strengthgrade,Surface Treatment,Salt Spray Test Time" />
+        <config name="塑料件止推帽"   		required="" />
+        <config name="卡簧"   		    required="" />
+    </configuration>
+    <configuration id="electric">
+        <config name="圆孔卡扣"   		    required="Supplier,Diam" />
+        <config name="长圆孔卡扣"   		    required="Diam" />
+        <config name="板卡"   		    required="Diam" />
+        <config name="钢丝卡扣"   		    required="Diam" />
+        <config name="螺柱卡扣"   		    required="Diam" />
+        <config name="连接器分类"   		    required="Supplier,Waterproofness,EPolarity,PinN" />
+    </configuration>
+    <configuration id="CostChangeHistory_0">
+        <config id="name" value="0" format="" />
+        <config id="attribute[Title]" value="1"  format="" />
+        <config id="current" value="2" format="policy" nlsKey="JFECR"/>
+        <config id="owner" value="3" format="user" />
+        <config id="projectCode" value="4" format="" />
+        <config id="projectName" value="5" format="" />
+        <config id="from[JFECR2CO].to.name" value="6" format="" />
+        <config id="attribute[JFProjectPhase]" value="7"  format="" />
+        <config id="attribute[JFECRType]" value="8"  format="range" nlsKey="JFECRType"/>
+        <config id="attribute[JFChangeSource]" value="9"  format="range" nlsKey="JFChangeSource"/>
+        <config id="attribute[JFIsPlatformPart]" value="10"  format="range" nlsKey="JFIsPlatformPart"/>
+        <config id="attribute[JFAffectedFactory]" value="11"  format="range" nlsKey="JFAffectedFactory"/>
+        <config id="to[JFChangeEventECR].from.name" value="12" format="" />
+        <config id="attribute[JFChangesDeveExpensesManHours]" value="13"  format="" />
+        <config id="attribute[JFChangesDeveExpensesManHoursExternal]" value="14"  format="" />
+        <config id="attribute[JFChangesTrialExpensesManHours]" value="15"  format="" />
+        <config id="attribute[JFChangesTrialExpensesManHoursExternal]" value="16"  format="" />
+        <config id="attribute[JFChangeReson]" value="17"  format="" />
+        <config id="originated" value="18"  format="date" />
+        <config id="description" value="19"  format="" />
+    </configuration>
+    <configuration id="CostChangeHistory_1">
+        <config id="name" value="0"  />
+        <config id="attribute[JFChangesInvestment]" value="1" type="APR"/>
+        <config id="attribute[JFChangesDevelopment]" value="2" type="APR"/>
+        <config id="attribute[JFChangesMould]" value="3" type="APR"/>
+        <config id="attribute[JFSumInventoryScrapAmount]" value="4" type="APR"/>
+        <config id="attribute[JFChangesInvestmentsWholeChair]" value="5" type="AME"/>
+        <config id="attribute[JFChangesInvestmentsFoaming]" value="6" type="AME"/>
+        <config id="attribute[JFChangesInvestmentsFaceCovers]" value="7" type="AME"/>
+        <config id="attribute[JFChangesFixtures]" value="8" type="AQE"/>
+        <config id="attribute[JFCostOfQuality]" value="9" type="AQE"/>
+        <config id="attribute[JFCostOfTrial]" value="10" type="AQE"/>
+        <config id="attribute[JFChangesFixturesExternal]" value="11" type="AQE"/>
+        <config id="attribute[JFCostOfQualityExternal]" value="12" type="AQE"/>
+        <config id="attribute[JFCostOfTrialExternal]" value="13" type="AQE"/>
+        <config id="attribute[JFMaterialsFinishedProductsRework]" value="14" type="Launch_Manager"/>
+    </configuration>
+
+    <configuration id="CostChangeHistory_2">
+        <config id="ECRName" value="0"  />
+        <config id="ECRCurrent" value="1"  format="policy" nlsKey="JFECR" />
+        <config id="attribute[EnterpriseExtension.V_PartNumber]" value="2" />
+        <config id="revision" value="3" />
+        <config id="attribute[JF_VPMReference.JF_PartType]" value="4"  format="range" nlsKey="JF_VPMReference.JF_PartType" />
+        <config id="current" value="5" format="policy" nlsKey="VPLM_SMB_Definition_MajorRev"/>
+        <config id="attribute[JF_VPMReference.JF_PartNameCN]" value="6" />
+        <config id="attribute[JF_VPMReference.JF_PartNameEN]" value="7" />
+        <config id="attribute[JFChangeMan-hour]" value="8" />
+        <config id="attribute[JFChangeSeatCost]" value="9" />
+        <config id="attribute[JFChangeMan-hourExternal]" value="10" />
+        <config id="attribute[JFChangeSeatCostExternal]" value="11" />
+        <config id="attribute[JFChangeTargetPrice]" value="12" />
+    </configuration>
+
+    <configuration id="CostChangeHistory_3">
+        <config id="attribute[EnterpriseExtension.V_PartNumber]" value="0" />
+        <config id="revision" value="1" />
+        <config id="attribute[JF_VPMReference.JF_PartType]" value="2"  format="range" nlsKey="JF_VPMReference.JF_PartType" />
+        <config id="current" value="3" format="policy" nlsKey="VPLM_SMB_Definition_MajorRev"/>
+        <config id="attribute[JF_VPMReference.JF_PartNameCN]" value="4" />
+        <config id="attribute[JF_VPMReference.JF_PartNameEN]" value="5" />
+        <config id="ECRName" value="6" />
+        <config id="ECRCurrent" value="7" format="policy" nlsKey="JFECR" />
+        <config id="ECRModified" value="8" format="date" />
+        <config id="attribute[JFChangesTrialExpensesManHours]" value="9" />
+        <config id="attribute[JFStagnationOfSuppliersInternal]" value="10" />
+        <config id="attribute[JFChangeUnitPrice]" value="11" />
+        <config id="attribute[JFChangeMold]" value="12" />
+        <config id="attribute[JFChangeUnitPriceCost]" value="13" />
+        <config id="attribute[JFChangeMoldCost]" value="14" />
+        <config id="attribute[JFChangesTrialExpensesManHoursExternal]" value="15" />
+        <config id="attribute[JFStagnationOfSuppliersExternal]" value="16" />
+        <config id="attribute[JFChangeUnitPriceExternal]" value="17" />
+        <config id="attribute[JFChangeMoldCostExternal]" value="18" />
+        <config id="attribute[JFChangeUnitPriceCostExternal]" value="19" />
+        <config id="attribute[JFChangeMoldPriceCostExternal]" value="20" />
+        <config id="sum(JFChangesTrialExpensesManHours)" value="21" format="function" funValue="IF(|{9}|=&quot;&quot;,0,VALUE(|{9}|))+IF(|{15}|=&quot;&quot;,0,|VALUE(|{15}|))"/>
+        <config id="sum(JFStagnationOfSuppliersInternal)" value="22" format="function" funValue="IF(|{10}|=&quot;&quot;,0,VALUE(|{10}|))+IF(|{16}|=&quot;&quot;,0,|VALUE(|{16}|))" />
+        <config id="sum(JFChangeUnitPrice)" value="23" format="function" funValue="IF(|{11}|=&quot;&quot;,0,VALUE(|{11}|))+IF(|{17}|=&quot;&quot;,0,|VALUE(|{17}|))"/>
+        <config id="sum(JFChangeMold)" value="24" format="function" funValue="IF(|{12}|=&quot;&quot;,0,VALUE(|{12}|))+IF(|{18}|=&quot;&quot;,0,|VALUE(|{18}|))"/>
+        <config id="sum(JFChangeUnitPriceCost)" value="25" format="function" funValue="IF(|{13}|=&quot;&quot;,0,VALUE(|{13}|))+IF(|{19}|=&quot;&quot;,0,|VALUE(|{19}|))"/>
+        <config id="sum(JFChangeMoldCost)" value="26" format="function" funValue="IF(|{14}|=&quot;&quot;,0,VALUE(|{14}|))+IF(|{20}|=&quot;&quot;,0,|VALUE(|{20}|))"/>
+    </configuration>
+    <configuration id="CostChangeHistory_4">
+        <config id="ECRName" value="0" />
+        <config id="ECRCurrent" value="1" format="policy" nlsKey="JFECR" />
+        <config id="ECRModified" value="2" format="date" />
+        <config id="attribute[EnterpriseExtension.V_PartNumber]" value="3" />
+        <config id="revision" value="4" />
+        <config id="attribute[JF_VPMReference.JF_PartType]" value="5"  format="range" nlsKey="JF_VPMReference.JF_PartType" />
+        <config id="current" value="6" format="policy" nlsKey="VPLM_SMB_Definition_MajorRev"/>
+        <config id="attribute[JF_VPMReference.JF_PartNameCN]" value="7" />
+        <config id="attribute[JF_VPMReference.JF_PartNameEN]" value="8" />
+        <config id="attribute[JFChangesTrialExpensesManHours]" value="9" />
+        <config id="attribute[JFStagnationOfSuppliersInternal]" value="10" />
+        <config id="attribute[JFChangeUnitPrice]" value="11" />
+        <config id="attribute[JFChangeMold]" value="12" />
+        <config id="attribute[JFChangeUnitPriceCost]" value="13" />
+        <config id="attribute[JFChangeMoldCost]" value="14" />
+        <config id="attribute[JFChangesTrialExpensesManHoursExternal]" value="15" />
+        <config id="attribute[JFStagnationOfSuppliersExternal]" value="16" />
+        <config id="attribute[JFChangeUnitPriceExternal]" value="17" />
+        <config id="attribute[JFChangeMoldCostExternal]" value="18" />
+        <config id="attribute[JFChangeUnitPriceCostExternal]" value="19" />
+        <config id="attribute[JFChangeMoldPriceCostExternal]" value="20" />
+    </configuration>
+
+    <configuration id="EBOM_2">
+        <config id="ITEM" value="0" />
+        <config id="level_0" value="1"/>
+        <config id="level_1" value="2" />
+        <config id="level_2" value="3" />
+        <config id="level_3" value="4" />
+        <config id="level_4" value="5" />
+        <config id="level_5" value="6" />
+        <config id="level_6" value="7" />
+        <config id="level_7" value="8" />
+        <config id="level_8" value="9" />
+        <config id="level_9" value="10" />
+        <config id="picture" value="11" />
+        <config id="attribute[EnterpriseExtension.V_PartNumber]" value="12" />
+        <config id="revision" value="13" />
+        <config id="drawName" value="14"  />
+        <config id="drawRevision" value="15"  />
+        <config id="attribute[JF_VPMReference.JF_PartNameEN]" value="16" />
+        <config id="attribute[JF_VPMReference.JF_PartNameCN]" value="17" />
+        <config id="attribute[JF_VPMReference.JF_DirectBuy]" value="18"/>
+        <config id="to[JFProject2RootPart].from.description" value="25" />
+        <!--   JF_CustomerPartNumber  JF_CustomerPartRevision JF_SurfaceTreatment 长宽高 被修改为库属性  -->
+        <config id="attribute[CustomerPartNumber]" value="27" />
+        <config id="attribute[CustomerPartRevision]" value="28" />
+        <config id="attribute[JF_VPMReference.JF_ProcurementType]" value="30"  format="range" nlsKey="JF_VPMReference.JF_ProcurementType"/>
+        <config id="attribute[JF_VPMReference.JF_PartType]" value="31"  format="range" nlsKey="JF_VPMReference.JF_PartType"/>
+        <config id="attribute[JF_VPMReference.JF_Material]" value="32" />
+        <config id="attribute[Surface Treatment]" value="34" />
+        <config id="attribute[JFLength]" value="36" />
+        <config id="attribute[JFWidth]" value="37" />
+        <config id="attribute[JFHeight]" value="38" />
+        <config id="attribute[JF_VPMReference.JF_WeightTarget]" value="41" />
+        <config id="attribute[PLMEntity.V_description]" value="42" />
+        <config id="PCDescription" value="43"/>
+    </configuration>
+
+    <configuration id="EBOM_Export">
+        <!--序号-->
+        <config id="ITEM" value="0" />
+        <!--装配等级-->
+        <config id="level_-1" value="1"/>
+        <config id="level_0" value="2"/>
+        <config id="level_1" value="3" />
+        <config id="level_2" value="4" />
+        <config id="level_3" value="5" />
+        <config id="level_4" value="6" />
+        <config id="level_5" value="7" />
+        <config id="level_6" value="8" />
+        <config id="level_7" value="9" />
+        <config id="level_8" value="10" />
+        <config id="level_9" value="11" />
+        <!--图片-->
+        <config id="picture" value="12" />
+        <!--零件号-->
+        <config id="attribute[EnterpriseExtension.V_PartNumber]" value="13" />
+        <!--零件版本-->
+        <config id="revision" value="14" />
+        <!--3D 状态-->
+        <config id="current" value="15"/>
+        <!--图纸号-->
+        <config id="drawName" value="16"  />
+        <!--图纸版本-->
+        <config id="drawRevision" value="17"  />
+        <!--2D 状态-->
+        <config id="drawCurrent" value="18"/>
+        <!--零件英文名 中文名-->
+        <config id="attribute[JF_VPMReference.JF_PartNameEN]" value="19" />
+        <config id="attribute[JF_VPMReference.JF_PartNameCN]" value="20" />
+        <!--零件类别-->
+        <config id="attribute[JF_VPMReference.JF_PartType]" value="21" format="range" nlsKey="JF_VPMReference.JF_PartType"/>
+        <!--详细分类  分类库名称-->
+        <config id="attribute[JF_VPMReference.JF_Detail_CN]" value="22" />
+        <!--所有者-->
+        <config id="owner" value="23" />
+        <!--2D 状态 颜色分组 关系属性-->
+        <config id="attribute[JF_VPMInstance.JF_ColorGroup]" value="24" />
+        <!--客户颜色码  内部颜色码  通过颜色分组的关系找到颜色矩阵，匹配颜色分组的风格，将所有匹配上的列出来 动态-->
+        <config id="JF_CustormColorCode" value="25" start="25" end="27" />
+        <config id="JF_InternalColorCode" value="28" start="28" end="30"/>
+        <!--所属项目-->
+<!--        <config id="attribute[JF_VPMReference.JF_ProjectRel]" value="30"/>-->
+        <config id="to[JFProject2RootPart].from.description" value="31" />
+        <!--客户零件号 客户图纸号-->
+        <config id="attribute[CustomerPartNumber]" value="32" />
+        <config id="attribute[CustomerDrawingNumber]" value="33" />
+        <!--供应商 供应商零件号-->
+        <config id="attribute[Supplier]" value="34" />
+        <config id="attribute[SupplierPartNumber]" value="35"/>
+        <!--采购状态  DirectBuy-->
+        <config id="attribute[JF_VPMReference.JF_ProcurementType]" value="36"  format="range" nlsKey="JF_VPMReference.JF_ProcurementType"/>
+        <config id="attribute[JF_VPMReference.JF_DirectBuy]" value="37"/>
+        <!--零件材料  材料标准  材料密度-->
+        <config id="attribute[JF_VPMReference.JF_Material]" value="38"/>
+        <config id="attribute[JF_VPMReference.JF_MaterialStar]" value="39" />
+        <config id="attribute[JF_VPMReference.JF_MaterialDensity]" value="40" />
+        <!--骨架  表面处理：  表面处理	表面处理等级 	表面处理面积(m2)  -->
+        <config id="attribute[Surface Treatment]" value="41" />
+        <config id="attribute[SurfaceTreatmentGrade]" value="42" />
+        <config id="attribute[SurfaceTreatmentArea]" value="43" />
+        <!--零件尺寸/mm：  长L （mm)	宽 W (mm)	高 H (mm)	厚T（mm)	直径D（mm)	内径D（mm) -->
+        <config id="attribute[JFLength]" value="44" />
+        <config id="attribute[JFWidth]" value="45" />
+        <config id="attribute[JFHeight]" value="46" />
+        <config id="attribute[JFThickness]" value="47"/>
+        <config id="attribute[Diam]" value="48" />
+        <config id="attribute[Inside Diameter]" value="49" />
+        <!--重量-->
+        <config id="attribute[JF_VPMReference.JF_WeightTarget]" value="50" />
+        <!--功能用途-->
+        <config id="attribute[Function]" value="51" />
+<!--        <config id="attribute[PLMEntity.V_description]" value="51" />-->
+        <!--产品分类属性-->
+        <config id="classAttribute" value="52" />
+        <!--描述-->
+        <config id="attribute[PLMEntity.V_description]" value="53" />
+        <!--配置描述/数量-->
+        <config id="PCDescription" value="54"/>
+    </configuration>
+
+    <configuration id="EBOM_Export_CONF">
+        <config id="writeRowIndex" value="5"/>
+        <config id="sheetIndex" value="2"/>
+        <config id="sheetIndexName" value="EBOM"/>
+        <config id="lastColIndex" value="54"/>
+        <config id="titleIndex" value="3"/>
+        <config id="titleNameIndex" value="4"/>
+        <config id="NoChangeIndex" value="25"/>
+        <config id="colorNum" value="3"/>
+        <config id="Len20" value="attribute[JF_VPMReference.JF_Material],attribute[JF_VPMReference.JF_MaterialStar], attribute[JF_VPMReference.JF_MaterialDensity],attribute[Surface Treatment],attribute[SurfaceTreatmentGrade],attribute[SurfaceTreatmentArea]"/>
+        <config id="Len40" value="to[JFProject2RootPart].from.description,attribute[PLMEntity.V_description],classAttribute,PCDescription"/>
+        <!--属性组分类字段 工艺,面积,净面积(m2),体积(cm3),周长(mm),克重（g/m2）,焊接类型,焊缝（焊点）数,焊缝长度(mm),折弯数,拍扁数,冲孔数,切口数,缩管数,复合层类型,复合层密度(kg/m3),底布类型,底布克重(g/m2),拉链类型,缝线类型,芯的类型,芯的直径(mm),打孔,绗缝,盲缝,是否热压,是否喷胶,是否慢回弹,发泡模具类型,磁粉片/铁皮钉,（磁粉片\铁皮钉）数量,规格,性能等级,公称长度(mm),是否带防松胶,胀管数量,冷拔,铆接数量,热处理,攻螺纹,倒角,米重（g/m）-->
+<!--        <config id="classAttr" value="attribute[Craft],attribute[Area],attribute[NetArea],attribute[Volume],attribute[Circumference],attribute[GramWeight],attribute[WeldingType],attribute[WeldingSpotQuantity],attribute[WeldingLength],attribute[BendingMumber],attribute[FlatteningQuantity],attribute[PunchingQuantity],attribute[CutQuantity],attribute[ContractedTubeQuantity],attribute[CompositeLayerType],attribute[CompositeLayerDensity],attribute[BackingType],attribute[BackingDensity],attribute[ZipperType],attribute[ThreadType],attribute[TypeofPipingCore],attribute[DiameterofPipingCore],attribute[Perforation],attribute[Quilting],attribute[BlindStitch],attribute[HotPressingorNot],attribute[AdhesiveSprayingorNot],attribute[SlowReboundorNot],attribute[FoamMoldType],attribute[MagneticPowderIronNails],attribute[MagneticPowderIronNailsQuantity],attribute[Specification],attribute[PerformanceLevel],attribute[NominalLength],attribute[IS Anti Loosening Adhesive],attribute[ExpandedPipeNumber],attribute[ColdDrawn],attribute[GripNumber],attribute[HeatTreatment],attribute[Thread],attribute[Chamfer],attribute[MassPerMeters]"/>-->
+        <config id="classAttr" value="Craft,Area,NetArea,Volume,Circumference,GramWeight,WeldingType,WeldingSpotQuantity,WeldingLength,BendingMumber,FlatteningQuantity,PunchingQuantity,CutQuantity,ContractedTubeQuantity,CompositeLayerType,CompositeLayerDensity,BackingType,BackingDensity,ZipperType,ThreadType,TypeofPipingCore,DiameterofPipingCore,Perforation,Quilting,BlindStitch,HotPressingorNot,AdhesiveSprayingorNot,SlowReboundorNot,FoamMoldType,MagneticPowderIronNails,MagneticPowderIronNailsQuantity,Specification,PerformanceLevel,NominalLength,IS Anti Loosening Adhesive,ExpandedPipeNumber,ColdDrawn,GripNumber,HeatTreatment,Thread,Chamfer,MassPerMeters"/>
+    </configuration>
+
+    <configuration id="ColorGroupInit">
+        <config JF_ColorGroupName="座椅/Complete Seat" Title="UA" Number="001"/>
+        <config JF_ColorGroupName="无色件/Non colour parts" Title="NA" Number="002"/>
+    </configuration>
+
+    <configuration id="signature">
+<!--        <config id="owner" nameX="2.8" nameY="4.85" dateX="6.9" dateY="4.85" unit="cm"/>-->
+<!--        <config id="review" nameX="2.8" nameY="3.55" dateX="6.9" dateY="3.55" unit="cm"/>-->
+<!--        <config id="complete" nameX="2.8" nameY="2.25" dateX="6.9" dateY="2.25" unit="cm"/>-->
+        <config id="owner" nameX="6.2" nameY="5.9" dateX="10" dateY="5.9" unit="cm"/>
+        <config id="review" nameX="6.2" nameY="4.5" dateX="10" dateY="4.5" unit="cm"/>
+        <config id="complete" nameX="6.2" nameY="3.1" dateX="10" dateY="3.1" unit="cm"/>
+    </configuration>
+
+    <configuration id="MBOM">
+        <config id="ITEM" value="0" />
+        <config id="level_0" value="1"/>
+        <config id="level_1" value="2" />
+        <config id="level_2" value="3" />
+        <config id="level_3" value="4" />
+        <config id="level_4" value="5" />
+        <config id="level_5" value="6" />
+        <config id="level_6" value="7" />
+        <config id="level_7" value="8" />
+        <config id="level_8" value="9" />
+        <config id="level_9" value="10" />
+        <config id="picture" value="11" />
+        <config id="attribute[JF_PartNumber]" value="12" />
+        <config id="JF_InternalColorCode" value="13" />
+        <config id="revision" value="14"  />
+        <config id="d" value="15"  />
+        <config id="InternalFullPartNumber" value="16" />
+        <config id="attribute[CustomerPartNumber]" value="17" />
+        <config id="JF_CustormColorCode" value="18" />
+        <config id="attribute[JF_PartNameCN]" value="19" />
+        <config id="attribute[JF_PartNameEN]" value="20" />
+		<config id="attribute[JF_PartType]" value="21" />
+		<config id="attribute[JF_ProcurementType]" value="22" />
+		<config id="attribute[JF_SpecialProcurementType]" value="23" />
+		<config id="attribute[JF_DirectBuy]" value="24" />
+		<config id="attribute[JFLength]" value="25" />
+		<config id="attribute[JFWidth]" value="26" />
+		<config id="attribute[JFHeight]" value="27" />
+		<config id="attribute[JF_VPMReference.JF_WeightTarget]" value="28" />
+		<config id="attribute[JF_Unit]" value="29" />
+		<config id="attribute[JF_VPMReference.JF_Detail_CN]" value="30" />
+		<config id="attribute[JF_VPMReference.JF_Material]" value="31" />
+		<config id="attribute[Function]" value="32" />
+		<config id="attribute[NetArea]" value="33" />
+		<config id="attribute[Circumference]" value="34" />
+		<config id="attribute[JF_Width]" value="35" />
+		<config id="attribute[JF_Utilizationrate]" value="36" />
+    </configuration>
+
+    <configuration id="PartListDocCheck">
+        <partListType id="Pre-DV">
+            <procurementGroup id="A01" Draw="optional" DVP="optional" SSOW="optional"/>
+			<procurementGroup id="A00" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A02" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A03" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A04" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A05" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A06" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A07" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A08" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A09" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A10" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A11" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A12" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A13" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A14" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A15" Draw="require" DVP="optional"  SSOW="optional"/>
+        </partListType>
+        <partListType id="DV-TKO">
+			<procurementGroup id="A00" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A01" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A02" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A03" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A04" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A05" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A06" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A07" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A08" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A09" Draw="optional" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A10" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A11" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A12" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A13" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A14" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A15" Draw="optional" DVP="require"  SSOW="require"/>
+        </partListType>
+        <partListType id="Pre-PV">
+			<procurementGroup id="A00" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A01" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A02" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A03" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A04" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A05" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A06" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A07" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A08" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A09" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A10" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A11" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A12" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A13" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A14" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A15" Draw="optional" DVP="require"  SSOW="require"/>
+        </partListType>
+        <partListType id="PV-TKO">
+			<procurementGroup id="A00" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A01" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A02" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A03" Draw="optional" DVP="require" SSOW="require"/>
+            <procurementGroup id="A04" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A05" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A06" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A07" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A08" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A09" Draw="require" DVP="require" SSOW="require"/>
+            <procurementGroup id="A10" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A11" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A12" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A13" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A14" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A15" Draw="require" DVP="require"  SSOW="require"/>
+        </partListType>
+        <partListType id="SOP">
+			<procurementGroup id="A00" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A01" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A02" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A03" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A04" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A05" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A06" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A07" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A08" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A09" Draw="require" DVP="require" SSOW="optional"/>
+            <procurementGroup id="A10" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A11" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A12" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A13" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A14" Draw="optional" DVP="optional" SSOW="optional"/>
+            <procurementGroup id="A15" Draw="require" DVP="require"  SSOW="optional"/>
+        </partListType>
+    </configuration>
+    <configuration id="ESOTask">
+        <JF_Function Value="CS,CS_JIT,Structure,Subsystem,EE"/>
+        <JF_Rows Value="1row,2row,3row,1_2row,2_3row,1_2_3_row"/>
+        <JF_ESOType JF_R2_TKO="Yes" Value="TKO|Phase"/>
+        <JF_ESOType JF_R2_TKO="No" Value="-"/>
+
+        <JF_Modules JF_Function="CS" Value="CS"/>
+        <JF_Modules JF_Function="CS_JIT" Value="CS_JIT"/>
+        <JF_Modules JF_Function="Structure" Value="Structure"/>
+        <JF_Modules JF_Function="Subsystem" Value="Trim,Plastic,Foam,Desk,Foot,Leg,HR,AR"/>
+        <JF_Modules JF_Function="EE" Value="E1,E2"/>
+
+        <JF_Locations JF_Modules="CS,CS_JIT" Value="SH,Beijing,Changchun,Changzhou,Chongqing,Wuhu,Ningbo,WuHan"/>
+        <JF_Locations JF_Modules="Trim,Plastic,Foam,Desk,Foot,Leg,E2,HR,AR" Value="SH,BJ,CC,CZ,CQ,HF,WH,NB"/>
+        <JF_Locations JF_Modules="E1" Value="SH,CC,CQ,BJ"/>
+        <JF_Locations JF_Modules="Structure" Value="SH,CQ,BJ,CZ,HF,WH"/>
+
+        <JF_Department JF_Modules="CS,CS_JIT" JF_Locations="SH" Value="CBU_1-1,CBU_1-2,CBU_2-1,CBU_2-2,CBU_2-3,CBU_3-1" />
+        <JF_Department JF_Modules="CS,CS_JIT" JF_Locations="Beijing,Changchun,Changzhou,Chongqing,Wuhu,Ningbo,WuHan" Value="NA" />
+        <JF_Department JF_Modules="Structure" JF_Locations="SH" Value="Portfolio,Metal" />
+        <JF_Department JF_Modules="Structure" JF_Locations="CQ,BJ,CZ,HF,WH" Value="Metal" />
+        <JF_Department JF_Modules="Trim,Plastic,Foam" JF_Locations="SH" Value="1,2" />
+        <JF_Department JF_Modules="Trim,Plastic,Foam" JF_Locations="BJ,CC,CZ,CQ,HF,WH,NB" Value="NA" />
+        <JF_Department JF_Modules="Desk,Foot,Leg,E1,E2,HR,AR" JF_Locations="SH,BJ,CC,CZ,CQ,HF,WH,NB" Value="NA" />
+    </configuration>
+	<configuration id="JFPCRTask">
+        <config id="Trim AME representative" title="制造工艺-面套" />
+        <config id="Foam AME representative" title="制造工艺-发泡"/>
+        <config id="AME representative" title="制造工艺-总装"/>
+        <config id="AQE representative/PQL" title="质量"/>
+        <config id="Launch manager" title="物流"/>
+		<config id="Launch manager" title="生产"/>
+		<config id="Launch manager" title="安全"/>
+        <config id="Chair manager" title="研发"/>
+        <config id="Financial BP" title="财务"/>
+        <config id="Business manager" title="商务"/>       
+		<config id="SQD Representative" title="供应商质量"/>
+		<config id="Purchasing representative" title="采购"/>
+    </configuration>
+		<configuration id="JFPCRVerificationTask">
+        <config id="RD" title="研发" />
+        <config id="Supply" title="供应链"/>
+        <config id="quality" title="质量"/>
+        <config id="Process-Final Assembly" title="工艺-总装"/>
+        <config id="Process-Trim" title="工艺-面套"/>
+		<config id="Process-foamed" title="工艺-发泡"/>
+		<config id="logistics" title="物流"/>
+        <config id="production" title="生产"/>
+        <config id="safety" title="安全"/>     
+    </configuration>
+
+    <configuration id="EBOM_Class_Attr_Back">
+        <!--无-->
+        <config id="4向手动总成,6向手动总成,8向手动总成,4向电动总成,6向电动总成,8向电动总成,10向电动总成,12向电动总成,豪华电动总成,靠背总成（供货级）,坐垫总成（供货级）,中间座椅总成,100%座椅总成,40%侧座椅总成,60%侧座椅总成,50%座椅总成,10%侧翼总成,靠背总成（非供货级）,坐垫总成（非供货级）,鞋盒总成,校核总成,左前座椅总成,右前座椅总成,二排座椅总成,二排左椅总成,二排右椅总成,三排座椅总成,三排左椅总成,三排右椅总成,环境件总成,CAS,假人（含H点）,综合边界数据,地毯,中控,顶棚,车身,门板,立柱,方向盘（转向管柱）,仪表台,行李箱,客户端紧固件,儿童座椅,装配工具,假人,DMU,断面数据,油脂,胶水,消音水,消音蜡,尼龙钉,胶布,C型钉,订书钉,橡皮筋,包装袋,标签,消音无纺布,毛毡,网兜,PE膜,小件包总成,装配总成,弧焊总成,点焊总成,凸焊总成,激光焊总成,衬套铆接总成,工艺虚拟总成,垫块,EPP总成,发泡卡扣,粘扣带,发泡直钢丝,线束总成,电路板总成,加热垫,舒适调节系统,开关总成,电子屏,充电总成,音响,乘员探测,乘员分类,4D震动,传感器总成,通风系统,按摩系统,腰托系统,侧翼系统,硬度调节系统,端子,护套,防水栓,连接器附件,卡扣,支架,扎带,传感器芯片,PCB线束（FPC等）,PCBA专用连接器,机电元件,紧固件，五金件，配件,IC 芯片,无源元件,电源，电路保护,风扇，热管理,PCB板,风扇,通风袋,风扇支架,通风附件,气袋,悬挂,阀组,气泵,支撑附件,控制器,氛围灯,仅CAD数据,电动调角器,手动调角器,手电一体调角器,mini滑轨,电动短滑轨,手动短滑轨,电动长滑轨,手动长滑轨,电动转盘,手动转盘,电动锁闩,手动锁闩,靠背锁,地板锁,泵,扶手调角器,扶手阻尼器,棘轮轴,X型阻尼,CLA电机,Tilt电机,头枕电机,水平电机,解锁电机,出风口电机,扶手箱电机,长滑轨电机,门把手电机,常速靠背电机,高速靠背电机,丝杆式高调电机,齿轮式高调电机,扶手电机,小桌板电机,腿托电机,脚蹬电机,振动电机,总线电机,转盘电机,靠背桌板,折叠桌板,旁侧板桌板,升降桌板,电动2向腿托,电动4向腿托,电动6向腿托,脚蹬机构总成,脚蹬本体总成,手动4向头枕总成,手动6向头枕总成,电动2向头枕总成,电动4向头枕总成,电动6向头枕总成,电动招财猫扶手总成,中间大扶手总成,固定式大扶手总成,功能件滑轨,安全带锁扣,侧气囊,远端气囊,座垫气囊,卷收器,软枕,PLP,座椅减震器,迷宫锁,筒式阻尼,盘式阻尼,齿轮阻尼,铰链阻尼,转轴阻尼,空气阻尼,拉线" value=""></config>
+        <!--打孔、绗缝、盲缝-->
+        <config id="面套总成" value="attribute[Perforation],attribute[Quilting],attribute[BlindStitch]"></config>
+        <!--缝线类型-->
+        <config id="缝纫线" value="attribute[ThreadType]"></config>
+        <!--工艺-->
+        <config id="铸造件,粉末冶金,手动2向头枕总成,手动招财猫扶手总成,中间小扶手总成,按钮,手柄,PP/PE板,椅背板塑料件,靠背塑料件,坐垫塑料件,头枕塑料件,扶手塑料件,桌板塑料件,腿托塑料件,脚蹬塑料件,CLA塑料件,核心件塑料件,电机件塑料件" value="attribute[Craft]"></config>
+        <!--工艺、净面积、周长-->
+        <config id="面套次组合" value="attribute[Craft],attribute[NetArea],attribute[Circumference]"></config>
+        <!--工艺、克重、复合层类型、复合层密度、底布类型、底布克重、打孔、绗缝、是否热压-->
+        <config id="卷料" value="attribute[Craft],attribute[GramWeight],attribute[CompositeLayerType],attribute[CompositeLayerDensity],attribute[BackingType],attribute[BackingDensity],attribute[Perforation],attribute[Quilting],attribute[HotPressingorNot]"></config>
+        <!--工艺、净面积、周长、绗缝、盲缝-->
+        <config id="样板" value="attribute[Craft],attribute[NetArea],attribute[Circumference],attribute[Quilting],attribute[BlindStitch]"></config>
+        <!--工艺、克重-->
+        <config id="松紧带" value="attribute[Craft],attribute[GramWeight]"></config>
+        <!--工艺、克重-->
+        <config id="面套标识" value="attribute[Craft],attribute[GramWeight]"></config>
+        <!--工艺、克重、芯的类型、芯的直径-->
+        <config id="嵌条" value="attribute[Craft],attribute[GramWeight],attribute[TypeofPipingCore],attribute[DiameterofPipingCore]"></config>
+        <!--工艺、面积、克重-->
+        <config id="模压毛毡" value="attribute[Craft],attribute[Area],attribute[GramWeight]"></config>
+        <!--工艺、折弯数-->
+        <config id="坐垫悬簧总成,靠背悬簧总成" value="attribute[Craft],attribute[BendingMumber]"></config>
+        <!--规格-->
+        <config id="气弹簧,包覆材料,橡胶钉,塑料卡扣,金属卡扣,衬套,轴套,垫圈,止推帽,塑料紧箍带,销" value="attribute[Specification]"></config>
+        <!--规格、米重-->
+        <config id="半成品线,导线" value="attribute[Specification],attribute[MassPerMeters]"></config>
+        <!--规格、热处理-->
+        <config id="卷簧,直簧,扭簧,同步杆" value="attribute[Specification],attribute[HeatTreatment]"></config>
+        <!--规格、涂胶、公称长度-->
+        <config id="PT自攻钉,ST自攻钉" value="attribute[Specification],attribute[NominalLength]"></config>
+        <!--规格、性能等级-->
+        <config id="簧片螺母,嵌件螺母" value="attribute[Specification],attribute[PerformanceLevel]"></config>
+        <!--规格、性能等级、公称长度-->
+        <config id="内六角花形盘头自挤螺钉,内六角花形盘头自攻螺钉" value="attribute[Specification],attribute[PerformanceLevel],attribute[NominalLength]"></config>
+        <!--规格、性能等级、公称长度、是否带防松胶-->
+        <config id="内六角花形盘头螺栓,内六角花形圆柱头螺栓,内六角花形盘头台阶螺栓,内六角台阶螺栓,六角法兰面螺栓,六角头螺栓,焊接螺栓,十字槽螺钉,抽芯铆钉" value="attribute[Specification],attribute[PerformanceLevel],attribute[NominalLength],attribute[IS Anti Loosening Adhesive]"></config>
+        <!--规格、性能等级、是否带防松胶-->
+        <config id="安全带螺母,防松螺母,焊接螺母,拉铆螺母,六角法兰面螺母" value="attribute[Specification],attribute[PerformanceLevel],attribute[IS Anti Loosening Adhesive]"></config>
+        <!--规格级、公称长度-->
+        <config id="压铆铆钉" value="attribute[NominalLength]"></config>
+        <!--焊接类型、焊缝数、焊缝长度-->
+        <config id="焊缝" value="attribute[WeldingType],attribute[WeldingSpotQuantity],attribute[WeldingLength]"></config>
+        <!--净面积、周长、打孔-->
+        <config id="样板包" value="attribute[NetArea],attribute[Circumference],attribute[Perforation]"></config>
+        <!--净面积-->
+        <config id="塑料件包覆面料" value="attribute[NetArea]"></config>
+        <!--净面积、克重、是否热压、磁粉片/铁皮钉、磁粉片/铁皮钉数量-->
+        <config id="发泡无纺布" value="attribute[NetArea],attribute[GramWeight],attribute[HotPressingorNot],attribute[MagneticPowderIronNails],attribute[MagneticPowderIronNailsQuantity]"></config>
+        <!--克重-->
+        <config id="卡条,拉紧条,底带,魔术贴,刺毛条" value="attribute[GramWeight]"></config>
+        <!--铆接数量-->
+        <config id="铆接总成" value="attribute[GripNumber]"></config>
+        <!--热处理-->
+        <config id="轴" value="attribute[HeatTreatment]"></config>
+        <!--克重、复合层类型、复合层密度、底布类型、底布克重、绗缝、是否热压-->
+        <config id="原皮" value="attribute[GramWeight],attribute[CompositeLayerType],attribute[CompositeLayerDensity],attribute[BackingType],attribute[BackingDensity],attribute[Perforation],attribute[Quilting],attribute[HotPressingorNot]"></config>
+        <!--克重、拉链类型-->
+        <config id="拉链" value="attribute[GramWeight],attribute[ZipperType]"></config>
+        <!--热处理、攻螺纹、倒角-->
+        <config id="精冲件,冲压件" value="attribute[HeatTreatment],attribute[Thread],attribute[Chamfer]"></config>
+        <!--体积-->
+        <config id="磁铁" value="attribute[Volume]"></config>
+        <!--是否喷胶-->
+        <config id="发泡总成" value="attribute[AdhesiveSprayingorNot]"></config>
+        <!--体积、磁粉片/铁皮钉、磁粉片/铁皮钉数量-->
+        <config id="XPE片" value="attribute[Volume],attribute[MagneticPowderIronNails],attribute[MagneticPowderIronNailsQuantity]"></config>
+        <!--体积、发泡模具类型、硬度-->
+        <config id="发泡单体,EPP" value="attribute[Volume],attribute[FoamMoldType],attribute[Rigidity]"></config>
+        <!--折弯数、拍扁数、冲孔数、切口数、规格-->
+        <config id="方管" value="attribute[BendingMumber],attribute[FlatteningQuantity],attribute[PunchingQuantity],attribute[CutQuantity],attribute[Specification]"></config>
+        <!--折弯数、拍扁数、冲孔数、切口数、缩管数、胀管数量-->
+        <config id="圆管" value="attribute[BendingMumber],attribute[FlatteningQuantity],attribute[PunchingQuantity],attribute[CutQuantity],attribute[ContractedTubeQuantity],attribute[ExpandedPipeNumber]"></config>
+        <!--折弯数、拍扁数、冲孔数、冷拔、热处理-->
+        <config id="钢丝" value="attribute[BendingMumber],attribute[FlatteningQuantity],attribute[PunchingQuantity],attribute[ColdDrawn],attribute[HeatTreatment]"></config>
+        <!--体积、净面积、是否喷胶、是否背胶、背胶面积、是否慢回弹、硬度-->
+        <config id="软海绵" value="attribute[Volume],attribute[NetArea],attribute[AdhesiveSprayingorNot],attribute[BackAdhesiveorNot],attribute[BackAdhesiveArea],attribute[SlowReboundorNot],attribute[Rigidity]"></config>
+        <!--体积、硬度-->
+        <config id="PUR块" value="attribute[Volume],attribute[Rigidity]"></config>
+        <!--折弯数-->
+        <config id="发泡折弯钢丝" value="attribute[BendingMumber]"></config>
+    </configuration>
+	
+    <configuration id="FreePart">
+        <config id="ITEM" value="0" />
+        <config id="attribute[EnterpriseExtension.V_PartNumber]" value="1" />
+        <config id="revision" value="2"  />
+        <config id="current" value="3"  />
+		<config id="attribute[JF_VPMReference.JF_PartType]" value="4"  />
+		<config id="attribute[JF_VPMReference.JF_Detail_CN]" value="5"  />
+		<config id="attribute[JF_VPMReference.JF_Detail_EN]" value="6"  />
+        <config id="attribute[JF_VPMReference.JF_PartNameEN]" value="7" />
+        <config id="attribute[JF_VPMReference.JF_PartNameCN]" value="8" />
+		<config id="owner" value="9" />
+		<config id="projectName" value="10" />
+    </configuration>
+    <!--采购件初始成本导入导出-->
+    <configuration id="JFFormalInitialCostBuy">
+        <!-- 固定冻结列（不随角色变化） -->
+        <config id="id" value="id" selectValue="id" isEdit="false" isFixed="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false" isFixed="true"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false" isFixed="true" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false" isFixed="true"/>
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false" isFixed="true"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false" isFixed="true"/>
+        <config id="ProcurementType" value="JF_VPMReference.JF_ProcurementType" selectValue="attribute[JF_VPMReference.JF_ProcurementType]" isEdit="false" isFixed="true"/>
+        <config id="DirectBuy" value="JF_VPMReference.JF_DirectBuy" selectValue="attribute[JF_VPMReference.JF_DirectBuy]" isEdit="false" isFixed="true"/>
+        <!-- 动态列配置 - 包含所有可能的列，通过 role 属性控制显示 -->
+        <!-- 采购单价 -->
+        <config id="JF_VPMReferenceCost.JF_UnitPrice" value="JF_VPMReferenceCost.JF_UnitPrice" cellValue="采购单价" selectValue="attribute[JF_VPMReferenceCost.JF_UnitPrice]" isEdit="true" role="Purchasing representative|Internal Supplier"/>
+         <!-- 采购试验费 -->
+        <config id="JF_VPMReferenceCost.JF_TrialExpensesPrice"  value="JF_VPMReferenceCost.JF_TrialExpensesPrice" cellValue="采购试验费" selectValue="attribute[JF_VPMReferenceCost.JF_TrialExpensesPrice]" isEdit="true" role="Purchasing representative|Internal Supplier"/>
+        <!-- 采购呆滞费 -->
+        <config id="JF_VPMReferenceCost.JF_StagnationPrice" value="JF_VPMReferenceCost.JF_StagnationPrice" cellValue="采购呆滞费" selectValue="attribute[JF_VPMReferenceCost.JF_StagnationPrice]" isEdit="true" role="Purchasing representative|Internal Supplier"/>
+        <!-- 采购模具费 -->
+        <config id="JF_VPMReferenceCost.JF_CostMoldPrice"  value="JF_VPMReferenceCost.JF_CostMoldPrice" cellValue="采购模具费" selectValue="attribute[JF_VPMReferenceCost.JF_CostMoldPrice]" isEdit="true" role="Purchasing representative|Internal Supplier"/>
+        <!-- 模具费成本 -->
+        <config id="JF_VPMReferenceCost.JF_MoldPrice" value="JF_VPMReferenceCost.JF_MoldPrice" cellValue="模具费成本" selectValue="attribute[JF_VPMReferenceCost.JF_MoldPrice]" isEdit="true" role="Costing" />
+        <!-- 单件成本 -->
+        <config id="JF_VPMReferenceCost.JF_UnitPriceCost" value="JF_VPMReferenceCost.JF_UnitPriceCost" cellValue="单件成本" selectValue="attribute[JF_VPMReferenceCost.JF_UnitPriceCost]" isEdit="true" role="Costing"/>
+    </configuration>
+    <!--自制件初始成本导入导出-->
+    <configuration id="JFFormalInitialCostMake">
+        <!-- 固定冻结列（不随角色变化） -->
+        <config id="id" value="id" selectValue="id" isEdit="false" isFixed="false"/>
+        <config id="PartNumber" value="EnterpriseExtension.V_PartNumber" selectValue="attribute[EnterpriseExtension.V_PartNumber]" isEdit="false" isFixed="true"/>
+        <config id="PartType" value="JF_VPMReference.JF_PartType" selectValue="attribute[JF_VPMReference.JF_PartType]" isEdit="false" isFixed="true" funName="getNewAffectedItemsCostTableField" jpoName="JF_NewECRService"/>
+        <config id="revision" value="revision" selectValue="revision" isEdit="false" isFixed="true"/>
+        <config id="PartNameCN" value="JF_VPMReference.JF_PartNameCN" selectValue="attribute[JF_VPMReference.JF_PartNameCN]" isEdit="false" isFixed="true"/>
+        <config id="PartNameEN" value="JF_VPMReference.JF_PartNameEN" selectValue="attribute[JF_VPMReference.JF_PartNameEN]" isEdit="false" isFixed="true"/>
+        <config id="ProcurementType" value="JF_VPMReference.JF_ProcurementType" selectValue="attribute[JF_VPMReference.JF_ProcurementType]" isEdit="false" isFixed="true"/>
+        <config id="DirectBuy" value="JF_VPMReference.JF_DirectBuy" selectValue="attribute[JF_VPMReference.JF_DirectBuy]" isEdit="false" isFixed="true"/>
+
+        <!-- 动态列配置 - 包含所有可能的列，通过 role 属性控制显示 -->
+        <!-- 单件成本 -->
+        <config id="JF_VPMReferenceCost.JF_UnitPriceCost" value="JF_VPMReferenceCost.JF_UnitPriceCost" cellValue="单件成本" selectValue="attribute[JF_VPMReferenceCost.JF_UnitPriceCost]" isEdit="true" role="Costing"/>
+        <!-- 模具费成本 -->
+        <config id="JF_VPMReferenceCost.JF_MoldPrice" value="JF_VPMReferenceCost.JF_MoldPrice" cellValue="模具费成本" selectValue="attribute[JF_VPMReferenceCost.JF_MoldPrice]" isEdit="true" role="Costing" />
+        <!-- 采购模具费 -->
+        <config id="JF_VPMReferenceCost.JF_CostMoldPrice"  value="JF_VPMReferenceCost.JF_CostMoldPrice" cellValue="采购模具费" selectValue="attribute[JF_VPMReferenceCost.JF_CostMoldPrice]" isEdit="true" role="Purchasing representative|Internal Supplier"/>
+        <!-- 工时 -->
+        <config id="JF_VPMReferenceCost.JF_Man_hour"  value="JF_VPMReferenceCost.JF_Man_hour" cellValue="工时" selectValue="attribute[JF_VPMReferenceCost.JF_Man_hour]" isEdit="true" role="AME representative|Foam AME representative|Trim AME representative"/>
+    </configuration>
+    <!-- 审批任务超期提醒   -->
+    <!-- 审批对象类型、审批节点国际化资源及超期工作日均通过配置扩展。 -->
+    <configuration id="ApprovalTaskOverdueEmailReminder">
+        <!-- 产品配置申请单整椅经理审批任务超期3天提醒   -->
+        <config objectType="JFConfigTableRoute" taskNodeBundle="emxFrameworkStringResource" taskNodeKey="emxFramework.JFProductConfigApproval.RouteNodeChairManager" overdueWorkdays="3"/>
+    </configuration>
+    <configuration id="Export_MBOM_Zero">
+        <!--序号 -->
+        <config id="ITEM" value="0" />
+        <!--装配等级-->
+        <config id="level_0" value="1"/>
+        <config id="level_1" value="2" />
+        <config id="level_2" value="3" />
+        <config id="level_3" value="4" />
+        <config id="level_4" value="5" />
+        <config id="level_5" value="6" />
+        <config id="level_6" value="7" />
+        <config id="level_7" value="8" />
+        <config id="level_8" value="9" />
+        <config id="level_9" value="10" />
+        <!--图片-->
+        <config id="picture" value="11" />
+        <!--内部零件号-->
+        <config id="attribute[JF_PartNumber]" value="12" />
+        <!--内部色号-->
+        <config id="JF_InternalColorCode" value="13" />
+        <!--内部版本号-->
+        <config id="revision" value="14"  />
+        <!--内部供应商代码-->
+        <config id="d" value="15"  />
+        <!--内部完整零件号-->
+        <config id="InternalFullPartNumber" value="16" />
+        <!--客户零件号-->
+        <config id="attribute[CustomerPartNumber]" value="17" />
+        <!--客户色号-->
+        <config id="JF_CustormColorCode" value="18" />
+        <!--客户版本号-->
+        <config id="attribute[CustomerPartRevision]" value="19" />
+        <!--零件中文名称-->
+        <config id="attribute[JF_PartNameCN]" value="20" />
+        <!--零件英文名称-->
+        <config id="attribute[JF_PartNameEN]" value="21" />
+        <!--零件类别-->
+        <config id="attribute[JF_PartType]" value="22" />
+        <!--详细分类-->
+        <config id="attribute[JF_VPMReference.JF_Detail_CN]" value="23" />
+        <!--零件材料-->
+        <config id="attribute[JF_VPMReference.JF_Material]" value="24" />
+        <!--功能用途-->
+        <config id="attribute[Function]" value="25" />
+        <!--生产或采购-->
+        <config id="attribute[JF_ProcurementType]" value="26" />
+        <!--特殊采购类型-->
+        <config id="attribute[JF_SpecialProcurementType]" value="27" />
+        <!--是否DB-->
+        <config id="attribute[JF_DirectBuy]" value="28" />
+        <!--长-->
+        <config id="attribute[JFLength]" value="29" />
+        <!--宽-->
+        <config id="attribute[JFWidth]" value="30" />
+        <!--高-->
+        <config id="attribute[JFHeight]" value="31" />
+        <!--重量-->
+        <config id="attribute[JF_VPMReference.JF_WeightTarget]" value="32" />
+        <!--用量单位-->
+        <config id="attribute[JF_Unit]" value="33" />
+    </configuration>
+    <configuration id="Export_MBOM_Foam">
+        <!--序号 -->
+        <config id="ITEM" value="0" />
+        <!--装配等级-->
+        <config id="level_0" value="1"/>
+        <config id="level_1" value="2" />
+        <config id="level_2" value="3" />
+        <config id="level_3" value="4" />
+        <config id="level_4" value="5" />
+        <config id="level_5" value="6" />
+        <config id="level_6" value="7" />
+        <config id="level_7" value="8" />
+        <config id="level_8" value="9" />
+        <config id="level_9" value="10" />
+        <!--图片-->
+        <config id="picture" value="11" />
+        <!--内部零件号-->
+        <config id="attribute[JF_PartNumber]" value="12" />
+        <!--内部色号-->
+        <config id="JF_InternalColorCode" value="13" />
+        <!--内部版本号-->
+        <config id="revision" value="14"  />
+        <!--内部供应商代码-->
+        <config id="d" value="15"  />
+        <!--内部完整零件号-->
+        <config id="InternalFullPartNumber" value="16" />
+        <!--客户零件号-->
+        <config id="attribute[CustomerPartNumber]" value="17" />
+        <!--客户色号-->
+        <config id="JF_CustormColorCode" value="18" />
+        <!--客户版本号-->
+        <config id="attribute[CustomerPartRevision]" value="19" />
+        <!--零件中文名称-->
+        <config id="attribute[JF_PartNameCN]" value="20" />
+        <!--零件英文名称-->
+        <config id="attribute[JF_PartNameEN]" value="21" />
+        <!--零件类别-->
+        <config id="attribute[JF_PartType]" value="22" />
+        <!--详细分类-->
+        <config id="attribute[JF_VPMReference.JF_Detail_CN]" value="23" />
+        <!--零件材料-->
+        <config id="attribute[JF_VPMReference.JF_Material]" value="24" />
+        <!--功能用途-->
+        <config id="attribute[Function]" value="25" />
+        <!--生产或采购-->
+        <config id="attribute[JF_ProcurementType]" value="26" />
+        <!--特殊采购类型-->
+        <config id="attribute[JF_SpecialProcurementType]" value="27" />
+        <!--是否DB-->
+        <config id="attribute[JF_DirectBuy]" value="28" />
+        <!--长-->
+        <config id="attribute[JFLength]" value="29" />
+        <!--宽-->
+        <config id="attribute[JFWidth]" value="30" />
+        <!--高-->
+        <config id="attribute[JFHeight]" value="31" />
+        <!--重量-->
+        <config id="attribute[JF_VPMReference.JF_WeightTarget]" value="32" />
+        <!--材料密度-->
+        <config id="attribute[JF_VPMReference.JF_MaterialDensity]" value="33" />
+        <!--用量单位-->
+        <config id="attribute[JF_Unit]" value="34" />
+    </configuration>
+    <configuration id="Export_MBOM_Trim">
+        <!--序号 -->
+        <config id="ITEM" value="0" />
+        <!--装配等级-->
+        <config id="level_0" value="1"/>
+        <config id="level_1" value="2" />
+        <config id="level_2" value="3" />
+        <config id="level_3" value="4" />
+        <config id="level_4" value="5" />
+        <config id="level_5" value="6" />
+        <config id="level_6" value="7" />
+        <config id="level_7" value="8" />
+        <config id="level_8" value="9" />
+        <config id="level_9" value="10" />
+        <!--图片-->
+        <config id="picture" value="11" />
+        <!--内部零件号-->
+        <config id="attribute[JF_PartNumber]" value="12" />
+        <!--内部色号-->
+        <config id="JF_InternalColorCode" value="13" />
+        <!--内部版本号-->
+        <config id="revision" value="14"  />
+        <!--内部供应商代码-->
+        <config id="d" value="15"  />
+        <!--内部完整零件号-->
+        <config id="InternalFullPartNumber" value="16" />
+        <!--客户零件号-->
+        <config id="attribute[CustomerPartNumber]" value="17" />
+        <!--客户色号-->
+        <config id="JF_CustormColorCode" value="18" />
+        <!--客户版本号-->
+        <config id="attribute[CustomerPartRevision]" value="19" />
+        <!--零件中文名称-->
+        <config id="attribute[JF_PartNameCN]" value="20" />
+        <!--零件英文名称-->
+        <config id="attribute[JF_PartNameEN]" value="21" />
+        <!--零件类别-->
+        <config id="attribute[JF_PartType]" value="22" />
+        <!--详细分类-->
+        <config id="attribute[JF_VPMReference.JF_Detail_CN]" value="23" />
+        <!--零件材料-->
+        <config id="attribute[JF_VPMReference.JF_Material]" value="24" />
+        <!--功能用途-->
+        <config id="attribute[Function]" value="25" />
+        <!--生产或采购-->
+        <config id="attribute[JF_ProcurementType]" value="26" />
+        <!--特殊采购类型-->
+        <config id="attribute[JF_SpecialProcurementType]" value="27" />
+        <!--是否DB-->
+        <config id="attribute[JF_DirectBuy]" value="28" />
+        <!--长-->
+        <config id="attribute[JFLength]" value="29" />
+        <!--宽-->
+        <config id="attribute[JFWidth]" value="30" />
+        <!--高-->
+        <config id="attribute[JFHeight]" value="31" />
+        <!--重量-->
+        <config id="attribute[JF_VPMReference.JF_WeightTarget]" value="32" />
+        <!--净面积-->
+        <config id="attribute[NetArea]" value="33" />
+        <!--周长-->
+        <config id="attribute[Circumference]" value="34" />
+        <!--门幅-->
+        <config id="attribute[JF_Width]" value="35" />
+        <!--利用率-->
+        <config id="attribute[JF_Utilizationrate]" value="36" />
+        <!--用量单位-->
+        <config id="attribute[JF_Unit]" value="37" />
+    </configuration>
+    <configuration id="MBOM_Change_Record">
+        <config id="ITEM" value="0" />
+        <config id="ChangeDate" value="1" />
+        <config id="ChangeTime" value="2" />
+        <config id="ChangePerson" value="3" />
+        <config id="description" value="4" />
+        <config id="ConnECR" value="5" />
+    </configuration>
+    <!-- 全局配置块：定义物料分组 -->
+    <configuration id="MBOM_Type_Control">
+        <!-- 1. 定义物料分组 (方便代码读取时进行匹配) -->
+        <config id="Detail_Type" value="样板包,松紧带,嵌条" />
+        <config id="Detail_Type_T06" value="样板包" />
+        <config id="Detail_Other" value="胶布,底带,卷料卡条,卷料嵌条,缝纫线,魔术贴,刺毛条" />
+        <config id="Roll_Detail_Type" value="卷料" />
+        <!-- 2. 面套BOMDetail_Type分组的采购类型为make转MBOM后设置为buy -->
+        <config id="Detail_Type_Make" value="buy" />
+        <!-- 3. 用量计算规则 (使用占位符表示公式) -->
+        <!-- 样板包: 净面积 / 门幅 / 利用率 -->
+        <config id="Detail_Type_Usage_T06" value="attribute[NetArea]/attribute[JF_Width]/attribute[JF_Utilizationrate]" />
+        <!-- 松紧带/嵌条: 长度 / 1000 -->
+        <config id="Detail_Type_Usage_Other" value="attribute[JFLength]/1000" />
+        <!-- 其他类型: 原用量 / 1000 -->
+        <config id="Detail_Other_Usage" value="attribute[JF_VPMInstance.JF_Dosage]/1000" />
+        <!-- 4. 单位设置规则 (这是你之前配不出来的核心) -->
+        <!-- 松紧带/嵌条/其他: 固定单位 -->
+        <config id="Detail_Type_Unit_Other" value="M" />
+        <config id="Detail_Other_Unit" value="M" />
+        <!-- 样板包单位: 是否真皮为Y时单位为M，为N时单位为M2 -->
+        <config id="Detail_Type_Unit_T06_Y" value="M" />
+        <config id="Detail_Type_Unit_T06_N" value="M2" />
+    </configuration>
+</configurations>
+
+
+
+
+
+
+
+
+
+
+
+
+

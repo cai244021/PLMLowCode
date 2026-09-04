@@ -1,0 +1,53 @@
+# Dependencies, build output and local tools
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/target/
+**/coverage/
+**/.vite/
+**/.idea/
+**/.vscode/
+**/.svn/
+**/bak/
+*.bak
+*.tsbuildinfo
+*.class
+*.jar
+*.log
+*.pid
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Machine-specific configuration and private runtime data
+/config/
+/data/
+/logs/
+/uploads/
+/backup/
+/数据库信息.txt
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Historical deliverables, rendered QA output and archives
+/deliverables/
+*.zip
+*.7z
+*.rar
+
+# Legacy integrations requiring credential cleanup before publication
+/plm/spinner/schema_custom/Business/SourceFiles/JF_SendEmailUtils_mxJPO.java
+/plm/spinner/schema_custom/Business/SourceFiles/JF_WebServiceHandler_mxJPO.java
+/plm/spinner/schema_custom/Business/SourceFiles/JF_VPLMReference_mxJPO.java
+
+# Platform areas outside this repository's development scope
+**/3ddashboard/
+**/3dsearch/

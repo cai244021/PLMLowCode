@@ -1,0 +1,2 @@
+# Preserve the existing source bytes; Spinner TSV files require CRLF.
+* -text

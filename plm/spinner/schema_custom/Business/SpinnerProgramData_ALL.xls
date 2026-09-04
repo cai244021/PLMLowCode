@@ -1,0 +1,95 @@
+Program Name	Registry Name	Description	Type (mql<default>/java/ekl/external)	Execute (immediate<default>/deferred)	Needs Bus Obj (boolean)	Downloadable (boolean)	Piped (boolean)	Pooled (boolean)	Hidden (boolean)	User	Icon File
+JF_DataInterface	JF_DataInterface	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_WaterMarkUtils	JS_WaterMarkUtils	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxVPLMTask	emxVPLMTask	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Route	JF_Route	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_loginPassport	JF_loginPassport	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_PLMConstants	JF_PLMConstants	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Util	JF_Util	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxDomainAccess	emxDomainAccess	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxProjectSpace	emxProjectSpace	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DataOutSource	JF_DataOutSource	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_PublicMethodClass	JF_PublicMethodClass	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_VPMReference	JF_VPMReference	The program for Query	java	deferred	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_VPMReferenceEBOM	JF_VPMReferenceEBOM	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_VPMT	JF_VPMT	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+OfficeUtils	OfficeUtils		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DocumentTrigger	JF_DocumentTrigger		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DocumentDeferredTrigger	JF_DocumentDeferredTrigger		java	deferred	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_OfficeConverPdfJob	JF_OfficeConverPdfJob		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxCommonFileUIBase	emxCommonFileUIBase		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DR	JF_DR		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DocumentService	JF_DocumentService		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxCommonDocumentUI	emxCommonDocumentUI		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ECRService	JF_ECRService		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ECRServiceDeffer	JF_ECRServiceDeffer		java	deferred	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ECRProcess	JF_ECRProcess		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_SendEmailUtils	JF_SendEmailUtils		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ZipCompressor	JF_ZipCompressor		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ChangeEvent	JF_ChangeEvent	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DRW	JF_DRW	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DeviationApplicationSource	JF_DeviationApplicationSource	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ChangeExecutionECOSource	JF_ChangeExecutionECOSource	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_FasteningPiece	JF_FasteningPiece		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ProjectSpace	JF_ProjectSpace		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_SignTask	JF_SignTask		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ECRRESTService	JF_ECRRESTService		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_FileUtils	JF_FileUtils		java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DocumentLibrary	JF_DocumentLibrary	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_DeformablePartsManagement	JF_DeformablePartsManagement	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_WebServiceHandler	JF_WebServiceHandler	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_CompetitiveBOM	JF_CompetitiveBOM	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_MyTask	JF_MyTask	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxInboxTask	emxInboxTask	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxCommonDocument	emxCommonDocument	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_NotificationConfiguration	JF_NotificationConfiguration	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_NotificationUtils	JF_NotificationUtils	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Library	JF_Library	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_CAACallRestfulService	JF_CAACallRestfulService	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_VPLMReference	JF_VPLMReference	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ProcessExcel	JF_ProcessExcel	The program for Query	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ExcelUtils	JF_ExcelUtils	JF_ExcelUtils	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Trim	JF_Trim	JF_Trim	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ProjectDocumentService	JF_ProjectDocumentService	JF_ProjectDocumentService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+CUS_ConfigConstants	CUS_ConfigConstants	CUS_ConfigConstants	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+CUS_DocCustomAction	CUS_DocCustomAction	CUS_DocCustomAction	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+CUS_OnlyOfficeOnlineAction	CUS_OnlyOfficeOnlineAction	CUS_OnlyOfficeOnlineAction	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+CUS_BuilderConfigFile	CUS_BuilderConfigFile	CUS_BuilderConfigFile	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Config	JF_Config	JF_Config	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ColorPart	JF_ColorPart	JF_ColorPart	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ExportEBOM	JF_ExportEBOM	JF_ExportEBOM	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Cost	JF_Cost	JF_Cost	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxTask	emxTask	emxTask	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_Snapshot	JF_Snapshot	JF_Snapshot	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_BackendImportProgram	JF_BackendImportProgram	JF_BackendImportProgram	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_LastRevisionBOMService	JF_LastRevisionBOMService	JF_LastRevisionBOMService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_CostAnalysis	JF_CostAnalysis	JF_CostAnalysis	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_MBOMUtil	JF_MBOMUtil	JF_MBOMUtil	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_MBOMService	JF_MBOMService	JF_MBOMService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ElectronicSignature	JF_ElectronicSignature	JF_ElectronicSignature	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_NewECRProcess	JF_NewECRProcess	JF_NewECRProcess	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_PublicProjectQuery	JF_PublicProjectQuery	JF_PublicProjectQuery	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_NewECRService	JF_NewECRService	JF_NewECRService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_NewECRRESTService	JF_NewECRRESTService	JF_NewECRRESTService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+emxCommonCompleteTaskBase	emxCommonCompleteTaskBase	emxCommonCompleteTaskBase	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ESO	JF_ESO	JF_ESO	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ProjectTaskUtils	JF_ProjectTaskUtils	JF_ProjectTaskUtils	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_MBOM	JF_MBOM	JF_MBOM	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ExternalInterface	JF_ExternalInterface	JF_ExternalInterface	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_ExportMBOM	JF_ExportMBOM	JF_ExportMBOM	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_PartList	JF_PartList	JF_PartList	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_ProjectSpaceTrigger	JF_ProjectSpaceTrigger	JF_ProjectSpaceTrigger	java	deferred	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_ExpertsGroupPeopleService	JF_ExpertsGroupPeopleService	JF_ExpertsGroupPeopleService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+emxProgramCentralUtilBase	emxProgramCentralUtilBase	emxProgramCentralUtilBase	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_PCR	JF_PCR	JF_PCR	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+emxECMDocument	emxECMDocument	emxECMDocument	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_FormalECRBubble	JF_FormalECRBubble	JF_FormalECRBubble	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_FormalECRService	JF_FormalECRService	JF_FormalECRService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_FormalECRStaticMethod	JF_FormalECRStaticMethod	JF_FormalECRStaticMethod	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_FormalECRRESTService	JF_FormalECRRESTService	JF_FormalECRRESTService	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+emxCommonInitiateRouteBase	emxCommonInitiateRouteBase	emxCommonInitiateRouteBase	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_BIInterface	JF_BIInterface	JF_BIInterface	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_ESOTaskReminder	JF_ESOTaskReminder	JF_ESOTaskReminder	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_ProductConfig	JF_ProductConfig	The program for product config table	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_BatchDocumentReview	JF_BatchDocumentReview	The program for Batch Document Review	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_FormalExportImportMBOM	JF_FormalExportImportMBOM	The program for Formal Export MBOM	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE

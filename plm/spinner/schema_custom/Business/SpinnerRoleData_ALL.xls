@@ -1,0 +1,18 @@
+Role Name	Registry Name	Description	"Parent Roles (use ""|"" delim)"	"Child Roles (use ""|"" delim)"	"Assignments (use ""|"" delim)"	Site	Hidden (boolean)	Role Type (Project/Org)	maturity (none/public/protected/private)	category (none/oem/goldpartner/partner/supplier/customer/contractor)	Icon File
+JfStandardAdmin	JfStandardAdmin						FALSE				
+JfProjectAdmin	JfProjectAdmin						FALSE				
+JF_CompetitiveEngineer	JF_CompetitiveEngineer						FALSE				
+JfECRAdmin	JfECRAdmin	show all ECR 					FALSE				
+JfITAdmin	JfITAdmin						FALSE				
+JfChairEngineer	JfChairEngineer						FALSE				
+JfCostAdmin	JfCostAdmin						FALSE				
+JfDAAdmin	JfDAAdmin						FALSE				
+JfDRAdmin	JfDRAdmin						FALSE				
+JfDRWAdmin	JfDRWAdmin						FALSE				
+JfECOAdmin	JfECOAdmin						FALSE				
+JfESOAdmin	JfESOAdmin						FALSE				
+jfLibAdmin	jfLibAdmin						FALSE				
+JfStandardAdmin_Foaming	JfStandardAdmin_Foaming						FALSE				
+JfStandardAdmin_Trim	JfStandardAdmin_Trim						FALSE				
+JfStandardAdmin_Harness	JfStandardAdmin_Harness						FALSE				
+jfSupplier	jfSupplier						FALSE				

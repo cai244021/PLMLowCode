@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>产品配置表客户经理审核完成通知</title>
+    <style>
+        body {
+            color: #111;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .notice {
+            color: red;
+            font-weight: 600;
+        }
+
+        p {
+            margin: 4px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 14px;
+            width: 820px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 5px 8px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        a {
+            color: #0645ad;
+        }
+
+        .footer {
+            color: red;
+            margin-top: 22px;
+        }
+    </style>
+</head>
+<body>
+<div class="notice">
+    <p>产品配置表审批已完成，相关数据更新如下（此处仅显示部分数据，详细数据请登录PLM查看）</p>
+    <p>此邮件由系统自动生成，无需进行回复。</p>
+    <br>
+    <p>SDT-整椅经理审批意见：<span id="chairManagerComment"></span></p>
+    <p>SDT-客户经理审批意见：<span id="businessManagerComment"></span></p>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th>状态</th>
+        <th>版本</th>
+        <th>项目名称</th>
+    </tr>
+    </thead>
+    <tbody id="objectBody"></tbody>
+</table>
+<div class="footer">
+    <p>注：请登录PLM系统查看完整产品配置数据。</p>
+</div>
+</body>
+</html>

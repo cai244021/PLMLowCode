@@ -1,0 +1,49 @@
+{
+    "CMDExpandAll": "Expand All",
+    "CMDCollapseAll": "Collapse All",
+    "plmnew_management" : "PLM New",
+    "multiSelectionComponent": {
+        "button_OK": "Add",
+        "button_Cancel": "Cancel",
+        "widget_name": "",
+        "msg_ClassifyInProgress": "Add...",
+        "msg_ClassifySuccessful": "Added Successfully.",
+        "msg_ClassifyFailed": "Error occurred during addition",
+        "msg_selectNodeToSeeInfo": "Select a Browsing Node to see its details."
+    },
+    "loader":{
+        "findingObjects":"Finding..."
+    },
+    "error_association_service" : "Service has failed",
+    "loading": "Loading...",
+    "error_run_command" : "Failed to run the Command",
+    "error_command_selection" : "The command is not available for the selection.",
+    "tooltip_selection_rows_invalid" : "Some selected rows are not compatible.",
+    "tooltip_selecion_terms_invalid" : "You can select only one Browsing Node in a Browsing Structure.",
+    "tooltip_selection_empty" : "The selection is empty.",
+    "tooltip_selection_no_changes" : "The selection has not changed.",
+    "tooltip_browse" : "Browse",
+    "save": "Save",
+    "cancel": "Cancel",
+    "ExportControlApp" : "IP Export Control",
+  "LibraryApp" : "Libraries",
+  "BookmarksApp" : "Bookmarks",
+  "classificationFailure_title" : "Unable to fully classify the new \"{plmnewtype}\".",
+  "classificationFailure_subtitle" : "The \"{plmnewtype}\" has been successfully created but it couldn’t be automatically classified.",
+  "classificationFailure_message" : "You may need to check in each classification app whether it is classified or not and try to classify it",
+  "classificationSuccessMessage" : "The \"{plmnewtype}\" has been successfully classified",
+  "warning_minimum_3_characters_search" : "3 characters minimum are needed for a search.",
+  "autoCompleteFilterMessage": {
+    "no_objects_found": "No Objects Found",
+    "minimum_3_characters_search": "3 characters minimum are needed for a search."
+  },
+  "errorForRemoveContentFromBks":"You cannot remove the content form the bookmark",
+  "errorForAddContentsToBks":"You cannot add the content to the bookmark",
+  "oneDeclassificationFailure":"Object declassification failed",
+  "oneClassificationFailure":"1 Object can't be classified",
+  "oneDeclassificationSuccess": "Object declassified from 1 class.",
+  "oneClassificationSuccess": "Object classified in 1 class.",
+  "removeBookmarkedSuccess":"Object removed from 1 Bookmark.",
+  "bookmarkedSuccess": "Object Bookmarked in 1 Bookmark.",
+  "jf_classificationSelectOne": "Only one category can be selected, please remove and select again!"
+}

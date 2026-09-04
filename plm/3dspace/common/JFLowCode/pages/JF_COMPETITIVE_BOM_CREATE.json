@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "pageCode": "JF_COMPETITIVE_BOM_CREATE",
+  "pageName": "创建竞品BOM零件",
+  "version": 1,
+  "schema": {
+    "type": "page",
+    "title": "创建竞品BOM零件",
+    "body": [
+      {
+        "type": "form",
+        "id": "u:competitive-bom-form",
+        "title": "基本信息",
+        "mode": "horizontal",
+        "horizontal": {
+          "left": 3,
+          "right": 8
+        },
+        "body": [
+          {
+            "type": "input-text",
+            "id": "u:type-field",
+            "name": "typeDisplay",
+            "label": "类型",
+            "value": "竞品BOM零件",
+            "disabled": true
+          },
+          {
+            "type": "input-text",
+            "id": "u:title-field",
+            "name": "title",
+            "label": "标题",
+            "required": true,
+            "maxLength": 100
+          },
+          {
+            "type": "textarea",
+            "id": "u:description-field",
+            "name": "description",
+            "label": "描述",
+            "minRows": 4,
+            "maxRows": 8
+          },
+          {
+            "type": "select",
+            "id": "u:part-type-field",
+            "name": "partType",
+            "label": "零件子类型",
+            "required": true,
+            "clearable": false,
+            "options": [
+              { "label": "整椅", "value": "C" },
+              { "label": "面套", "value": "T" },
+              { "label": "发泡", "value": "U" }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "label": "确定",
+            "level": "primary",
+            "actionType": "submit"
+          },
+          {
+            "type": "button",
+            "label": "取消",
+            "actionType": "link",
+            "link": "plm://cancel"
+          }
+        ]
+      }
+    ]
+  },
+  "plmConfig": {
+    "context": {
+      "objectIdParam": "objectId",
+      "parentOidParam": "parentOID",
+      "relIdParam": "relId"
+    },
+    "fieldBindings": [
+      { "componentId": "u:title-field", "fieldCode": "TITLE", "valueKey": "title" },
+      { "componentId": "u:description-field", "fieldCode": "DESCRIPTION", "valueKey": "description" },
+      { "componentId": "u:part-type-field", "fieldCode": "PART_TYPE", "valueKey": "partType" }
+    ],
+    "actionBindings": [
+      {
+        "componentId": "u:competitive-bom-form",
+        "event": "submit",
+        "actionCode": "CREATE_COMPETITIVE_BOM",
+        "successAction": "OPEN_DETAIL"
+      }
+    ],
+    "tableBindings": []
+  }
+}

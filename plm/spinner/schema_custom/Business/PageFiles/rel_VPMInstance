@@ -1,0 +1,57 @@
+{
+    "content": {
+        "Write": {
+            "attributes": [{
+                "name": "type"
+            },
+            {
+                "name": "PLM_ExternalID",
+                "status": "RW"
+            },
+            {
+                "name": "V_description",
+                "status": "RW"
+            },
+            {
+                "name": "revision"
+            },
+            {
+                "name": "owner"
+            },
+            {
+                "name": "originated"
+            },
+            {
+                "name": "modified"
+            },
+            {
+                "name": "organization"
+            },
+            {
+                "name": "project"
+            },
+            {
+                "name": "current"
+            },
+            {
+                "name": "reservedby"
+            },
+	    {
+                "name": "JF_VPMInstance.JF_Dosage",
+                "status": "RO"
+            }
+	    ]
+        },
+        "details": {
+            "attributes": {
+                "V_Name": {
+                    "forbiddenChar": "\\/:*?\"<>|#$@%,[]"
+                }
+            }
+        }
+    },
+    "folder": "masks/rel",
+    "version": "3DEXPERIENCE R2024x HotFix 3",
+    "revision": "0",
+    "page_replaced_by_ootb": "TRUE"
+}

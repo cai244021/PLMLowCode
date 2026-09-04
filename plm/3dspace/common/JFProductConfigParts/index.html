@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parts and Configuration</title>
+    <link rel="stylesheet" href="./style.css?v=20260729_position_header_color" />
+</head>
+<body>
+<div id="app" v-cloak>
+    <main class="main">
+        <div class="toolbar">
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.CreatePositionProduct')">
+                <button type="button" :disabled="loading || !canEdit" @click="openPositionDialog">
+                    <img src="./images/icon-create.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.CreatePositionProduct") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.DeletePositionProduct')">
+                <button type="button" :disabled="loading || !canEdit || selectedPositionIds.length === 0" @click="deletePositionProduct">
+                    <img src="./images/icon-delete.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.DeletePositionProduct") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.CreateVehicleConfig')">
+                <button type="button" :disabled="loading || !canEdit || positions.length === 0" @click="openVehicleDialog">
+                    <img src="./images/icon-vehicle-create.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.CreateVehicleConfig") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.DeleteVehicleConfig')">
+                <button type="button" :disabled="loading || !canEdit || selectedVehicleConfigIds.length === 0" @click="deleteVehicleConfig">
+                    <img src="./images/icon-vehicle-delete.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.DeleteVehicleConfig") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.AddParts')">
+                <button type="button" :disabled="loading || !canEdit" @click="addParts">
+                    <img src="./images/icon-add-part.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.AddParts") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.RemoveParts')">
+                <button type="button" :disabled="loading || !canEdit || selectedPartRelIds.length === 0" @click="removeParts">
+                    <img src="./images/icon-remove.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.RemoveParts") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.Import')">
+                <button type="button" :disabled="loading || !canEdit" @click="openImportFile">
+                    <img src="./images/icon-import.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.Import") }}</span>
+                </button>
+            </span>
+            <span class="toolbar-action" :title="t('emxFramework.JFProductConfigParts.Export')">
+                <button type="button" :disabled="loading" @click="exportExcel">
+                    <img src="./images/icon-export.svg" alt="" />
+                    <span>{{ t("emxFramework.JFProductConfigParts.Export") }}</span>
+                </button>
+            </span>
+            <input ref="importFile" class="hidden-file-input" type="file" accept=".xlsx,.xls,.xlsm" @change="importExcel" />
+        </div>
+
+        <div v-if="message" class="message" :class="{ error: messageType === 'error' }">
+            <span>{{ message }} <a v-if="messageLink" :href="messageLink.url" target="_blank" @click.stop>{{ messageLink.text }}</a></span>
+            <button type="button" class="message-close" @click.stop="clearMessage">x</button>
+        </div>
+
+        <section v-if="positions.length === 0" class="empty">{{ t("emxFramework.JFProductConfigParts.NoPositionProducts") }}</section>
+
+        <section v-for="position in positions" :key="position.id" class="position-block">
+            <div class="position-check" @click="togglePosition(position)">
+                <span class="drawer-toggle" :class="{ open: !position.collapsed }"></span>
+                <input type="checkbox" :value="position.id" v-model="selectedPositionIds" @click.stop />
+                <span>{{ position.title }}</span>
+                <span class="position-part-count">{{ position.partCount }} {{ t("emxFramework.JFProductConfigParts.ObjectCountUnit") }}</span>
+            </div>
+            <div v-if="!position.collapsed && position.loadingParts" class="position-loading">{{ t("emxFramework.JFProductConfigParts.Processing") }}</div>
+            <table v-if="!position.collapsed && !position.loadingParts" @dragover.prevent @drop="dropVehicleConfigToEnd">
+                <colgroup>
+                    <col :style="{ width: getColumnWidth('partNumber', t('emxFramework.JFProductConfigParts.PartNumber')) + 'px' }" />
+                    <col :style="{ width: getColumnWidth('partNameCN', t('emxFramework.JFProductConfigParts.PartCNName')) + 'px' }" />
+                    <col :style="{ width: getColumnWidth('customerPartNumber', t('emxFramework.JFProductConfigParts.CustomerPartNumber')) + 'px' }" />
+                    <col :style="{ width: getColumnWidth('customerPartName', t('emxFramework.Attribute.JFCustomerPartName')) + 'px' }" />
+                    <col :style="{ width: getColumnWidth('assemblyLevel', t('emxFramework.JFProductConfigParts.AssemblyLevel')) + 'px' }" />
+                    <template v-for="config in vehicleConfigs" :key="config.id + '-cols'">
+                        <col :style="{ width: getColumnWidth('quantity-' + config.id, t('emxFramework.JFProductConfigParts.Quantity')) + 'px' }" />
+                        <col :style="{ width: getColumnWidth('optional-' + config.id, t('emxFramework.JFProductConfigParts.OptionalOrNot')) + 'px' }" />
+                    </template>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th rowspan="2">{{ t("emxFramework.JFProductConfigParts.SeatPosition") }}</th>
+                    <th colspan="4" rowspan="2" :class="{ 'editable-header': isPositionTitleEditable(position) }">
+                        <input v-model="position.title" class="header-input" type="text" :readonly="!isPositionTitleEditable(position)" @change="updatePositionProduct(position)" />
+                    </th>
+                    <th v-for="config in vehicleConfigs" :key="config.id" colspan="2" :class="{ selected: selectedVehicleConfigId === config.id, 'editable-header': canEdit }" @click="selectVehicleConfig(config.id)" @dragover.prevent @drop.stop="dropVehicleConfig($event, config)">
+                        <div class="config-header">
+                            <span class="config-drag-handle" :draggable="canEdit" @dragstart="startVehicleConfigDrag(config)" :title="t('emxFramework.JFProductConfigParts.DragSort')" @click.stop></span>
+                            <input class="config-checkbox" type="checkbox" :value="config.id" v-model="selectedVehicleConfigIds" :disabled="!canEdit" @click.stop />
+                            <input v-model="config.title" class="header-input" type="text" :readonly="!canEdit" @change="updateVehicleConfig(config)" @click.stop />
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <template v-for="config in vehicleConfigs" :key="config.id + '-info'">
+                        <th colspan="2" :class="{ selected: selectedVehicleConfigId === config.id, 'editable-header': canEdit }" @click="selectVehicleConfig(config.id)">
+                            <input v-model="config.vcInfo" class="header-input" type="text" :readonly="!canEdit" @change="updateVehicleConfig(config)" />
+                        </th>
+                    </template>
+                </tr>
+                <tr>
+                    <th class="resizable-th">{{ t("emxFramework.JFProductConfigParts.PartNumber") }}<span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'partNumber')"></span></th>
+                    <th class="resizable-th">{{ t("emxFramework.JFProductConfigParts.PartCNName") }}<span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'partNameCN')"></span></th>
+                    <th class="resizable-th">{{ t("emxFramework.JFProductConfigParts.CustomerPartNumber") }}<span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'customerPartNumber')"></span></th>
+                    <th class="resizable-th">{{ t("emxFramework.Attribute.JFCustomerPartName") }}<span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'customerPartName')"></span></th>
+                    <th class="resizable-th">{{ t("emxFramework.JFProductConfigParts.AssemblyLevel") }}<span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'assemblyLevel')"></span></th>
+                    <template v-for="config in vehicleConfigs" :key="config.id + '-sub'">
+                        <th class="resizable-th" :class="{ selected: selectedVehicleConfigId === config.id }">{{ t("emxFramework.JFProductConfigParts.Quantity") }}<button type="button" class="batch-edit-button" :title="t('emxFramework.JFProductConfigParts.BatchUpdate')" @click.stop="openBatchEditor(position, config, 'quantity')"></button><span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'quantity-' + config.id)"></span></th>
+                        <th class="resizable-th" :class="{ selected: selectedVehicleConfigId === config.id }">{{ t("emxFramework.JFProductConfigParts.OptionalOrNot") }}<button type="button" class="batch-edit-button" :title="t('emxFramework.JFProductConfigParts.BatchUpdate')" @click.stop="openBatchEditor(position, config, 'optional')"></button><span class="column-resizer" @mousedown.stop.prevent="startColumnResize($event, 'optional-' + config.id)"></span></th>
+                    </template>
+                </tr>
+                <tr v-if="isBatchEditorOpen(position)" class="batch-edit-row">
+                    <td :colspan="5 + vehicleConfigs.length * 2">
+                        <span>{{ t("emxFramework.JFProductConfigParts.BatchUpdate") }}</span>
+                        <select v-model="batchEditor.fieldName">
+                            <option value="quantity">{{ t("emxFramework.JFProductConfigParts.Quantity") }}</option>
+                            <option value="optional">{{ t("emxFramework.JFProductConfigParts.OptionalOrNot") }}</option>
+                        </select>
+                        <input v-if="batchEditor.fieldName === 'quantity'" v-model="batchEditor.value" type="text" inputmode="numeric" pattern="[0-9]*" @input="batchEditor.value = String(batchEditor.value || '').replace(/\D/g, '')" />
+                        <select v-else v-model="batchEditor.value">
+                            <option v-for="option in matrixMeta.optionalOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
+                        </select>
+                        <button type="button" @click="applyBatchEdit(position)">{{ t("emxFramework.JFProductConfigParts.OK") }}</button>
+                        <button type="button" @click="closeBatchEditor">{{ t("emxFramework.JFProductConfigParts.Cancel") }}</button>
+                    </td>
+                </tr>
+                </thead>
+                <tbody @dragover.prevent @drop="dropPartToEnd(position)">
+                <tr v-for="part in position.parts" :key="part.relId" :class="{ 'selected-part-row': selectedPartRelIds.indexOf(part.relId) > -1 }" @dragover.prevent @drop.stop="dropPart($event, position, part)">
+                    <td>
+                        <div class="part-check">
+                            <span class="part-drag-handle" :draggable="canEdit" @dragstart="startPartDrag(position, part)" :title="t('emxFramework.JFProductConfigParts.DragSort')"></span>
+                            <input type="checkbox" :value="part.relId" v-model="selectedPartRelIds" :disabled="!canEdit" />
+                            <a class="part-number-link" :href="getPartLink(part)" @click.stop.prevent="openPartNavigator(part)">{{ part.partDisplayNumber }}</a>
+                        </div>
+                    </td>
+                    <td>{{ part.partNameCN }}</td>
+                    <td>{{ part.customerPartNumber }}</td>
+                    <td>{{ part.customerPartName }}</td>
+                    <td>{{ part.partLevel }}</td>
+                    <template v-for="config in vehicleConfigs" :key="part.id + '-' + config.id">
+                        <td>
+                            <input class="matrix-input" type="text" inputmode="numeric" pattern="[0-9]*" :readonly="!canEdit || loading" :value="getMatrixValue(part, config.id, 'quantity')" @input="handleMatrixQuantityInput(position, part, config, $event)" />
+                        </td>
+                        <td>
+                            <select class="matrix-select" :disabled="!canEdit || loading" :value="getMatrixValue(part, config.id, 'optional')" @change="setMatrixValue(part, config.id, 'optional', $event.target.value); updateMatrixCell(position, part, config, 'optional')">
+                                <option v-for="option in matrixMeta.optionalOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
+                            </select>
+                        </td>
+                    </template>
+                </tr>
+                <tr v-if="position.parts.length === 0">
+                    <td :colspan="5 + vehicleConfigs.length * 2" class="empty-row">{{ t("emxFramework.JFProductConfigParts.NoParts") }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div v-if="positionDialogVisible" class="modal-mask">
+        <div class="modal" :style="modalStyle()">
+            <div class="modal-title" @mousedown="startDragDialog">{{ t("emxFramework.JFProductConfigParts.CreatePositionProduct") }}</div>
+            <div class="required-note">{{ t("emxFramework.JFProductConfigParts.RequiredNote") }}</div>
+            <label class="form-row required">
+                <span>{{ t("emxFramework.JFProductConfigParts.Type") }}</span>
+                <select v-model="positionForm.ppType">
+                    <option v-for="option in positionMeta.ppTypes" :key="option.value" :value="option.value">{{ option.label }}</option>
+                </select>
+            </label>
+            <label class="form-row required">
+                <span>{{ t("emxFramework.JFProductConfigParts.PositionProductName") }}</span>
+                <select v-if="isWholeChairPosition()" v-model="positionForm.ppTitle">
+                    <option v-for="option in wholeChairTitleOptions()" :key="option.value" :value="option.value">{{ option.label }}</option>
+                </select>
+                <input v-else v-model="positionForm.customTitle" type="text" />
+            </label>
+            <label class="form-row">
+                <span>{{ t("emxFramework.JFProductConfigParts.Description") }}</span>
+                <input v-model="positionForm.description" type="text" />
+            </label>
+            <div class="modal-actions">
+                <button type="button" class="primary" :disabled="loading" @click="savePosition(true)"><span v-if="loading" class="button-spinner"></span>{{ t("emxFramework.JFProductConfigParts.OK") }}</button>
+                <button type="button" class="primary" :disabled="loading" @click="savePosition(false)"><span v-if="loading" class="button-spinner"></span>{{ t("emxFramework.JFProductConfigParts.Apply") }}</button>
+                <button type="button" :disabled="loading" @click="closePositionDialog">{{ t("emxFramework.JFProductConfigParts.Cancel") }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="vehicleDialogVisible" class="modal-mask">
+        <div class="modal" :style="modalStyle()">
+            <div class="modal-title" @mousedown="startDragDialog">{{ t("emxFramework.JFProductConfigParts.CreateVehicleConfig") }}</div>
+            <div class="required-note">{{ t("emxFramework.JFProductConfigParts.RequiredNote") }}</div>
+            <label class="form-row required">
+                <span>{{ t("emxFramework.JFProductConfigParts.VehicleConfigName") }}</span>
+                <input v-model="vehicleForm.title" type="text" />
+            </label>
+            <label class="form-row required">
+                <span>{{ t("emxFramework.JFProductConfigParts.VehicleConfigInfo") }}</span>
+                <input v-model="vehicleForm.vcInfo" type="text" />
+            </label>
+            <label class="form-row">
+                <span>{{ t("emxFramework.JFProductConfigParts.CopyFromVehicleConfig") }}</span>
+                <select v-model="vehicleForm.copyFromId">
+                    <option value="">{{ t("emxFramework.JFProductConfigParts.NoCopy") }}</option>
+                    <option v-for="config in vehicleConfigs" :key="config.id" :value="config.id">{{ config.title }}</option>
+                </select>
+            </label>
+            <div class="modal-actions">
+                <button type="button" class="primary" :disabled="loading" @click="saveVehicleConfig(true)"><span v-if="loading" class="button-spinner"></span>{{ t("emxFramework.JFProductConfigParts.OK") }}</button>
+                <button type="button" class="primary" :disabled="loading" @click="saveVehicleConfig(false)"><span v-if="loading" class="button-spinner"></span>{{ t("emxFramework.JFProductConfigParts.Apply") }}</button>
+                <button type="button" :disabled="loading" @click="closeVehicleDialog">{{ t("emxFramework.JFProductConfigParts.Cancel") }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="loading" class="loading-mask">
+        <div class="loading-panel">
+            <span class="loading-spinner"></span>
+            <span>{{ t("emxFramework.JFProductConfigParts.Processing") }}</span>
+        </div>
+    </div>
+</div>
+<script src="./vue.global.prod.js"></script>
+<script src="./app.js?v=20260729_track_loaded_collapsed_positions"></script>
+</body>
+</html>

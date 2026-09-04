@@ -1,0 +1,18 @@
+<configurations>
+    <configuration id="signTask">
+        <config id="signTask1" check="NA"   name="Professional Review(Procure)"         role="Purchasing representative"/>
+        <config id="signTask2" check="NA"   name="Professional Review(AME)"            role="AME representative"/>
+        <config id="signTask3" check="NA"   name="Professional Review(AQE)"            role="AQE representative/PQL"/>
+        <config id="signTask4" check="NA"   name="Professional Review(Logistics)"            role="Logistics representative"/>
+        <config id="signTask5" check="NA"   name="Professional Review(Launch Manager)"     role="Launch manager"/>
+        <config id="signTask6" check="NA"   name="Professional Review(Costing)"        role="Costing"/>
+        <config id="signTask7" check="DirectBuy"  name="Professional Review(Business)"       role="Business manager"/>
+        <config id="signTask8" check="ICO"  name="Professional Review(Internal Suppliers)"       role="Internal Supplier"/>
+    </configuration>
+    <configuration id="signTask-BP-APR">
+        <config id="signTask9" check="NA"  name="Professional Review(Financial review)"       role="Financial BP"/>
+    </configuration>
+    <configuration id="customerTask">
+        <config id="customerTask" check="NA"  name="Professional Review(Quotation)"       role="Business manager"/>
+    </configuration>
+</configurations>

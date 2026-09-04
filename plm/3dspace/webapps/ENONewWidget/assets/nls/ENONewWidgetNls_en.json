@@ -1,0 +1,77 @@
+{
+
+	"newContentLabel" : "New Content",
+
+	
+	"CreateNew" :"Create New ",
+	"new" : "New",
+	
+	"locked" : "Locked",
+	"unlocked" : "Unlocked",
+	
+	"createBtn" : "Create another",
+	"createCloseBtn" : "Create",
+	"closeBtn" : "Cancel",
+	"creatingButton" : "Creating",
+	"repeatCheckbox" : "Repeat",
+	
+	"loading" : "Loading",
+	
+	"previousBtn" : "Previous",
+	"nextBtn" : "Next",
+	
+	"saveBtn" : "Save",
+	"saveBtnLoading" : "Saving",
+	"saveSettingsTitle" : "Save",
+	"confirmsaveSettingsMsg" : "Do you really want to deploy this 3D Part Template for Type {type} ?",
+	"confirmsaveSuccessMsg" : "3D Part Template selection correctly saved for Type {type}",
+	"confirmsaveErrorMsg" : "Empty 3D Part Template not allowed for Type {type}",
+	
+	"collapseExtension" : "Show less",
+	"expandExtension" : "Show more",
+
+	"Type" : "Type",
+	"SecurityContext" : "Credentials",
+	
+	"ObjCreationFailed" : "Creating the object failed.",
+	"cantCreateObject" : "You cannot create this object",
+	"cantCreateObject1" : "You cannot create this type of object",
+	"contactYourAdmin" : "Contact your administrator.",
+	
+	"ENONEW_ERROR_0002_Title" : "You cannot create this type of object",
+	"ENONEW_ERROR_0002_Subtitle" : "Contact your administrator.",
+	
+	"ENONEW_ERROR_0003_Subtitle" : "The object initialization failed. Contact your administrator.",
+	"ENONEW_ERROR_0003_Msg" : "The object initialization business logic script might not be correct.",
+	
+	"ENONEW_ERROR_1001_Title" : "Creating the object failed.",
+	"ENONEW_ERROR_1001_Subtitle" : "Contact your administrator to verify that the PLMIdentificationInitialization business logic script is correct.",
+	
+	"ENONEW_ERROR_1002_Title" : "Creating the object failed.",
+	"ENONEW_ERROR_1002_Subtitle" : "Contact your administrator to verify that the PLMAttributesValuationFinalization business logic script is correct.",
+	
+	"ENONEW_ERROR_1003_Title" : "Creating the object failed.",
+	"ENONEW_ERROR_1003_Subtitle" : "Verify that you specified valid values for the following properties, or contact your administrator.",
+	
+	"ENONEW_ERROR_4005_Title":"You cannot insert this object type under the selected object",
+	
+	"ENONEW_ERROR_5001_Subtitle" : "Verify that you are using the correct credentials.",
+	"ENONEW_ERROR_5001_Msg" : "You may not have the required access role in the target collaborative space to create this type of object.",
+	 
+	"InvalidAccess_Subtitle" : "Refresh your browser, and verify that you are using the correct credentials.",
+	"InvalidAccess_Msg" : "You may not have the required access role in the target collaborative space to create this type of object.",
+	
+	"NetworkError_Title" : "The server disconnected unexpectedly.",
+	"NetworkError_Subtitle" : "Contact your administrator for support.",
+	
+	"ENONEW_ERROR_5002_Title" : "Object's identifier set is already used for another component.",
+	"ENONEW_ERROR_5002_Subtitle" : "Please set unique identifier.",
+	
+	"ENONEW_ERROR_5003_Title" : "The value you specified for one of the attributes is already used for another object.",
+	"ENONEW_ERROR_5003_Subtitle" : "Contact your administrator to know which attribute value must be unique, and choose another value  for this attribute.",
+	
+	"ENONEW_ERROR_8001_Title" : "The {type} has been created with errors.",
+	"ENONEW_ERROR_8001_Subtitle" : "Modify this object in an appropriate app to fix these failed operations:",
+	"CLASS_IS_NOT_NULL": "Part name library cannot be empty！",
+	"CLASS_GETID_FAIL": "Failed to retrieve library information, please contact the administrator！"
+}

@@ -1,0 +1,357 @@
+{
+  "managedColumns": {
+    "tree": {
+      "options": {
+        "editableFlag": true,
+        "editionPolicy": "EditionOnDoubleClick",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "dataIndex": "tree",
+        "alwaysVisibleFlag": "true",
+        "pinned": "left",
+        "width": "250"
+      }
+    },
+    "level": {
+      "options": {
+        "dataIndex": "level",
+        "editableFlag": false,
+        "typeRepresentation": "integer"
+      }
+    },
+    "ds6w:label-Instance": {
+      "options": {
+        "dataIndex": "ds6w:label-Instance",
+        "editableFlag": true
+      }
+    },
+	"ds6wg:JF_VPMInstance.JF_FNA-Instance": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMInstance.JF_FNA-Instance",
+		"editableFlag": false
+      }
+    },
+	"ds6wg:JF_VPMInstance.JF_ProcurementType-Instance": {
+		"options": {
+        "dataIndex": "ds6wg:JF_VPMInstance.JF_ProcurementType-Instance",
+		"editableFlag": false
+      }
+	},
+    "ds6wg:JF_VPMInstance.JF_OnlyEBOMPart-Instance": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMInstance.JF_OnlyEBOMPart-Instance",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMInstance.JF_Color-Instance": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMInstance.JF_Color-Instance",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMInstance.JF_Symmetry-Instance": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMInstance.JF_Symmetry-Instance",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMInstance.JF_Dosage-Instance": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMInstance.JF_Dosage-Instance",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:revision": {
+      "options": {
+        "dataIndex": "ds6wg:revision",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false
+      }
+    },
+    "ds6w:modified": {
+      "options": {
+        "dataIndex": "ds6w:modified",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:PLMReference.V_versionComment": {
+      "options": {
+        "dataIndex": "ds6wg:PLMReference.V_versionComment",
+        "editableFlag": false
+      }
+    },
+    "ds6w:created": {
+      "options": {
+        "dataIndex": "ds6w:created",
+        "editableFlag": false
+      }
+    },
+    "occurence": {
+      "options": {
+        "dataIndex": "occurence",
+        "editableFlag": false
+      }
+    },
+    "ds6w:reservedBy": {
+      "options": {
+        "dataIndex": "ds6w:reservedBy",
+        "editableFlag": false
+      }
+    },
+    "ds6w:identifier": {
+      "options": {
+        "dataIndex": "ds6w:identifier",
+        "editableFlag": false
+      }
+    },
+    "ds6w:type": {
+      "options": {
+        "dataIndex": "ds6w:type",
+        "editableFlag": false
+      }
+    },
+    "ds6w:project": {
+      "options": {
+        "dataIndex": "ds6w:project",
+        "editableFlag": false
+      }
+    },
+    "ds6w:responsible": {
+      "options": {
+        "dataIndex": "ds6w:responsible",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false,
+        "className": "xen-owner-icon"
+      }
+    },
+    "rollup": {
+      "options": {
+        "dataIndex": "rollup",
+        "editableFlag": false,
+        "groupableFlag": false,
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self"
+      }
+    },
+    "ds6w:status": {
+      "options": {
+        "dataIndex": "ds6w:status",
+        "typeRepresentation": "tag",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false,
+        "minWidth": 50,
+        "kind": "tag",
+        "className": "lc-maturity-state"
+      }
+    },
+    "ds6wg:XCADExtension.V_CADOrigin": {
+      "options": {
+        "dataIndex": "ds6wg:XCADExtension.V_CADOrigin",
+        "typeRepresentation": "image",
+        "alignment": "center",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:EnterpriseExtension.V_PartNumber": {
+      "options": {
+        "dataIndex": "ds6wg:EnterpriseExtension.V_PartNumber",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false
+      }
+    },
+	"ds6wg:JF_VPMReference.JF_PartNameEN": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_PartNameEN",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_PartNameCN": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_PartNameCN",
+        "editableFlag": false
+      }
+    },
+
+	"ds6wg:JF_VPMReference.JF_IsThereALackOfDrawings": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_IsThereALackOfDrawings",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_ProjectRel": {
+      "options": {
+        "dataIndex": "cus:ProjectRel",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_Material": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_Material",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_MaterialStar": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_MaterialStar",
+        "editableFlag": false
+      }
+    },
+   
+    "ds6wg:JF_VPMReference.JF_Weight": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_Weight",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_WeightTarget": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_WeightTarget",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_ColorPart": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_ColorPart",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_PartDes": {
+      "options": {
+        "dataIndex": "ds6wg:JF_VPMReference.JF_PartDes",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_PartType": {
+      "options": {
+        "dataIndex": "cus:PartType",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:JF_VPMReference.JF_ProcurementType": {
+      "options": {
+        "dataIndex": "cus:ProcurementType",
+        "editableFlag": false
+      }
+    },
+ 
+   
+    "ds6w:reserved": {
+      "options": {
+        "dataIndex": "ds6w:reserved",
+        "typeRepresentation": "image",
+        "alignment": "center",
+        "editableFlag": false
+      }
+    },
+    "ds6w:reserved-Instance": {
+      "options": {
+        "dataIndex": "ds6w:reserved-Instance",
+        "typeRepresentation": "image",
+        "alignment": "center"
+      }
+    },
+    "ds6w:cadMaster": {
+      "options": {
+        "dataIndex": "ds6w:cadMaster",
+        "typeRepresentation": "image",
+        "alignment": "center",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:PLMReference.V_isLastVersion": {
+      "options": {
+        "dataIndex": "ds6wg:PLMReference.V_isLastVersion",
+        "editableFlag": false,
+        "typeRepresentation": "boolean"
+      }
+    },
+    "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity": {
+      "options": {
+        "dataIndex": "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false
+      }
+    },
+    "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity": {
+      "options": {
+        "dataIndex": "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false
+      }
+    },
+    "quantity": {
+      "options": {
+        "dataIndex": "quantity",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self",
+        "editableFlag": false
+      }
+    },
+    "Alternate": {
+      "options": {
+        "dataIndex": "Alternate",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self"
+      }
+    },
+    "Thumbnail": {
+      "options": {
+        "dataIndex": "thumbnail",
+        "typeRepresentation": "image",
+        "alignment": "center",
+        "width": "80",
+        "editableFlag": false
+      }
+    },
+    "ds6w:manufacturable": {
+      "options": {
+        "dataIndex": "ds6w:manufacturable",
+        "dbName": "VPMReference.V_IsManufacturable",
+        "editableFlag": "true",
+        "editionPolicy": "EditionOnDoubleClick"
+      }
+    },
+    "Deformable": {
+      "options": {
+        "dataIndex": "Deformable",
+        "typeRepresentation": "url",
+        "hyperlinkTarget": "_self"
+      }
+    },
+    "ds6w:organizationResponsible": {
+      "options": {
+        "dataIndex": "ds6w:organizationResponsible",
+        "editableFlag": false
+      }
+    },
+    "ds6w:organizationResponsible-Instance": {
+      "options": {
+        "dataIndex": "ds6w:organizationResponsible-Instance",
+        "editableFlag": false
+      }
+    },
+    "ds6w:project-Instance": {
+      "options": {
+        "dataIndex": "ds6w:project-Instance",
+        "editableFlag": false
+      }
+    },
+    "ds6w:kind": {
+      "options": {
+        "dataIndex": "ds6w:kind",
+        "editableFlag": false
+      }
+    },
+    "ds6w:kind-Instance": {
+      "options": {
+        "dataIndex": "ds6w:kind-Instance",
+        "editableFlag": false
+      }
+    }
+  }
+}

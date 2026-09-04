@@ -1,0 +1,7 @@
+AMIS Runtime SDK 6.13.0
+Copyright Baidu
+
+Source: https://github.com/baidu/amis
+License: Apache License 2.0
+
+The files in this directory are copied from the published amis 6.13.0 SDK package.

@@ -1,0 +1,69 @@
+Name	Registry Name	Description	Hidden (boolean)	"Types (use ""|"" delim)"
+PMCProjectTaskCreateForm	PMCProjectTaskCreateForm		FALSE	
+PMCProjectTaskViewForm	PMCProjectTaskViewForm		FALSE	
+PMCCreateProjectFromTemplateForm	PMCCreateProjectFromTemplateForm		FALSE	
+JFCreateJFDataOutSourceForm	JFCreateJFDataOutSourceForm		FALSE	
+JFDRForm	JFDRForm	JFDRForm	FALSE	
+JFDRViewForm	JFDRViewForm	JFDRViewForm	FALSE	
+JFECRCreateForm	JFECRCreateForm	JFECRCreateForm	FALSE	
+JFECRViewAndEditForm	JFECRViewAndEditForm	JFECRViewAndEditForm	FALSE	
+JFCreateJFChangeEventForm	JFCreateJFChangeEventForm		FALSE	
+JFCreateJFDRWForm	JFCreateJFDRWForm		FALSE	
+JFCreateNewDAForm	JFCreateNewDAForm		FALSE	
+JFEditDAForm	JFEditDAForm	Edit DAForm	FALSE	
+JFDAExecutionPlanForm	JFDAExecutionPlanForm	Execution Plan Form	FALSE	
+JFDAExtensionRequestForm	JFDAExtensionRequestForm	Extension Request Form	FALSE	
+JFECOChangeExecuteViewForm	JFECOChangeExecuteViewForm	ECO Change Execute View Form	FALSE	
+JFExecutionPlanForm	JFExecutionPlanForm	Execution Plan Form	FALSE	
+JFViewJFChangeEventForm	JFViewJFChangeEventForm	JFViewJFChangeEventForm	FALSE	
+JFCECreatorECR	JFCECreatorECR		FALSE	
+JFCompetitiveBrandForm	JFCompetitiveBrandForm	JFCompetitiveBrandForm	FALSE	
+JFCompetitiveModelForm	JFCompetitiveModelForm	JFCompetitiveModelForm	FALSE	
+JFCompetitiveBomForm	JFCompetitiveBomForm	JFCompetitiveBomForm	FALSE	
+JFDRWViewForm	JFDRWViewForm		FALSE	
+JFEditJFDataOutSourceForm	JFEditJFDataOutSourceForm		FALSE	
+JFTrimForm	JFTrimForm		FALSE	
+JFColorPartForm	JFColorPartForm		FALSE	
+JFColorMatrixCreateForm	JFColorMatrixCreateForm		FALSE	
+JFColorMatrixViewForm	JFColorMatrixViewForm		FALSE	
+JFColorGroupCreateForm	JFColorGroupCreateForm		FALSE	
+JFColorGroupStyleForm	JFColorGroupStyleForm		FALSE	
+JFFunctionModuleTemplateCreateForm	JFFunctionModuleTemplateCreateForm		FALSE	
+JFManufactureFeeCreateForm	JFManufactureFeeCreateForm		FALSE	
+JFRapidOfferCreateForm	JFRapidOfferCreateForm		FALSE	
+JFRapidOfferModule	JFRapidOfferModule		FALSE	
+JFFunctionModuleEditForm	JFFunctionModuleEditForm		FALSE	
+JFCreateSnapshotForm	JFCreateSnapshotForm		FALSE	
+JFViewSnapshotForm	JFViewSnapshotForm		FALSE	
+JFCostForm	JFCostForm		FALSE	
+AEFDynamicAttributesForm	AEFDynamicAttributesForm		FALSE	
+JFCostAnalysisListTable	JFCostAnalysisListTable	Cost Analysis List Table 	FALSE
+JFRapidOfferForm	JFRapidOfferForm	Cost Analysis List Table 	FALSE
+type_LCCommonProperties	type_LCCommonProperties		FALSE	
+JFSnapshotNoticeForm	JFSnapshotNoticeForm	 	FALSE
+JFNewECRViewAndEditForm	JFNewECRViewAndEditForm	JFNewECRViewAndEditForm	FALSE	
+JFSPRPCreateForm	JFSPRPCreateForm	JFSPRPCreateForm	FALSE	
+JFSPRPViewAndEditForm	JFSPRPViewAndEditForm	JFSPRPViewAndEditForm	FALSE	
+JFESOTaskCreateForm	JFESOTaskCreateForm	JFESOTaskCreateForm	FALSE
+type_JFESOReview	type_JFESOReview	 	FALSE
+JFCostAnalysisEditForm	JFCostAnalysisEditForm		FALSE
+JFCreatePartListForm	JFCreatePartListForm		FALSE
+JFPartListViewForm	JFPartListViewForm		FALSE
+JFPCRCreateForm	JFPCRCreateForm		FALSE
+JFPCRViewForm	JFPCRViewForm		FALSE
+JFPCREditForm	JFPCREditForm		FALSE
+JFPMCCopyPartialSchedule	JFPMCCopyPartialSchedule		FALSE
+JFECOExecutionPlanDelayRequestForm	JFECOExecutionPlanDelayRequestForm	ECO Execution Plan Delay Request Form	FALSE	JFDelayedFiling
+JFECOExecutionPlanDelayRequestEditForm	JFECOExecutionPlanDelayRequestEditForm	ECO Execution Plan Delay Request edit Form	FALSE	JFDelayedFiling
+JFProductConfigCreateForm	JFProductConfigCreateForm		FALSE	JFProductConfigTable
+JFProductConfigViewForm	JFProductConfigViewForm		FALSE	JFProductConfigTable
+JFPositionProductViewForm	JFPositionProductViewForm		FALSE	JFPositionProduct
+JFSPartsApplicationCreateForm	JFSPartsApplicationCreateForm	JFSPartsApplicationCreateForm	FALSE	
+JFSPartsApplicationViewAndEditForm	JFSPartsApplicationViewAndEditForm	JFSPartsApplicationViewAndEditForm	FALSE	
+JFProductConfigSimpleListCreateForm	JFProductConfigSimpleListCreateForm		FALSE	
+JFProductConfigSimpleListViewForm	JFProductConfigSimpleListViewForm		FALSE	
+JFCustomerPartsCreateForm	JFCustomerPartsCreateForm		FALSE	
+JFConfigTableRouteCreateForm	JFConfigTableRouteCreateForm		FALSE	JFConfigTableRoute
+JFCustomerPartsDBEditForm	JFCustomerPartsDBEditForm		FALSE	
+JFTechDocExpertGroupViewForm	JFTechDocExpertGroupViewForm	Technical Document Expert Group View Form	FALSE	JFExpertsGroup
+JFBatchDocumentReviewViewForm	JFBatchDocumentReviewViewForm	Batch Document Review View Form	FALSE	JFBatchDocumentReview

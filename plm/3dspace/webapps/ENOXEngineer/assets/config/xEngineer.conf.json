@@ -1,0 +1,1341 @@
+{
+"select_predicate":["physicalid","ds6w:label","ds6w:description","ds6w:identifier","ds6w:modified","ds6w:created","ds6wg:EnterpriseExtension.V_PartNumber","ds6w:type","ds6w:responsible", "ds6wg:revision", "ds6w:cadMaster", "ds6w:reserved", "ds6w:reservedBy","ds6w:status"],
+"select_predicate_for_pc":["ds6w:reserved","BASED_ON_MODEL_PID","BASED_ON_MODEL_VERSION_PID", "ds6w:reservedBy", "ds6w:label", "ds6wg:revision", "ds6w:type", "ds6w:description", "ds6w:responsible"],
+"select_rel": ["physicalid", "ds6w:type", "ds6w:label", "ro.plminstance.V_treeorder"],
+"compute_select_bo": ["icon", "thumbnail_2d"],
+"defaultPolicies": ["VPLM_SMB_Definition", "VPLM_SMB_Definition_MajorRev", "ENOStrRefinementPolicy"],
+"xEngAllowedSearchTypes":"VPMReference,Part,Product Line,DOCUMENTS,Document,Products,Model,Product Configuration",
+"xEngTitleInSearch":"results for xEngineer App",
+"authorizeChange":true,
+"preferenceMaxSize": 2000,
+"effectivityChunkSize": 20,
+"conversionChunkSize": 1000,
+"defaultChunksize": 30,
+"limitSizeForFullNodesConversion": 10000,
+"unSupportedToolbarActionsForAuthoringMode":["NG_Filtering", "FindCmd", "QualifiedAsFinal", "ManufacturingView", "LeafMaterials"],
+"engItemOpenSessionBuilder": {
+          "default": "DS/ENOXEngineer/sessionBuilders/ConfigSessionBuilder",
+          "nextGenFilter" :"DS/ENOXEngineer/sessionBuilders/NextGenFilterSessionBuilder",
+          "group": "DS/ENOXEngineer/sessionBuilders/GroupSessionBuilder"
+},
+"columnsProviders": [{
+  "loader": "DS/CfgWebAppEffectivityUX/scripts/CfgProductConfigurationColumn",
+  "loadingPolicy": "visible",
+  "ID":"configurationColumnsProvider"
+},{
+  "loader": "DS/CfgWebAppEffectivityUX/scripts/CfgConfigurationContextColumn",
+  "loadingPolicy": "visible",
+  "ID": "configurationContextColumnsProvider"
+},{
+  "loader": "DS/ENOXEngineer/columnsProviders/MaterialDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"materialColumnsProvider",
+  "isInternal": true
+},{
+  "loader": "DS/ENOXEngineer/columnsProviders/AlternateDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"alternateColumnsProvider"
+},{
+  "loader": "DS/ENOXEngineer/columnsProviders/DeformableDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"deformableColumnsProvider"
+},{
+  "loader": "DS/CfgWebAppEffectivityUX/scripts/CfgConfigurationRevisionColumn",
+  "loadingPolicy": "visible",
+  "ID":"configurationRevisionColumnsProvider"
+},{
+  "loader": "DS/ENOXEngineer/columnsProviders/MadeFromDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"madefromColumnsProvider"
+},{
+  "loader": "DS/CfgWebAppEffectivityUX/scripts/CfgEffectivityColumns",
+  "loadingPolicy": "visible",
+  "ID":"configColumnsProvider"
+},{
+  "loader": "DS/ENORIPE_Columns/RelationsColumns",
+  "loadingPolicy": "visible",
+  "ID": "SpecificationDocumentsColumnsProvider"
+},{
+  "loader": "DS/ENOXEngineer/columnsProviders/ManufacturingResponsibilityDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"manufacturingColumnsProvider"
+},{
+  "loader": "DS/ENOXEngineer/columnsProviders/ContinuousInstQtyDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"ContinuousInstQtyDataProvider"
+},{
+  "loader": "DS/ENOXMEIQualification/views/MEIColumnDataProvider",
+  "loadingPolicy": "visible",
+  "ID":"XENTemplateColumnsProvider"
+}
+],
+"BIsKey":{
+	"type": "ds6w:what/ds6w:type"
+},
+"acceptedDocumentsRoots": ["Document"],
+"acceptedDrawingRoots": ["Drawing"],
+"accepted3DShapeRoots": ["3DShape"],
+"includedAttachmentTypes": ["Drawing", "Document"],
+"excludedAttachmentTypes": [],
+"SpecificationTypes":{
+  "includedTypes" :["Document"],
+  "excludedTypes": []
+},
+"acceptedMaterialRoots":["dsc_matref_ref_Core"],
+"NextGenFilterTypes":["ENOStrRefinementSpecification"],
+"acceptedTypeOnDropForOpen": ["Raw_Material", "VPMReference"],
+"acceptedTypeForPropertiesAsInstance": ["VPMReference","Drawing"],
+"rdfClassToLoad": "ds6w:description,ds6w:identifier,ds6w:type,ds6w:label,ds6wg:revision,ds6w:responsible,ds6w:modified,ds6w:created,ds6w:status,ds6wg:EnterpriseExtension.V_PartNumber,ds6wg:DELFmiContQuantity_Mass.V_ContQuantity,ds6wg:DELFmiContQuantity_Volume.V_ContQuantity,ds6w:reservedBy,ds6wg:EnterpriseExtension,ds6wg:XCADExtension,ds6wg:CBDAssembly,ds6wg:PLMPCBPhysicalComponent,ds6wg:CBDBoard,ds6w:manufacturable,ds6w:deformability",
+"mapSubTypeNLSKey":{
+  "CBDAssembly" : "ds6wg:CBDAssembly",
+  "PLMPCBPhysicalComponent" : "ds6wg:PLMPCBPhysicalComponent",
+  "CBDBoard" : "ds6wg:CBDBoard"
+},
+"notGroupableAttributes":["ds6w:description","ds6w:identifier","ds6w:label","ds6w:modified","ds6w:created","ds6wg:revision", "quantity",  "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity", "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity", "Alternate", "Deformable","Thumbnail"],
+"notSortableAttributes":["ds6w:description", "Thumbnail"],
+"mostUsedPropValue": {
+            "ds6w:type" : ["VPMReference","Document", "dsc_matref_ref_Core", "VPMInstance", "Raw_Material", "MustBeMadeFrom"],
+            "ds6w:status" :["IN_WORK","FROZEN","RELEASED","OBSOLETE","PRIVATE"],
+            "ds6w:deformability" :["deformable","rigid","deformed"]
+},
+"rdfClassWithNslProp": ["ds6w:type", "ds6w:status", "ds6w:organizationResponsible", "ds6w:project"],
+"baseReferenceTypes": ["VPMReference","VPMRepReference"],
+"baseDocumentTypes": ["Document"],
+"baseInstanceTypes": ["VPMInstance"],
+"baseExtentions":[{
+  "name": "XCADExtension",
+  "nlsName": "XCADExtension",
+  "ds6w": "ds6wg:XCADExtension",
+  "attributes":[{
+    "name":"",
+    "Primitive":"String"
+  }],
+  "declareIn": ["VPMReference"]
+},{
+  "name": "EnterpriseExtension",
+  "nlsName": "EnterpriseExtension",
+  "ds6w": "ds6wg:EnterpriseExtension",
+  "attributes": [
+    {
+      "name": "",
+      "Primitive": "String"
+    }
+  ],
+  "declareIn": ["VPMReference"]
+}],
+"defaultSelectedTypes": ["VPMReference","VPMRepReference","VPMInstance", "Document"],
+"defaultPreferenceObject" : {"savedSettings":{"Untitled":{
+    "VPMReference":{"visibleAttr":["ds6w:status","ds6w:responsible","ds6wg:EnterpriseExtension.V_PartNumber","ds6w:modified"]},
+    "Document":{"visibleAttr":["ds6w:status","ds6w:responsible","ds6w:modified","ds6w:created"]}},
+    "type":"VPMReference"},
+    "ctxView":"Untitled"},
+"defaultSelectedExtensions": ["XCADExtension","XP_VPMReference_Ext","EnterpriseExtension","DELFmiContQuantity_Mass","DELFmiContQuantity_Volume"],
+"mandatorySixwForTerminalItem":[
+  "ds6w:label",
+  "ds6w:description",
+  "ds6wg:revision",
+  "ds6wg:PLMReference.V_isLastVersion",
+  "ds6w:responsible",
+  "ds6w:status",
+  "ds6w:type",
+  "ds6wg:EnterpriseExtension.V_PartNumber",
+  "ds6w:reserved",
+  "ds6w:globalType"],
+"excludeSixwForTerminalItem":[
+  "ds6wg:MaterialUsageExtension.DeclaredQuantity",
+  "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity",
+  "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity",
+  "ds6w:modified",
+  "ds6w:created"
+],
+"mandatorySixwForBO":[
+  "ds6w:label",
+  "ds6w:modified",
+  "ds6w:created",
+  "ds6w:description",
+  "ds6wg:revision",
+  "ds6w:cadMaster",
+  "ds6w:responsible",
+  "owner",
+  "ds6w:status",
+  "ds6w:type",
+  "ds6wg:EnterpriseExtension.V_PartNumber",
+  "ds6wg:MaterialUsageExtension.DeclaredQuantity",
+  "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity",
+  "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity",
+  "ds6wg:raw_material.v_dimensiontype",
+  "type",
+  "physicalid",
+  "ds6w:policy",
+  "ds6w:reservedBy",
+  "ds6w:globalType",
+  "ds6w:manufacturable",
+  "pathsr"],
+"mandatorySixwForRel": [
+  "ds6w:label",
+  "ds6w:type",
+  "ds6wg:SynchroEBOMExt.V_InEBOMUser",
+  "physicalid",
+  "ro.plminstance.V_treeorder",
+  "ds6wg:raw_material.v_dimensiontype",
+  "ro.madefromquantity_length.V_ContQuantity",
+  "ro.madefromquantity_mass.V_ContQuantity",
+  "ro.madefromquantity_area.V_ContQuantity",
+  "ro.madefromquantity_volume.V_ContQuantity",
+  "ro.madefromquantity_AsRequired.AsRequired",
+  "ro.VPMInstanceQuantity_Area.V_ContQuantity",
+  "ro.VPMInstanceQuantity_Mass.V_ContQuantity",
+  "ro.VPMInstanceQuantity_Volume.V_ContQuantity",
+  "ro.VPMInstanceQuantity_Length.V_ContQuantity",
+  "ro.VPMInstanceQuantity_AsRequired.AsRequired"
+],
+"mappingPredicates":{
+  "VPMReference": {
+    "ds6w:label": "PLMEntity.V_Name",
+    "ds6wg:EnterpriseExtension.V_PartNumber": "EnterpriseExtension.V_PartNumber",
+    "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity": "DELFmiContQuantity_Mass.V_ContQuantity",
+    "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity": "DELFmiContQuantity_Volume.V_ContQuantity",
+    "ds6wg:PLMReference.V_isLastVersion": "PLMReference.V_isLastVersion",
+    "ds6w:status": "current",
+    "ds6w:responsible": "owner",
+    "ds6wg:revision": "revision",
+    "ds6w:reserved": "reserved",
+    "ds6w:modified": "modified",
+    "ds6w:type": "type",
+    "ds6w:identifier": "name",
+    "ds6w:manufacturable": "VPMReference.V_IsManufacturable",
+    "ds6w:description": "PLMEntity.V_description"
+  },
+  "VPMInstance": {
+    "ds6w:label": "PLMInstance.PLM_ExternalID",
+    "ds6w:description": "PLMInstance.V_description"
+  },
+  "document": {
+    "ds6w:label": "Title",
+    "ds6w:description": "description"
+  }
+},
+"defaultAttributes": [
+  {
+    "dataIndex": "tree",
+    "ds6w": "ds6w:label",
+    "kind": "string",
+    "dbName": "PLMEntity.V_Name",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": false,
+        "groupingLocked": true,
+        "canBeGrouped": false,
+        "removable": false
+      }
+    }
+  },
+  {
+    "dataIndex": "level",
+    "kind": "string",
+    "ds6w": "level",
+    "dbName": "",
+    "visibleFlag": false,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "groupingLocked": true,
+        "removable": false
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:label-Instance",
+    "ds6w": "ds6w:label",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "PLMInstance.PLM_ExternalID",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "groupingLocked": true,
+        "removable": true
+      }
+    }
+  },
+  {
+    "dataIndex": "occurence",
+    "kind": "string",
+    "ds6w": "occurence",
+    "dbName": "",
+    "ds6wFrom": "rel",
+    "visibleFlag": false,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "groupingLocked": true,
+        "removable": false
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:EnterpriseExtension.V_PartNumber",
+    "ds6w": "ds6wg:EnterpriseExtension.V_PartNumber",
+    "kind": "string",
+    "dbName": "EnterpriseExtension.V_PartNumber",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_PartNameEN",
+    "ds6w": "ds6wg:JF_VPMReference.JF_PartNameEN",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_PartNameEN",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_PartNameCN",
+    "ds6w": "ds6wg:JF_VPMReference.JF_PartNameCN",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_PartNameCN",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+{
+    "dataIndex": "ds6wg:JF_VPMReference.JF_IsThereALackOfDrawings",
+    "ds6w": "ds6wg:JF_VPMReference.JF_IsThereALackOfDrawings",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_IsThereALackOfDrawings",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:revision",
+    "ds6w": "ds6wg:revision",
+    "kind": "string",
+    "dbName": "revision",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:PLMReference.V_isLastVersion",
+    "ds6w": "ds6wg:PLMReference.V_isLastVersion",
+    "dbName": "PLMReference.V_isLastVersion",
+    "visibleFlag": true,
+    "kind": "string",
+    "Type": "boolean",
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },  
+  {
+    "dataIndex": "ds6w:status",
+    "ds6w": "ds6w:status",
+    "kind": "string",
+    "dbName": "current",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:responsible",
+    "ds6w": "ds6w:responsible",
+    "kind": "string",
+    "dbName": "owner",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:reserved",
+    "ds6w": "ds6w:reserved",
+    "kind": "string",
+    "Type": "boolean",
+    "dbName": "reserved",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:modified",
+    "ds6w": "ds6w:modified",
+    "kind": "datetime",
+    "dbName": "modified",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:type",
+    "ds6w": "ds6w:type",
+    "kind": "string",
+    "dbName": "type",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:cadMaster",
+    "ds6w": "ds6w:cadMaster",
+    "kind": "string",
+    "dbName": "cadMaster",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  
+  {
+    "dataIndex": "cus:ProjectRel",
+    "ds6w": "cus:ProjectRel",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_ProjectRel",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+
+  {
+    "dataIndex": "cus:PartType",
+    "ds6w": "cus:PartType",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_PartType",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_Material",
+    "ds6w": "ds6wg:JF_VPMReference.JF_Material",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_Material",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_MaterialStar",
+    "ds6w": "ds6wg:JF_VPMReference.JF_MaterialStar",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_MaterialStar",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_Weight",
+    "ds6w": "ds6wg:JF_VPMReference.JF_Weight",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_Weight",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_WeightTarget",
+    "ds6w": "ds6wg:JF_VPMReference.JF_WeightTarget",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_WeightTarget",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_DirectBuy",
+    "ds6w": "ds6wg:JF_VPMReference.JF_DirectBuy",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_DirectBuy",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMReference.JF_PartDes",
+    "ds6w": "ds6wg:JF_VPMReference.JF_PartDes",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_PartDes",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "cus:ProcurementType",
+    "ds6w": "cus:ProcurementType",
+    "kind": "string",
+    "dbName": "JF_VPMReference.JF_ProcurementType",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+ 
+
+  {
+    "dataIndex": "ds6wg:JF_VPMInstance.JF_FNA-Instance",
+    "ds6w": "ds6wg:JF_VPMInstance.JF_FNA",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "JF_VPMInstance.JF_FNA",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMInstance.JF_ProcurementType-Instance",
+    "ds6w": "ds6wg:JF_VPMInstance.JF_ProcurementType",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "JF_VPMInstance.JF_ProcurementType",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMInstance.JF_OnlyEBOMPart-Instance",
+    "ds6w": "ds6wg:JF_VPMInstance.JF_OnlyEBOMPart",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "JF_VPMInstance.JF_OnlyEBOMPart",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMInstance.JF_Color-Instance",
+    "ds6w": "ds6wg:JF_VPMInstance.JF_Color",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "JF_VPMInstance.JF_Color",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMInstance.JF_Symmetry-Instance",
+    "ds6w": "ds6wg:JF_VPMInstance.JF_Symmetry",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "JF_VPMInstance.JF_Symmetry",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:JF_VPMInstance.JF_Dosage-Instance",
+    "ds6w": "ds6wg:JF_VPMInstance.JF_Dosage",
+    "ds6wFrom": "rel",
+    "kind": "string",
+    "dbName": "JF_VPMInstance.JF_Dosage",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:PLMReference.V_versionComment",
+    "ds6w": "ds6wg:PLMReference.V_versionComment",
+    "kind": "string",
+    "dbName": "PLMReference.V_versionComment",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": true,
+        "canBeGrouped": true
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6w:identifier",
+    "ds6w": "ds6w:identifier",
+    "kind": "string",
+    "dbName": "name",
+    "visibleFlag": true,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "groupingLocked": true,
+        "removable": true
+      }
+    }
+  },
+  {
+    "dataIndex": "Thumbnail",
+    "kind": "string",
+    "dbName": "",
+    "visibleFlag": false,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "groupingLocked": true,
+        "removable": false
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity",
+    "ds6w": "ds6wg:DELFmiContQuantity_Mass.V_ContQuantity",
+    "kind": "string",
+    "dbName": "DELFmiContQuantity_Mass.V_ContQuantity",
+    "visibleFlag": false,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": false
+      }
+    }
+  },
+  {
+    "dataIndex": "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity",
+    "ds6w": "ds6wg:DELFmiContQuantity_Volume.V_ContQuantity",
+    "kind": "string",
+    "dbName": "DELFmiContQuantity_Volume.V_ContQuantity",
+    "visibleFlag": false,
+    "customisation": {
+      "layout": {
+        "removableFromView": true,
+        "removable": false
+      }
+    }
+  }
+],
+"removeTileAttribute" : ["Title", "Revision", "Configuration", "Effectivity", "VariantEffectivity", "CurrentEvolutionEffectivity", "ProjectedEvolutionEffectivity"],
+"basicsAttributes": {
+  "VPMReference": [{"name": "ds6w:description", "type":"string"},{"name": "ds6w:responsible", "type":"string"},
+                    {"name": "ds6w:identifier", "type":"string"}, {"name": "ds6w:type", "type":"string"},
+                    {"name": "ds6w:label", "type":"string"}, {"name": "ds6wg:revision", "type":"string"},
+                    {"name":"ds6w:modified", "type":"date"},{"name":"ds6w:created", "type":"date"},
+                    {"name":"ds6w:status", "type":"string"},{"name":"ds6w:cadMaster", "type":"string"},{"name":"ds6w:reserved", "type":"string"},{"name":"ds6w:reservedBy", "type":"string"},
+                    {"name":"ds6wg:PLMReference.V_isLastVersion", "type":"string"}, {"name":"ds6wg:EnterpriseExtension.V_PartNumber", "type":"string"},
+                    {"name":"ds6wg:MaterialUsageExtension.DeclaredQuantity", "type":"string"},
+                    {"name":"ds6wg:DELFmiContQuantity_Mass.V_ContQuantity", "type":"string"},
+                    {"name":"ds6wg:DELFmiContQuantity_Volume.V_ContQuantity", "type":"string"}],
+  "Document": [{"name": "ds6w:description", "type":"string"},{"name": "ds6w:responsible", "type":"string"},
+                     {"name": "ds6w:type", "type":"string"},{"name": "ds6w:identifier", "type":"string"},
+                    {"name": "ds6w:label", "type":"string"}, {"name": "ds6wg:revision", "type":"string"},
+                    {"name":"ds6w:modified", "type":"date"},{"name":"ds6w:created", "type":"date"},
+                    {"name":"ds6w:status", "type":"string"},{"name":"ds6wg:PLMReference.V_isLastVersion", "type":"string"}]
+},
+"recentsEngItemsSize" : 20,
+"commands":{
+            "finalItemsAttributes": {
+                "url":"/resources/v1/engineeringItem/finalItemAttributes",
+                "method":"GET",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": false
+            },
+            "qualifiedAsFinal": {
+                "url":"/resources/v1/engineeringItem/qualifiedAsFinal",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "timeout": 300000,
+                "isChangeControlled": false
+
+            },
+            "convertValues": {
+                "url":"/resources/v1/engineeringItem/convertValues",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": false
+            },
+            "setQuantity": {
+              "url":"/resources/v1/engineeringItem/createContinousMaterialItemReference",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": true
+            },
+             "modifyQuantity": {
+              "url":"/resources/v1/engineeringItem/modifyContinousMaterialItemReference",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": true
+            },
+            "csrf_tocken_validation": {
+                "url":"/resources/v1/application/E6WFoundation/CSRF",
+                "method":"GET",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": false
+            },
+            "export_fetch": {
+                "url":"/resources/v1/engineeringItem/export",
+                "method":"POST",
+                "type":"octet-stream",
+                "targetService":"3DSpace",
+                "timeout": 300000,
+                "isChangeControlled": false
+            },
+            "export_All": {
+                "url":"/resources/v1/engineeringItem/exportAll",
+                "method":"POST",
+                "type":"octet-stream",
+                "targetService":"3DSpace",
+                "isChangeControlled": false
+            },
+            "importService":{
+	            "url":"/resources/v1/engineeringItem/importitem",
+	            "method":"POST",
+	            "type":"file",
+	            "targetService":"3DSpace",
+              "timeout": 300000,
+              "isChangeControlled": true
+
+            },
+           "dico_predicate_value":{
+                "url":"/resources/6WVocab/access/PredicateValue",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": false
+            },
+            "dico_elements":{
+                "url":"/resources/6WVocab/access/ElementsNLSNames",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": false
+            },
+            "db_fetch":{
+              "url":"/resources/enoauthoring/fetch/v1",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "cv_fetch":{
+                "url":"/cvservlet/fetch/v2",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "sc_tenant_in_url": true,
+                "isChangeControlled": false
+            },
+            "multiexpand": {
+              "url": "/cvservlet/multiexpand",
+              "method": "POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+          },
+          "multiexpand_v2":{
+            "url":"/cvservlet/progressiveexpand/v2",
+            "method":"POST",
+            "type":"json",
+            "targetService":"3DSpace",
+            "timeout": 300000,
+            "isChangeControlled": false,
+            "queryParameters": ["output_format=cvjson"]
+          },
+            "cv_expand":{
+              "url":"/cvservlet/expand",
+              "method":"POST",
+              "type":"json",
+              "expand_iter":"1",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": false
+            },
+            "cv_expand_v2":{
+                "url":"/cvservlet/progressiveexpand/v2",
+                "method":"POST",
+                "type":"json",
+                "expand_iter":"1",
+                "targetService":"3DSpace",
+                "timeout": 300000,
+                "sc_tenant_in_url": true,
+                "isChangeControlled": false,
+                "queryParameters": ["output_format=cvjson"]
+              },
+            "db_expand_new": {
+              "url": "/resources/enoauthoring/expand/v1",
+              "method": "POST",
+              "type": "json",
+              "expand_iter": "1",
+              "targetService": "3DSpace",
+              "timeout": 300000,
+              "isChangeControlled": false
+            },
+            "db_fetch_new": {
+              "url": "/resources/enoauthoring/fetch/v1",
+              "method": "POST",
+              "type": "json",
+              "targetService": "3DSpace",
+              "isChangeControlled": false
+            },
+            "powerBy_addExisting":{
+              "url":"/resources/product/instances/",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "timeout": 60000,
+              "isChangeControlled": true
+            },
+            "changeQuantities": {
+              "url": "/resources/v1/engineeringItem/bulkCreateInstancesInBackground",
+              "method": "POST",
+              "type": "json",
+              "targetService": "3DSpace",
+              "isChangeControlled": true
+            },
+            "mcs_attributes":{
+              "url":"/resources/v1/collabServices/attributes/op/read",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+
+            },
+            "fed_myEng":{
+              "url":"/search",
+              "method":"POST",
+              "type":"json",
+              "nresults":20,
+              "source":["3dspace"],
+              "targetService":"3DSearch",
+              "isChangeControlled": false
+            },
+            "fed_myEng_on_Recent":{
+              "url":"/recent",
+              "method":"POST",
+              "type":"json",
+              "nresults":40,
+              "source":["3dspace"],
+              "deltaTime": 300,
+              "targetService":"3DSearch",
+              "isChangeControlled": false
+            },
+            "gettypeshierarchy" :{
+              "url": "/resources/enong/dico/gettypeshierarchy",
+              "method": "POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "db_expand":{
+              "url":"/resources/enopad/lwc/expand",
+              "method":"POST",
+              "type":"json",
+              "expand_iter":"1",
+              "targetService":"3DSpace",
+              "timeout": 300000,
+              "isChangeControlled": false
+            },
+            "get_xen_columns":{
+              "url":"/resources/v1/engineeringItem/customer/attributes?lang={lang}",
+              "method":"GET",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "dico_interfaces":{
+              "url":"/resources/dictionary/class/interfaces?displayAttributes={displayAttributes}&customerOnly={customerOnly}",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "dictionary_custo":{
+              "url":"/resources/dictionary/DictionaryCUSTO?displayAttributes={displayAttributes}",
+              "method":"GET",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "my_app_setPreference":{
+              "url":"/resources/AppsMngt/user/preference",
+              "method":"PUT",
+              "type":"text",
+              "useFormData": true,
+              "targetService":"3DCompass",
+              "isChangeControlled": false
+            },
+            "get_command_settings":{
+              "url":"/resources/v1/engineeringItem/commandSettings",
+              "method":"GET",
+              "type":"text",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "get_Customer_Deployed_Expression_Values":{
+              "url":"/resources/v1/engineeringItem/getCustomerDeployedExpressionValues",
+              "method":"GET",
+              "type":"text",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "my_app_getPreference":{
+              "url":"/resources/AppsMngt/user/preference",
+              "method":"GET",
+              "type":"text",
+              "noContentType": true,
+              "targetService":"3DCompass",
+              "isChangeControlled": false
+            },
+            "apply_material":{
+              "url":"/resources/v1/engineeringItem/applyCoreMaterial",
+              "method":"PUT",
+              "type":"json",
+              "targetService":"3DSpace"
+            },
+            "get_material":{
+              "url":"/resources/v1/engineeringItem/getAppliedMaterial",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace"
+            },
+            "get_core_material":{
+                "url":"/resources/v1/engineeringItem/getAppliedCoreMaterial",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace"
+            },
+            "get_covering_material":{
+                "url":"/resources/v1/engineeringItem/getAppliedCoveringMaterial",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace"
+            },
+            "post_core_material":{
+                "url":"/resources/v1/engineeringItem/postAppliedCoreMaterial",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": true
+            },
+            "post_covering_material":{
+                "url":"/resources/v1/engineeringItem/postAppliedCoveringMaterial",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "isChangeControlled": true
+            },
+            "get_core_support_info":{
+                "url":"/resources/v1/engineeringItem/getCoreMaterialSupportInfo",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace"
+            },
+            "get_covering_support_info":{
+                "url":"/resources/v1/engineeringItem/getCoveringMaterialSupportInfo",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace"
+            },
+            "get_configuration":{
+              "url":"/resources/modeler/configuration/navigationServices/getStaticMapping?cfgConf=1",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace"
+            },
+            "mcs_setTitle":{
+              "url":"/resources/v1/collabServices/attributes/op/update",
+              "method":"PUT",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": true
+            },
+            "add_quantity_of_material":{
+              "url":"/resources/v1/engineeringItem/setMaterialQuantity",
+              "method":"PUT",
+              "type":"json",
+              "targetService":"3DSpace"
+            },
+            "getConfiguredObjectInfo": {
+              "url":"/resources/modeler/configuration/navigationServices/getConfiguredObjectInfo/pid:{pid}?cfgCtxt=1",
+              "method":"GET",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false,
+              "version": "1.2"
+            },
+            "setConfContext": {
+              "url":"/resources/modeler/configuration/authoringServices/setConfiguredObjectInfo?cfgCtxt=1",
+              "method":"POST",
+              "inputVersion" : "1.2",
+              "type":"json",
+              "targetService":"3DSpace",
+              "enabledCriteria": {
+                "feature": "true",
+                "productState": "true",
+                "unit": "false",
+                "contextualDate": "false",
+                "milestone": "false",
+                "manufacturingPlan": "false",
+                "globalDate":"false",
+                "isChangeControlled": true
+              }
+            },
+            "modelInfo" :{
+              "url":"/resources/modeler/model/pid:{pid}/configurationdictionary?products=1&attributes=1",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "noContentType" : true,
+              "isChangeControlled": false
+            },
+            "getDimensions":{
+              "url":"/resources/dictionary/dimensions?xrequestedwith=xmlhttprequest",
+              "method":"GET",
+              "type":"json",
+              "targetService":"3DSpace",
+              "noContentType" : true,
+              "isChangeControlled": false
+            },
+            "modelFromVersion" :{
+              "url":"/resources/v1/modeler/dspfl/dspfl:ModelVersion/{pid}?$mask=dsmvpfl:ModelVersionUIMask",
+              "method":"GET",
+              "type":"json",
+              "targetService":"3DSpace",
+              "noContentType" : true,
+              "isChangeControlled": false
+            },
+            "createVolatileFilter": {
+              "url":"/resources/modeler/configuration/filteringServices/createVolatileFilter",
+              "method":"POST",
+              "type":"json",
+              "version" : "1.2",
+              "targetService":"3DSpace",
+              "output":{
+                "targetFormat": "TXT"
+              },
+              "contentFormat": "<CfgFilterExpression xs:schemaLocation = \"urn:com:dassault_systemes:config CfgFilterExpression.xsd\" xmlns:xs = \"http://www.w3.org/2001/XMLSchema-instance\" xmlns = \"urn:com:dassault_systemes:config\"><FilterSelection SelectionMode=\"{mode}\" SelectionView=\"{SelectionView}\">{filter}</FilterSelection></CfgFilterExpression>",
+              "ModelVersionFormat": "<TreeSeries Type = \"ProductState\" Name = \"{modelName}\"><Single Name = \"{modelVersionName}\" Revision = \"{modelVersionRevision}\"/></TreeSeries>",
+              "variantFormat":"<Feature Type=\"ConfigFeature\" Name=\"{variantName}\">{variantValues}</Feature>",
+              "variantValueFormat": "<Feature Type=\"ConfigFeature\" Name=\"{variantValueName}\"/>",
+              "isChangeControlled": true
+            },
+            "getModelPCInfos" : {
+              "url":"/resources/modeler/browsing/model/pid:{pid}/getproductconfigurations",
+              "method":"GET",
+              "param" : "{\"version\": \"1.0.0\", \"input\": {\"status\": \"0\",\"basics\": \"to[Product Configuration].from.attribute[Marketing Name],to[Product Configuration].from.revision\",\"attributes\": \"FilterCompiledForm\",\"productPIDs\":\"{prodIds}\"}}",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "getConfigSettings": {
+              "url":"/resources/modeler/configuration/settingsServices/getConfigurationSettings",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+            "getEffectivityInfo": {
+              "url":"/resources/modeler/configuration/navigationServices/getMultipleFilterableObjectInfo",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false,
+              "version": "1.3"
+            },
+            "workUnderEvolution": {
+              "url":"/resources/authoringcontext/service",
+              "method":"POST",
+              "param": "{\"Dictionary Contexts\":\"{modelId}\",\"Evolution Expression\":\"{evolutionExpression}\"}",
+              "evolutionExpression" :"<?xml version=\"1.0\" encoding=\"UTF-8\"?><CfgEffectivityExpression xmlns=\"urn:com:dassault_systemes:config\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:schemaLocation=\"urn:com:dassault_systemes:config CfgEffectivityExpression.xsd\"><Expression><Context HolderType=\"Model\" HolderName=\"{modelName}\" DescId=\"6\"><TreeSeries Type = \"ProductState\" Name = \"{modelName}\"><Tree><Root Name = \"{productName}\" Revision = \"{productRevision}\" DescId = \"1\" IsExcluded=\"false\"/></Tree></TreeSeries></Context></Expression><Description><TreeSeries DescId = \"1\" Revision = \"{productRevision}\" DisplayName=\"{productTitle}\"></TreeSeries><Context DescId = \"6\" DisplayName=\"{modelTitle}\"></Context></Description></CfgEffectivityExpression>",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled": false
+            },
+             "alternate_info":{
+              "url":"/resources/v1/alternateManagement/getAlternateInfo",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled":true
+            },
+             "deformable_info":{
+              "url":"/resources/product/navigation/deformable/getDeformedFromReferences",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled":false
+            },
+            "madefrom_info": {
+              "url":"/resources/MadeFrom/v1/Physical_Prod/{pid}",
+              "method":"GET",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled":false
+            },
+            "madefrom_info_bulk": {
+              "url":"/resources/MadeFrom/v1/Physical_Prod/MadeFromDetails",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "isChangeControlled":false
+            },
+            "getOccurrencesEffectivitiesAsUnits":{
+                "url":"/resources/modeler/configuration/expressionServices/getOccurrencesEffectivitiesAsUnits",
+                "method":"POST",
+                "type":"json",
+                "targetService":"3DSpace",
+                "timeout": 300000
+            },
+            "getStatesAttributes":{
+              "url":"/resources/lifecycle/maturity/getStatesAttributes",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": false
+            },
+            "addExistingRawMaterial": {
+              "url":"/resources/v1/ContinuousQuantity/PhysicalProduct/{parentId}/QtyInstance:ContinuousQuantity",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": true,
+              "useCSRF": true
+            },
+            "getRawMaterialInstances": {
+              "url":"/resources/v1/ContinuousQuantity/PhysicalProduct/QtyInstance:ContinuousQuantities",
+              "method":"POST",
+              "type":"json",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": false,
+              "useCSRF": true
+            },
+            "editRawMaterialInstance": {
+              "url":"/resources/v1/ContinuousQuantity/PhysicalProduct/{parentId}/QtyInstance:ContinuousQuantity/{relId}",
+              "method":"PUT",
+              "type":"json",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": true,
+              "useCSRF": true
+            },
+            "cv_navigate":{
+              "url":"/cvservlet/navigate",
+              "method":"POST",
+              "type":"json",
+              "expand_iter":"1",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": false
+            },
+            "reParent": {
+              "url": "/resources/product/authoring/reparent",
+              "method": "POST",
+              "type": "json",
+              "targetService": "3DSpace",
+              "isChangeControlled": true
+            },
+            "reportGenerationStatus":{
+              "url":"/resources/v1/modeler/dsrgn/report/generation/status",
+              "method":"POST",
+              "type":"json",
+              "expand_iter":"1",
+              "targetService":"3DSpace",
+              "sc_tenant_in_url": true,
+              "isChangeControlled": false,
+              "useCSRF": true
+            }
+        },
+        "volumeUnitOfMeasure":{
+        	"L": {
+        		"nls": "L",
+        		"factor": 1000
+        	},
+        	"dL": {
+        		"nls": "dL",
+        		"factor": 10000
+        	},
+        	"cL": {
+        		"nls": "cL",
+        		"factor": 100000
+        	},
+        	"mL": {
+        		"nls": "mL",
+        		"factor": 1000000
+        	}
+       },
+       "endItemSupportedAttributeTypes" : ["Boolean", "String", "Integer", "Double","string","boolean","integer","double","real"],
+       "sequence_filter_exclude_NotInBOM": [{
+        "definition": [{
+          "type_filter_rel": ["PLMInstance"],
+          "q.query": "NOT ([ds6wg:SynchroEBOMExt.V_InEBOMUser]:\"FALSE\" )"
+        }]
+      }],
+  "defaultDimensions": {
+    "VOLUME": {
+      "MKSUnit": "METER3",
+      "NLS": "Volume",
+      "Name": "VOLUME",
+      "Units": [{
+        "NLSName": "m³",
+        "Name": "METER3",
+        "label": "m3"
+      }]
+    },
+    "MASS": {
+      "MKSUnit": "KILOGRAM",
+      "NLS": "Mass",
+      "Name": "MASS",
+      "Units": [{
+        "NLSName": "kg",
+        "Name": "KILOGRAM",
+        "label": "kg"
+      }]
+    },
+    "AREA": {
+      "MKSUnit": "METER2",
+      "NLS": "Area",
+      "Name": "AREA",
+      "Units": [{
+        "NLSName": "m²",
+        "Name": "METER2",
+        "label": "m2"
+      }]
+    },
+    "LENGTH": {
+      "MKSUnit": "METER",
+      "NLS": "Length",
+      "Name": "LENGTH",
+      "Units": [{
+        "NLSName": "m",
+        "Name": "METER",
+        "label": "m"
+      }]
+    }
+  }
+}

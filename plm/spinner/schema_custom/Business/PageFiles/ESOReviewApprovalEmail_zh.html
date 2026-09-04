@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ESO 总工审核任务通知(ESO Chief Engineer Approval Task Notice)</title>
+    <style>
+        body {
+            color: #333333;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .section {
+            margin: 24px 0 12px 0;
+            font-weight: bold;
+        }
+        .item {
+            margin-left: 30px;
+            min-height: 28px;
+            word-break: break-word;
+        }
+        .link {
+            margin: 24px 0 0 30px;
+        }
+        .notice {
+            margin-top: 28px;
+            color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+<!--20260728 update by ljr JFESOReview发起总工审核后发送自定义任务通知。-->
+<h3>ESO 总工审核任务通知(ESO Chief Engineer Approval Task Notice)</h3>
+<p>您好，您有一条ESO总工审核任务待处理。</p>
+
+<div class="section">审批任务信息(Approval Task Information):</div>
+<div class="item" id="Approver">总工程师(Chief Engineer): </div>
+<div class="item" id="TaskTitle">审批任务标题(Approval Task Title): </div>
+<div class="item" id="ContentTitle">审批内容标题(Approval Content Title): </div>
+<!--20260814 update by LIUJR 签发表名称展示在审批内容标题之后。-->
+<div class="item" id="ReviewSignDocument">签发表名称(Review Sign Document): </div>
+
+<div class="section">ESO任务信息(ESO Task Information):</div>
+<div class="item" id="JF_Function">职能(Function): </div>
+<div class="item" id="JF_Rows">排数(Rows): </div>
+<div class="item" id="JF_Modules">模块(Module): </div>
+<div class="item" id="JF_Locations">研发地点(Development Location): </div>
+<div class="item" id="JF_Department">部门(Department): </div>
+<div class="item" id="JF_ESOType">类型(ESO Type): </div>
+
+<div class="section">ESO签发表记录信息(ESO Review Information):</div>
+<div class="item" id="JF_PhaseState">ESO签发状态(ESO Review Status): </div>
+<div class="item" id="JF_ReviewCounte">审核次数(Review Count): </div>
+<div class="item" id="JF_EstimatedSignDate">计划签发时间(Planned Review Sign Time): </div>
+<div class="item" id="JF_ActualSignDate">实际签发时间(Actual Review Sign Time): </div>
+
+<div class="link">
+    <div>请点击下面的链接处理审核任务(Please click the link below to process the approval task):</div>
+    <a id="Address" href="" target="_blank"></a>
+</div>
+
+<div class="notice">
+    注：此邮件由系统自动生成，无需回复。<br>
+    Note: This email is generated automatically by the system. Please do not reply.
+</div>
+</body>
+</html>
