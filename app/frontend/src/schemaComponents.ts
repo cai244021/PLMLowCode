@@ -8,11 +8,13 @@ const FIELD_TYPES = new Set([
 ]);
 const ACTION_TYPES = new Set(['button', 'form']);
 const TABLE_TYPES = new Set(['crud', 'table', 'table2']);
+const DATA_TYPES = new Set(['service']);
 
 export interface PageComponents {
   all: SchemaComponent[];
   fields: SchemaComponent[];
   actions: SchemaComponent[];
+  data: SchemaComponent[];
   tables: SchemaComponent[];
 }
 
@@ -50,6 +52,7 @@ export function collectPageComponents(schema: SchemaObject): PageComponents {
     all,
     fields: all.filter((component) => FIELD_TYPES.has(component.type)),
     actions: all.filter((component) => ACTION_TYPES.has(component.type)),
+    data: all.filter((component) => DATA_TYPES.has(component.type)),
     tables: all.filter((component) => TABLE_TYPES.has(component.type))
   };
 }

@@ -26,9 +26,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 public class PageController {
 
     private final PageService pageService;
+    private final PagePublishService pagePublishService;
 
-    public PageController(PageService pageService) {
+    public PageController(PageService pageService, PagePublishService pagePublishService) {
         this.pageService = pageService;
+        this.pagePublishService = pagePublishService;
     }
 
     /**
@@ -110,6 +112,20 @@ public class PageController {
     }
 
     /**
+     * 将页面接口业务异常转换成前端可读消息
+     **
+     * @param exception 页面接口异常
+     * @return 包含明确错误原因的响应
+     * @author caipan by codex
+     * @date 2026/9/5 21:45
+     */
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, String>> pageOperationError(ResponseStatusException exception) {
+        return ResponseEntity.status(exception.getStatusCode())
+                .body(Map.of("message", exception.getReason() == null ? "页面操作失败" : exception.getReason()));
+    }
+
+    /**
      * 删除设计器页面，不影响已导出或部署到PLM的页面
      **
      * @param pageCode 页面编码
@@ -122,5 +138,19 @@ public class PageController {
             @PathVariable @Pattern(regexp = "[A-Z0-9_]{1,100}") String pageCode) {
         pageService.delete(pageCode);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 将当前已保存页面发布到PLM Page对象
+     **
+     * @param pageCode 页面编码
+     * @return 发布结果
+     * @author caipan by codex
+     * @date 2026/9/5 16:30
+     */
+    @PostMapping("/{pageCode}/publish")
+    public PagePublishResponse publishPage(
+            @PathVariable @Pattern(regexp = "[A-Z0-9_]{1,100}") String pageCode) {
+        return pagePublishService.publish(pageCode);
     }
 }

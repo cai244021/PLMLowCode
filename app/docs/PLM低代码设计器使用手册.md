@@ -1,7 +1,7 @@
 # PLM低代码设计器使用手册
 
-版本：内部运行版 0.5  
-日期：2026-09-04
+版本：内部运行版 0.7
+日期：2026-09-05
 
 ## 1. 功能定位
 
@@ -19,6 +19,7 @@
 - 按钮或表单事件与 JPO 动作绑定。
 - Table 查询动作、结果路径、对象 ID 和关系 ID 字段绑定。
 - 页面 Schema 与 PLM 配置包导出。
+- 当前页面一键发布到PLM Page对象。
 
 当前版本的配置包可由 3DSpace JSP Runtime 和 Dashboard Widget Runtime 共同解析。编辑器服务器不直接执行 JPO；真实动作始终在登录用户所在的 PLM 环境执行。
 
@@ -94,6 +95,10 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 
 ## 5. PLM字段库
 
+“新增字段”用于重置右侧表单，会显示填写指引并聚焦字段编码；录入后点击“保存字段”才会保存。红色星号表示必填，空白或仅含空格不通过校验。保存失败会在表单内显示汇总提示及字段旁红色错误，并聚焦首个错误项。编码限1～100位大写字母、数字、下划线；Range配置还会校验JSON语法。
+
+必填配置包括字段编码、显示名称、对象类型、字段来源、Scheme字段、数据类型、Range来源（其中下拉项已有默认值）。底部“必填”复选框是所定义业务字段的元数据，与当前配置表单必须填写哪些项是两回事。
+
 点击顶部“PLM字段库”。
 
 字段配置说明：
@@ -124,6 +129,8 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 ```
 
 ## 6. JPO动作库
+
+“新增动作”同样显示指引；保存时提供逐项校验提示。动作编码、动作名称、动作类型、请求方式必填；非“页面跳转”动作还要求JPO名称和执行方法，星号随动作类型变化。输入/输出映射JSON语法错误会分别标注在对应输入框旁。
 
 点击顶部“JPO动作库”。
 
@@ -173,7 +180,23 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 
 ![页面PLM绑定](images/页面PLM绑定.png)
 
-### 7.1 页面上下文
+### 7.0 本页资源选取（0.6新增）
+
+顶部“公共PLM字段库”和“公共JPO动作库”维护共享定义；“页面PLM绑定”顶部会明确显示当前页面名称和编码。
+
+1. 在“本页字段”左侧按对象类型筛选，输入名称、字段编码或Scheme属性关键字，点击“选入”。指定类型时同时包含`*`通用字段；可以依次选入多个对象类型。
+2. 右侧显示已选入本页的字段。下方“表单字段绑定”的PLM字段下拉只显示这份清单中定义仍存在的字段。
+3. 在“本页动作”按创建、更新、查询等类型筛选，也可搜索动作名称、编码、JPO名称或方法名，点击“选入”。禁用动作不出现在候选列表。
+4. 下方初始化查询和Table查询只允许选择本页启用的QUERY动作；事件绑定可选择其他类型动作。
+5. 点击“保存页面及绑定”。未保存时切换页面会触发现有的放弃修改提醒；复制页面会复制本页资源清单，导出配置包也包含清单。
+
+资源仅选入不代表已绑定组件，也不会执行JPO。对象类型筛选只是候选筛选，不是权限判断，也不会限制整个页面的数据类型。
+
+已被字段、初始化查询、事件或Table绑定使用的资源禁止直接移除，请先删除对应绑定。移除仅影响本页清单，不删除公共定义。公共定义缺失或动作被禁用时，会保留已有引用并显示提示，不会自动替换成其他字段/动作。
+
+旧页面加载时，自动从现有绑定恢复本页清单，不修改已有绑定；首次保存后随页面版本持久化。新增配置为`plmConfig.fieldCodes`和`plmConfig.actionCodes`，无需数据库表结构迁移。公共定义本身仍是共享、非版本锁定的；本次未实现发布快照。
+
+### 7.1 页面上下文参数
 
 配置运行时 URL 参数名称：
 
@@ -198,7 +221,16 @@ PLM字段：标题 · PLMEntity.V_Name
 数据Key：title
 ```
 
-### 7.3 按钮与表单事件
+### 7.3 页面初始化查询
+
+1. 在页面设计中加入带稳定组件ID的 AMIS Service。
+2. 将类型为 QUERY 的动作选入本页动作清单。
+3. 点击“新增初始化查询”，选择Service组件和查询动作。
+4. 保存页面及绑定。
+
+运行时在页面打开时为Service注入受控的`plm://actionCode` API。JSP或Widget适配器会同时传入当前`plmContext`，查询返回的`data`进入Service数据域，内部组件可使用`${header.title}`等变量。Schema中已有的Service API会被绑定配置覆盖。
+
+### 7.4 按钮与表单事件
 
 1. 选择按钮或表单组件。
 2. 选择点击、提交或值变化事件。
@@ -212,7 +244,7 @@ PLM字段：标题 · PLMEntity.V_Name
 - 关闭弹窗。
 - 使用返回的 `data.objectId` 打开对象详情。
 
-### 7.4 Table查询和对象ID
+### 7.5 Table查询和对象ID
 
 1. 选择 Table、Table 2.0 或 CRUD 组件。
 2. 选择类型为 QUERY 的 JPO 动作。
@@ -255,13 +287,35 @@ JF_COMPETITIVE_BOM_CREATE-V6.json
   "plmConfig": {
     "context": {},
     "fieldBindings": [],
+    "dataBindings": [],
     "actionBindings": [],
-    "tableBindings": []
+    "tableBindings": [],
+    "searchBindings": []
   }
 }
 ```
 
 该结构可以同时供 3DSpace JSP Runtime 和 Dashboard Vue Widget Runtime 使用，不需要生成两份页面JSON。导出后将文件名调整为页面编码，例如 `JF_COMPETITIVE_BOM_CREATE.json`，部署到 `3dspace/common/JFLowCode/pages/`。
+
+### 9.1 发布到PLM
+
+1. 将`app/docs/plm-integration.example.yml`复制为根目录`config/plm-integration.yml`，填写目标PLM地址、SecurityContext和`X-3DSLogin-ticket`。真实配置已被Git忽略，禁止提交。
+2. 修改配置后重启Spring Boot后端；前端不保存PLM地址或Ticket，也不需要重新构建。
+3. 打开待发布页面，点击顶部“发布到PLM”。存在未保存修改时，系统先保存为新版本。
+4. Spring Boot读取当前已保存页面，通过`TWXTicketService`调用`JF_LowCodePage:publishPage`；成功后创建或覆盖与`pageCode`同名的Page对象。
+5. 使用`/3dspace/common/JF_LowCodeRuntime.jsp?pageCode=页面编码`重新打开页面即可读取新内容，无需重启3DSpace。
+
+发布是覆盖式部署，PLM Page本身不保存历史版本；需要回退时从编辑器的历史版本恢复后重新发布。Ticket过期、PLM地址不可达、JPO未部署或配置的SecurityContext无Page管理权限时，发布不会成功。
+
+本机配置结构：
+
+```yaml
+plm:
+  integration:
+    base-url: https://your-plm-host/3dspace
+    security-context: VPLMProjectLeader.YourCompany.YourOrganization
+    login-ticket: REPLACE_WITH_X_3DSLOGIN_TICKET
+```
 
 ## 10. 运行端部署与验证
 
@@ -269,9 +323,13 @@ JF_COMPETITIVE_BOM_CREATE-V6.json
 
 - `common/JF_LowCodeRuntime.jsp`：3DSpace页面入口。
 - `common/JF_LowCodeAction.jsp`：受控动作入口。
+- `common/JF_LowCodePage.jsp`：读取已发布Page内容。
 - `common/JFLowCode/runtime.js`：JSP与Widget共用的配置编译和动作分发逻辑。
 - `common/JFLowCode/amis/`：固定版本的AMIS离线SDK。
 - `common/JFLowCode/pages/`：设计器导出的页面配置包。
+- `JF_LowCode` JPO：低代码业务查询，本版提供当前用户DA列表查询。
+- `JF_LowCodePage` JPO：Page配置包发布和读取。
+- `TWX_RestJPOWhiteList` Page：必须包含`JF_LowCodePage`和`JF_LowCode`，否则TicketService会拒绝发布和查询请求。
 
 3DSpace访问示例：
 
@@ -281,7 +339,82 @@ JF_COMPETITIVE_BOM_CREATE-V6.json
 
 Widget侧加载同一个页面配置包和 `runtime.js`，但动作适配器可复用Widget已有REST。例如当前竞品BOM示例在Widget中复用现有 `createVPMReferenceV5ByRest`，在3DSpace中通过受控Action JSP调用JPO。
 
+### 10.1 3DSpace原生搜索配置
+
+在“页面PLM绑定”中新增“3DSpace原生搜索”，选择触发搜索的AMIS按钮、回填表单、对象ID字段和显示名称字段，然后填写`emxFullSearch.jsp`查询参数。多个参数使用`&`连接，例如DA项目搜索：
+
+```text
+field=TYPES=type_ProjectSpace&table=AEFGeneralSearchResults&includeOIDprogram=JF_PublicMethodClass:getSystemAllProjectSpaces&showInitialResults=true&selection=single
+```
+
+`field`中的类型、状态等过滤条件，以及`table`、`form`、`includeOIDprogram`、`excludeOIDprogram`、`showInitialResults`、`suiteKey`等参数由Runtime透传给3DSpace。为保证回填链路不可被页面配置替换，Runtime会忽略配置中的`submitURL`和`requestId`，写入统一回调地址和本次搜索的唯一标识；当前版本只支持单选，因此`selection`固定为`single`。
+
+搜索完成后，统一回调JSP把所选项目的对象ID写入隐藏字段（如`projectId`），把项目显示名称写入可见字段（如`projectName`）。这些字段随表单一起提交给绑定的创建动作。
+
 运行端只允许已登记的 `actionCode`。页面配置包中的JPO名称、方法名、Type、Policy或MQL即使被人为篡改，也不会直接执行。
+
+### 10.2 本版TicketService接口
+
+查询当前登录用户拥有的DA：
+
+```text
+POST /3dspace/TWXPublicRest/TWXTicketService?JPOName=JF_LowCode&FuncName=getCurrentUserDAListLowCode
+```
+
+请求体示例为`{"page":1,"perPage":20}`，返回数据包含`items`和`total`；JPO查询条件固定为`type=JFDA`且`owner=context.getUser()`，不会因为DA管理员角色扩大为全部数据。
+
+创建DA申请单：
+
+```text
+POST /3dspace/common/JF_LowCodeAction.jsp?actionCode=CREATE_DA
+```
+
+Runtime将表单中的`projectId`、`title`、`changeType`、`projectPhase`、`affectedPlant`、`deviationReason`、`beforeChange`和`afterChange`提交给`JF_LowCode:createDALowCode`。JPO使用`type_JFDA`对象生成器创建真实DA对象，写入原生`JFCreateNewDAForm`对应属性并通过`JFChange2Project`连接项目。创建和关联位于同一事务，任一步失败都会回滚。表单配置`reload: "daList"`，成功后只刷新DA表格，不刷新整个Runtime页面。
+
+发布页面包：
+
+```text
+POST /3dspace/TWXPublicRest/TWXTicketService?JPOName=JF_LowCodePage&FuncName=publishPage
+```
+
+请求体就是导出的完整配置包。读取Page可调用`JF_LowCodePage:getPublishedPage`并传入`{"pageCode":"JF_DA_LIST_DEMO"}`；3DSpace Runtime通常直接访问`JF_LowCodePage.jsp?pageCode=...`，由该JSP完成内容读取。
+
+设计器调用的是自身后端接口：
+
+```text
+POST /api/pages/{pageCode}/publish
+```
+
+Spring Boot从数据库读取该页面当前已保存版本，组装完整配置包，再根据`config/plm-integration.yml`直连上述TicketService接口。TicketService即使返回带达索HTML/script前缀的文本，后端也会提取末尾JSON后判断发布结果。
+
+### 10.3 AMIS Table前端排序和过滤
+
+AMIS CRUD列支持`sortable`、`searchable`和`filterable`；工具栏支持`filter-toggler`。默认服务端分页模式下，这些操作只把`orderBy`、`orderDir`和过滤条件传给查询接口，不会自动处理数据。
+
+如果明确要求只在浏览器过滤和排序，需要让接口一次返回完整数据，并配置：
+
+```json
+{
+  "type": "crud",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": false,
+  "filterTogglable": true,
+  "headerToolbar": ["filter-toggler"],
+  "columns": [
+    {"name": "title", "label": "标题", "sortable": true, "searchable": true},
+    {
+      "name": "changeTypeLabel",
+      "label": "变更类型",
+      "filterable": {"options": ["客户需求", "设计偏差", "工艺偏差", "VAVE"]}
+    },
+    {"name": "createdAt", "label": "创建时间", "type": "datetime", "sortable": true}
+  ]
+}
+```
+
+前端模式只能过滤已经加载到浏览器的数据，不适合大数据量。日期排序应让查询接口同时返回可稳定比较的ISO时间或时间戳，避免按本地化日期字符串排序产生错误。DA示例已启用`loadDataOnce`并通过`api.data.clientSide=true`要求查询JPO一次返回当前用户的全部DA；首次加载后，切换分页、点击列标题排序、展开筛选栏及重置筛选均不重复请求JPO。
+
+DA新建表单的“影响工厂”使用AMIS多选下拉框，选项值与PLM属性`JFAffectsFactory`的Range编码一致。Runtime将选择结果按数组提交，`JF_LowCode:createDALowCode`从Scheme动态读取合法Range、去重后按PLM现有逗号分隔格式写入多值属性；显示标签不写入业务对象。
 
 ## 11. 当前示例效果
 
@@ -303,8 +436,8 @@ Widget侧加载同一个页面配置包和 `runtime.js`，但动作适配器可�
 - PLM字段库从Scheme自动同步。
 - PLM国际化资源加载。
 - 动态页面、字段和按钮权限。
-- 自动草稿恢复、发布、回退和目标环境管理（页面列表、新建、复制、切换已完成）。
+- 自动草稿恢复、可视化历史回退和多目标环境管理（单目标Page发布已完成）。
 
-新增页面在设计器中可以保存、预览、导出；部署到PLM后是否可打开仍受Runtime页面白名单和动作白名单约束，不代表新增页面自动发布到PLM。
+新增页面在设计器中可以保存、预览、导出和发布；其中业务请求仍受Runtime动作白名单约束，JSON中的JPO名称和方法名不会被直接执行。
 
 无论前端是否隐藏按钮或字段，真实写入JPO都必须再次检查当前用户、对象状态、角色和字段权限。

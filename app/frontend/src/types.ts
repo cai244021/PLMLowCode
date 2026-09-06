@@ -42,6 +42,12 @@ export interface ActionBinding {
   successAction: 'NONE' | 'REFRESH' | 'CLOSE' | 'OPEN_DETAIL';
 }
 
+export interface DataBinding {
+  componentId: string;
+  trigger: 'INIT';
+  actionCode: string;
+}
+
 export interface TableBinding {
   componentId: string;
   queryActionCode: string;
@@ -51,15 +57,27 @@ export interface TableBinding {
   relIdField: string;
 }
 
+export interface SearchBinding {
+  componentId: string;
+  formId: string;
+  valueField: string;
+  labelField: string;
+  searchParams: string;
+}
+
 export interface PlmPageConfig {
+  fieldCodes: string[];
+  actionCodes: string[];
   context: {
     objectIdParam: string;
     parentOidParam: string;
     relIdParam: string;
   };
   fieldBindings: FieldBinding[];
+  dataBindings: DataBinding[];
   actionBindings: ActionBinding[];
   tableBindings: TableBinding[];
+  searchBindings: SearchBinding[];
 }
 
 export interface PageResponse {
@@ -79,22 +97,30 @@ export interface SchemaComponent {
 }
 
 export const emptyPlmConfig = (): PlmPageConfig => ({
+  fieldCodes: [],
+  actionCodes: [],
   context: {
     objectIdParam: 'objectId',
     parentOidParam: 'parentOID',
     relIdParam: 'relId'
   },
   fieldBindings: [],
+  dataBindings: [],
   actionBindings: [],
-  tableBindings: []
+  tableBindings: [],
+  searchBindings: []
 });
 
 export const normalizePlmConfig = (value?: Partial<PlmPageConfig>): PlmPageConfig => {
   const empty = emptyPlmConfig();
   return {
+    fieldCodes: [...new Set([...(value?.fieldCodes || []), ...(value?.fieldBindings || []).map(item => item.fieldCode)].filter(Boolean))],
+    actionCodes: [...new Set([...(value?.actionCodes || []), ...(value?.dataBindings || []).map(item => item.actionCode), ...(value?.actionBindings || []).map(item => item.actionCode), ...(value?.tableBindings || []).map(item => item.queryActionCode)].filter(Boolean))],
     context: {...empty.context, ...(value?.context || {})},
     fieldBindings: value?.fieldBindings || [],
+    dataBindings: value?.dataBindings || [],
     actionBindings: value?.actionBindings || [],
-    tableBindings: value?.tableBindings || []
+    tableBindings: value?.tableBindings || [],
+    searchBindings: value?.searchBindings || []
   };
 };

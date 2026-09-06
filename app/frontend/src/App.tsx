@@ -50,13 +50,14 @@ export default function App() {
   const [version, setVersion] = useState(0);
   const [message, setMessage] = useState('正在读取页面...');
   const [saving, setSaving] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [view, setView] = useState<WorkspaceView>('DESIGNER');
   const [plmConfig, setPlmConfig] = useState<PlmPageConfig>(emptyPlmConfig());
   const [fields, setFields] = useState<PlmFieldDefinition[]>([]);
   const [actions, setActions] = useState<PlmActionDefinition[]>([]);
   const dirty = !!pageCode && savedSnapshot !== snapshot(pageName, schema, plmConfig);
-  const busy = loading || saving || deleting;
+  const busy = loading || saving || publishing || deleting;
 
   const deletePage = async () => {
     if (!deleteTarget || busy) return;
@@ -224,6 +225,31 @@ export default function App() {
     }
   };
 
+  const publishPage = async () => {
+    if (busy || !pageCode || !pageName.trim()) return;
+    setPublishing(true);
+    setMessage(dirty ? '正在保存当前页面并发布到PLM...' : '正在发布到PLM...');
+
+    try {
+      if (dirty) {
+        const {data} = await axios.put<PageResponse>(`/api/pages/${pageCode}`, {
+          pageName,
+          schema,
+          plmConfig
+        });
+        const normalizedConfig = normalizePlmConfig(data.plmConfig);
+        setVersion(data.currentVersion);
+        setPageName(data.pageName);
+        setSavedSnapshot(snapshot(data.pageName, data.schema, normalizedConfig));
+        refreshPages().catch(() => undefined);
+      }
+      const {data} = await axios.post<{pageCode: string; version: number; message: string}>(`/api/pages/${pageCode}/publish`);
+      setMessage(`${data.message}：PLM Page ${data.pageCode} 已更新（V${data.version}）`);
+    } catch (error: any) {
+      setMessage(error.response?.status === 410 ? '页面已被删除，无法发布。' : error.response?.data?.detail || error.response?.data?.message || '发布失败，请检查PLM配置和网络连接');
+    } finally { setPublishing(false); }
+  };
+
   const exportPackage = () => {
     const content = JSON.stringify({
       formatVersion: 1,
@@ -276,13 +302,16 @@ export default function App() {
           <button type="button" onClick={savePage} disabled={busy || !pageCode || !pageName.trim()}>
             {saving ? '保存中...' : '保存页面'}
           </button>
+          <button type="button" onClick={publishPage} disabled={busy || !pageCode || !pageName.trim()}>
+            {publishing ? '发布中...' : '发布到PLM'}
+          </button>
         </div>
       </header>
       <nav className="workspace-nav">
         <button type="button" className={view === 'PAGES' ? 'active' : ''} onClick={() => setView('PAGES')}>页面管理</button>
         <button type="button" disabled={!pageCode} className={view === 'DESIGNER' ? 'active' : ''} onClick={() => setView('DESIGNER')}>页面设计</button>
-        <button type="button" className={view === 'FIELDS' ? 'active' : ''} onClick={() => setView('FIELDS')}>PLM字段库</button>
-        <button type="button" className={view === 'ACTIONS' ? 'active' : ''} onClick={() => setView('ACTIONS')}>JPO动作库</button>
+        <button type="button" className={view === 'FIELDS' ? 'active' : ''} onClick={() => setView('FIELDS')}>公共PLM字段库</button>
+        <button type="button" className={view === 'ACTIONS' ? 'active' : ''} onClick={() => setView('ACTIONS')}>公共JPO动作库</button>
         <button type="button" disabled={!pageCode} className={view === 'BINDINGS' ? 'active' : ''} onClick={() => setView('BINDINGS')}>页面PLM绑定</button>
       </nav>
       <div className="statusbar">{message}</div>
@@ -322,6 +351,9 @@ export default function App() {
       {view === 'ACTIONS' && <PlmActionManager actions={actions} onReload={loadActions} notify={setMessage} />}
       {view === 'BINDINGS' && (
         <PagePlmBinding
+          key={pageCode}
+          pageCode={pageCode}
+          pageName={pageName}
           schema={schema}
           config={plmConfig}
           fields={fields}
@@ -357,7 +389,7 @@ export default function App() {
           </div>
         </div>
       </div>}
-      {busy && <div className="page-busy" role="status">{deleting ? '正在删除页面…' : loading ? '正在加载页面…' : '正在保存页面…'}</div>}
+      {busy && <div className="page-busy" role="status">{deleting ? '正在删除页面…' : loading ? '正在加载页面…' : publishing ? '正在发布页面…' : '正在保存页面…'}</div>}
     </main>
   );
 }

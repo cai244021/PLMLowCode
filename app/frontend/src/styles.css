@@ -269,7 +269,8 @@ body {
 .form-grid textarea,
 .inline-grid input,
 .binding-row input,
-.binding-row select {
+.binding-row select,
+.binding-row textarea {
   min-width: 0;
   padding: 8px 10px;
   color: #1e293b;
@@ -277,6 +278,12 @@ body {
   border: 1px solid #cbd5e1;
   border-radius: 4px;
   font: inherit;
+}
+
+.binding-row textarea {
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  resize: vertical;
 }
 
 .form-grid textarea {
@@ -301,7 +308,7 @@ body {
 
 .summary-cards {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   margin: 18px 0;
 }
@@ -358,8 +365,20 @@ body {
   grid-template-columns: 1.6fr .7fr 1.6fr 1.2fr auto;
 }
 
+.data-row {
+  grid-template-columns: 1.6fr .8fr 1.6fr auto;
+}
+
 .table-row {
   grid-template-columns: repeat(2, 1.6fr) repeat(4, 1fr) auto;
+}
+
+.search-row {
+  grid-template-columns: repeat(2, 1.4fr) repeat(2, 1fr) auto;
+}
+
+.search-row .search-params {
+  grid-column: 1 / -2;
 }
 
 .binding-row .icon-danger {
@@ -411,6 +430,19 @@ body {
 .page-dialog p { color: #64748b; }
 .page-card > .form-actions { justify-content: flex-end; }
 .page-busy { z-index: 2100; color: white; cursor: wait; }
+
+.resource-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.resource-list { max-height: 280px; overflow: auto; border: 1px solid #e2e8f0; border-radius: 6px; margin-top: 12px; }
+.resource-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-bottom: 1px solid #e2e8f0; }
+.resource-item > div { min-width: 0; overflow-wrap: anywhere; }
+.resource-item small { display: block; color: #64748b; margin-top: 5px; }
+.resource-item button { flex-shrink: 0; }
+.required-mark, .validation-error { color: #c62828; }
+.required-help { color: #64748b; font-size: 13px; }
+.validation-error { display: block; font-weight: normal; }
+.config-form [aria-invalid="true"] { border-color: #c62828; background: #fff7f7; }
+.validation-notice { padding: 12px 16px; margin: 12px 0; background: #eff6ff; border-left: 4px solid #0284c7; color: #0c4a6e; }
+@media (max-width: 800px) { .resource-columns { grid-template-columns: 1fr; } }
 
 @media (max-width: 1100px) {
   .management-page {

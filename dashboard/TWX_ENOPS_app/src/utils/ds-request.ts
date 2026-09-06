@@ -2,6 +2,7 @@ import { requirejsPromise } from '@widget-lab/3ddashboard-utils';
 const spaceUrl = window.localStorage.getItem('spaceUrl');
 import { isDev, baseApi } from './env';
 let baseURL = isDev ? baseApi : spaceUrl ? spaceUrl : window.location.href.split('/webapp')[0];
+const devLoginTicket = import.meta.env.VITE_3DS_LOGIN_TICKET || '';
 import { ElMessage } from 'element-plus';
 export function setBaseURL(newBaseURL: any) {
 	baseURL = newBaseURL;
@@ -17,7 +18,7 @@ const request = async (method: string, url: string, data: any | undefined) => {
 			headers: {
 				'Content-Type': 'application/json',
 				'X-Requested-With': 'XMLHttpRequest',
-				'X-3DSLogin-ticket': isDev ? 'NkVCOEEzOUMwMUM0NEMwNzkxMTM4M0M1NzNBOTI4OTV8YWRtaW5fcGxhdGZvcm18fHx8MHw=' : '' // 这里可以替换为实际的登录票据
+				'X-3DSLogin-ticket': isDev ? devLoginTicket : ''
 			},
 			data: method == 'POST' || method == 'PUT' ? data : undefined,
 			onComplete: res => {

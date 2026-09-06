@@ -2,8 +2,11 @@ package com.jfseat.lowcode;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.jfseat.lowcode.integration.PlmIntegrationProperties;
 
 @SpringBootApplication
+@EnableConfigurationProperties(PlmIntegrationProperties.class)
 public class LowCodeApplication {
 
     /**
@@ -17,4 +20,3 @@ public class LowCodeApplication {
         SpringApplication.run(LowCodeApplication.class, args);
     }
 }
-

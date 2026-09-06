@@ -148,9 +148,17 @@ const renderAmis = async (): Promise<void> => {
 		]);
 		await loadScript('jf-lowcode-runtime-js', `${spaceBaseUrl}/common/JFLowCode/runtime.js`);
 
-		const pagePackage = await loadSchema(
-			`${spaceBaseUrl}/common/JFLowCode/pages/${AMIS_PAGE_CODE}.json?_=${Date.now()}`
-		);
+		let pagePackage;
+		try {
+			pagePackage = await loadSchema(
+				`${spaceBaseUrl}/common/JF_LowCodePage.jsp?pageCode=${encodeURIComponent(AMIS_PAGE_CODE)}&_=${Date.now()}`
+			);
+		} catch {
+			//尚未发布为Page时兼容原静态JSON部署方式。
+			pagePackage = await loadSchema(
+				`${spaceBaseUrl}/common/JFLowCode/pages/${AMIS_PAGE_CODE}.json?_=${Date.now()}`
+			);
+		}
 		if (!pagePackage?.schema || !pagePackage?.plmConfig) {
 			throw new Error('低代码页面配置包格式不正确');
 		}
