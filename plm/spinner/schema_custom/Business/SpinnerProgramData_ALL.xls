@@ -93,3 +93,5 @@ JF_ESOTaskReminder	JF_ESOTaskReminder	JF_ESOTaskReminder	java	immediate	FALSE	FA
 JF_ProductConfig	JF_ProductConfig	The program for product config table	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
 JF_BatchDocumentReview	JF_BatchDocumentReview	The program for Batch Document Review	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
 JF_FormalExportImportMBOM	JF_FormalExportImportMBOM	The program for Formal Export MBOM	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE
+JF_LowCodePage	JF_LowCodePage	PLM low-code Page publish and read service	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		
+JF_LowCode	JF_LowCode	PLM low-code business action service	java	immediate	FALSE	FALSE	FALSE	FALSE	FALSE		

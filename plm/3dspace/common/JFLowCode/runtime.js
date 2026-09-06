@@ -44,9 +44,11 @@
     function compilePackage(pagePackage) {
         var schema;
         var config;
+        var dataBindings;
         var fieldBindings;
         var actionBindings;
         var tableBindings;
+        var searchBindings;
 
         if (!pagePackage || typeof pagePackage !== 'object' || !pagePackage.schema) {
             throw new Error('\u9875\u9762\u914d\u7f6e\u5305\u7f3a\u5c11schema');
@@ -57,9 +59,21 @@
 
         schema = clone(pagePackage.schema);
         config = pagePackage.plmConfig || {};
+        dataBindings = config.dataBindings || [];
         fieldBindings = config.fieldBindings || [];
         actionBindings = config.actionBindings || [];
         tableBindings = config.tableBindings || [];
+        searchBindings = config.searchBindings || [];
+
+        dataBindings.forEach(function (binding) {
+            var component = findById(schema, binding.componentId);
+            if (component && component.type === 'service' && binding.trigger === 'INIT') {
+                component.api = {
+                    method: 'post',
+                    url: actionUrl(binding.actionCode, binding.componentId)
+                };
+            }
+        });
 
         fieldBindings.forEach(function (binding) {
             var component = findById(schema, binding.componentId);
@@ -92,11 +106,24 @@
 
         tableBindings.forEach(function (binding) {
             var component = findById(schema, binding.componentId);
+            var apiData;
             if (component) {
+                apiData = component.api && typeof component.api === 'object' ? component.api.data : null;
                 component.api = {
                     method: 'post',
                     url: actionUrl(binding.queryActionCode, binding.componentId)
                 };
+                if (apiData) {
+                    component.api.data = apiData;
+                }
+            }
+        });
+
+        searchBindings.forEach(function (binding) {
+            var component = findById(schema, binding.componentId);
+            if (component && component.type === 'button') {
+                component.actionType = 'url';
+                component.url = 'plm://search?componentId=' + encodeURIComponent(binding.componentId);
             }
         });
 
@@ -111,6 +138,45 @@
             actionCode: decodeURIComponent(parts[0] || ''),
             componentId: params.get('componentId') || ''
         };
+    }
+
+    function parseSearchTarget(url) {
+        var raw = String(url || '');
+        var queryIndex = raw.indexOf('?');
+        var params = new URLSearchParams(queryIndex >= 0 ? raw.substring(queryIndex + 1) : '');
+        return {
+            searchType: params.get('searchType') || '',
+            componentId: params.get('componentId') || '',
+            formId: params.get('formId') || '',
+            valueField: params.get('valueField') || '',
+            labelField: params.get('labelField') || ''
+        };
+    }
+
+    function findSearchBinding(pagePackage, componentId) {
+        var bindings = (pagePackage.plmConfig && pagePackage.plmConfig.searchBindings) || [];
+        var i;
+        for (i = 0; i < bindings.length; i += 1) {
+            if (bindings[i].componentId === componentId) {
+                return bindings[i];
+            }
+        }
+        return null;
+    }
+
+    function applySearchResult(scoped, target, result) {
+        var form;
+        var values = {};
+        if (!scoped || !target.formId || !target.valueField || !target.labelField) {
+            throw new Error('\u641c\u7d22\u56de\u586b\u914d\u7f6e\u4e0d\u5b8c\u6574');
+        }
+        form = scoped.getComponentById(target.formId);
+        if (!form || typeof form.setValues !== 'function') {
+            throw new Error('\u672a\u627e\u5230\u641c\u7d22\u56de\u586b\u8868\u5355: ' + target.formId);
+        }
+        values[target.valueField] = result.objectId || '';
+        values[target.labelField] = result.displayName || result.name || '';
+        form.setValues(values);
     }
 
     function findActionBinding(pagePackage, componentId, actionCode) {
@@ -210,9 +276,35 @@
         var adapter = options.adapter;
         var schema = compilePackage(pagePackage);
         var amis = global.amisRequire('amis/embed');
+        var scoped;
         var env = {
             fetcher: createFetcher(pagePackage, adapter),
             jumpTo: function (target) {
+                if (String(target).indexOf('plm://search?') === 0) {
+                    if (!adapter.openSearch) {
+                        throw new Error('\u5f53\u524d\u8fd0\u884c\u7aef\u4e0d\u652f\u6301PLM\u539f\u751f\u641c\u7d22');
+                    }
+                    var searchTarget = parseSearchTarget(target);
+                    var searchBinding = findSearchBinding(pagePackage, searchTarget.componentId);
+                    if (searchBinding) {
+                        searchTarget = {
+                            searchType: searchBinding.searchType || '',
+                            componentId: searchBinding.componentId,
+                            formId: searchBinding.formId,
+                            valueField: searchBinding.valueField,
+                            labelField: searchBinding.labelField,
+                            searchParams: searchBinding.searchParams || ''
+                        };
+                    }
+                    Promise.resolve(adapter.openSearch(searchTarget)).then(function (result) {
+                        applySearchResult(scoped, searchTarget, result || {});
+                    }).catch(function (error) {
+                        if (adapter.notifyError) {
+                            adapter.notifyError(error);
+                        }
+                    });
+                    return;
+                }
                 if (target === 'plm://cancel' && adapter.close) {
                     adapter.close();
                     return;
@@ -224,13 +316,17 @@
             updateLocation: function () {},
             isCancel: function () { return false; }
         };
-        return amis.embed(options.container, schema, { data: { plmContext: adapter.context || {} } }, env);
+        scoped = amis.embed(options.container, schema, { data: { plmContext: adapter.context || {} } }, env);
+        return scoped;
     }
 
     global.JFLowCodeRuntime = {
         formatVersion: SUPPORTED_FORMAT_VERSION,
         compilePackage: compilePackage,
         createFetcher: createFetcher,
+        parseSearchTarget: parseSearchTarget,
+        findSearchBinding: findSearchBinding,
+        applySearchResult: applySearchResult,
         embed: embed,
         parseJson: parseJson
     };

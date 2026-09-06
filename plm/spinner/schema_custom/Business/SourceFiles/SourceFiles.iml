@@ -6,12 +6,36 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="tomcat" level="application" />
-    <orderEntry type="library" name="service" level="application" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib" recursive="false" />
+      </library>
+    </orderEntry>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="activation" level="application" />
-    <orderEntry type="library" name="AlternateSubstituteManagementImplJPO" level="application" />
+    <orderEntry type="library" name="service" level="application" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/jsch.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/itextpdf-5.4.2.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/TWXSearchConfig.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/itext-asian-5.2.0.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/webserviceHandler.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/commons-math3-3.6.1.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/commons-pool2-2.12.0.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/NewContentWebServices.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/fastjson-1.2.84-nio-sec.jar!/" />
+          <root url="jar://C:/SHJFSeat/trunk/3dspace/WEB-INF/lib/TWX_PublicRestService_4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="TomcatLib" level="application" />
   </component>
 </module>

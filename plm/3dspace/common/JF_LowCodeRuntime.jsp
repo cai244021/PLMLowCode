@@ -42,6 +42,9 @@
 </form>
 <script src="JFLowCode/amis/sdk.js"></script>
 <script src="JFLowCode/runtime.js"></script>
+<script src="scripts/emxUIConstants.js"></script>
+<script src="scripts/emxUICore.js"></script>
+<script src="scripts/emxUIModal.js"></script>
 <script>
 (function () {
     'use strict';
@@ -80,15 +83,75 @@
         });
     }
 
-    fetch('JFLowCode/pages/' + encodeURIComponent(pageCode) + '.json?_=' + Date.now(), {
-        credentials: 'same-origin',
-        cache: 'no-store'
-    }).then(function (response) {
-        if (!response.ok) {
-            throw new Error('页面配置加载失败: HTTP ' + response.status);
-        }
-        return response.json();
-    }).then(function (pagePackage) {
+    function openSearch(searchTarget) {
+        return new Promise(function (resolve, reject) {
+            if (!searchTarget || !searchTarget.searchParams) {
+                reject(new Error('\u672a\u914d\u7f6eemxFullSearch\u53c2\u6570'));
+                return;
+            }
+            var requestId = 'jf-lowcode-' + Date.now() + '-' + Math.random().toString(16).substring(2);
+            var timeoutId;
+            var onMessage = function (event) {
+                var data = event.data || {};
+                if (event.origin !== window.location.origin
+                        || data.type !== 'JF_LOWCODE_SEARCH_SELECTED'
+                        || data.requestId !== requestId) {
+                    return;
+                }
+                window.removeEventListener('message', onMessage);
+                window.clearTimeout(timeoutId);
+                if (!data.objectId) {
+                    reject(new Error(data.message || '\u672a\u9009\u62e9\u9879\u76ee'));
+                    return;
+                }
+                resolve(data);
+            };
+            window.addEventListener('message', onMessage);
+            timeoutId = window.setTimeout(function () {
+                window.removeEventListener('message', onMessage);
+                reject(new Error('\u9879\u76ee\u641c\u7d22\u5df2\u8d85\u65f6'));
+            }, 300000);
+
+            var configuredParams = new URLSearchParams(searchTarget.searchParams.replace(/^\?/, ''));
+            configuredParams.delete('submitURL');
+            configuredParams.delete('requestId');
+            configuredParams.set('selection', 'single');
+            configuredParams.set('submitAction', 'refreshCaller');
+            configuredParams.set('submitURL', '../common/JF_LowCodeSearchSubmit.jsp');
+            configuredParams.set('requestId', requestId);
+            var searchUrl = '../common/emxFullSearch.jsp?' + configuredParams.toString();
+            showModalDialog(searchUrl, 850, 630, true, 'Large');
+        });
+    }
+
+    function loadStaticPackage() {
+        return fetch('JFLowCode/pages/' + encodeURIComponent(pageCode) + '.json?_=' + Date.now(), {
+            credentials: 'same-origin',
+            cache: 'no-store'
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error('页面配置加载失败: HTTP ' + response.status);
+            }
+            return response.json();
+        });
+    }
+
+    function loadPagePackage() {
+        return fetch('JF_LowCodePage.jsp?pageCode=' + encodeURIComponent(pageCode) + '&_=' + Date.now(), {
+            credentials: 'same-origin',
+            cache: 'no-store'
+        }).then(function (response) {
+            if (response.status === 404) {
+                return loadStaticPackage();
+            }
+            if (!response.ok) {
+                throw new Error('已发布页面加载失败: HTTP ' + response.status);
+            }
+            return response.text().then(JFLowCodeRuntime.parseJson);
+        });
+    }
+
+    loadPagePackage().then(function (pagePackage) {
         document.getElementById('jf-lowcode-root').innerHTML = '';
         JFLowCodeRuntime.embed({
             container: '#jf-lowcode-root',
@@ -96,6 +159,10 @@
             adapter: {
                 context: context,
                 executeAction: executeAction,
+                openSearch: openSearch,
+                notifyError: function (error) {
+                    alert(String(error && error.message ? error.message : error));
+                },
                 close: function () {
                     if (window.parent && window.parent !== window && window.parent.history.length > 1) {
                         window.parent.history.back();

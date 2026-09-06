@@ -26,6 +26,12 @@
         } else if ("QUERY_COMPETITIVE_BOM".equals(actionCode)) {
             jpoName = "JF_CompetitiveBOM";
             methodName = "getCompetitiveBOMListLowCode";
+        } else if ("QUERY_CURRENT_USER_DA_LIST".equals(actionCode)) {
+            jpoName = "JF_LowCode";
+            methodName = "getCurrentUserDAListLowCode";
+        } else if ("CREATE_DA".equals(actionCode)) {
+            jpoName = "JF_LowCode";
+            methodName = "createDALowCode";
         } else {
             throw new IllegalArgumentException("不支持的actionCode");
         }
@@ -39,7 +45,8 @@
         Map params = body.length() == 0 ? new HashMap() : (Map) gson.fromJson(body.toString(), Map.class);
         Map data = (Map) JPO.invoke(context, jpoName, null, methodName, JPO.packArgs(params), Map.class);
         result.put("status", 0);
-        result.put("msg", "CREATE_COMPETITIVE_BOM".equals(actionCode) ? "创建成功" : "");
+        result.put("msg", ("CREATE_COMPETITIVE_BOM".equals(actionCode) || "CREATE_DA".equals(actionCode))
+                ? "创建成功" : "");
         result.put("data", data);
     } catch (Exception e) {
         result.put("status", 1);
