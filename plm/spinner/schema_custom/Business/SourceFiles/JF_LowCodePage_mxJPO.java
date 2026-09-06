@@ -44,6 +44,10 @@ public class JF_LowCodePage_mxJPO {
         publishedPackage.put("version", pagePackage.get("version"));
         publishedPackage.put("schema", pagePackage.get("schema"));
         publishedPackage.put("plmConfig", pagePackage.get("plmConfig"));
+        //20260906 update by caipan 发布页面引用的字段定义快照，供Runtime动态加载PLM Range
+        if (pagePackage.get("resources") instanceof Map) {
+            publishedPackage.put("resources", pagePackage.get("resources"));
+        }
 
         String contents = new Gson().toJson(publishedPackage);
         int contentBytes = contents.getBytes(StandardCharsets.UTF_8).length;

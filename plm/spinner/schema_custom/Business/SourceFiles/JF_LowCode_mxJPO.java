@@ -9,6 +9,8 @@ import com.matrixone.apps.framework.ui.UIUtil;
 import matrix.db.Context;
 import matrix.db.JPO;
 import matrix.db.Policy;
+import matrix.db.StateRequirement;
+import matrix.db.StateRequirementList;
 import matrix.util.StringList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class JF_LowCode_mxJPO extends DomainObject {
      * @param context 当前PLM登录上下文
      * @param args 查询参数，支持page、perPage和clientSide
      * @return Map 包含items和total
-     * @throws Exception DA查询或国际化转换失败时抛出异常
+     * @throws Exception DA查询失败时抛出异常
      * @author caipan by codex
      * @date 2026/9/5 14:00
      */
@@ -80,44 +82,137 @@ public class JF_LowCode_mxJPO extends DomainObject {
         int total = source.size();
         int fromIndex = clientSide ? 0 : (int) Math.min((long) (page - 1) * perPage, total);
         int toIndex = clientSide ? total : Math.min(fromIndex + perPage, total);
-        String language = context.getLocale().getLanguage();
-        List<Map<String, Object>> items = new ArrayList<>();
+        //20260906 update by caipan 直接返回ENOVIA标准MapList及原始select key，不再逐行转换字段别名
+        MapList items = new MapList();
         for (int index = fromIndex; index < toIndex; index++) {
-            Map sourceRow = (Map) source.get(index);
-            String current = UIUtil.getValue(sourceRow, DomainConstants.SELECT_CURRENT);
-            String policy = UIUtil.getValue(sourceRow, DomainConstants.SELECT_POLICY);
-            String changeType = UIUtil.getValue(sourceRow, changeTypeSelect);
-            String projectPhase = UIUtil.getValue(sourceRow, projectPhaseSelect);
-            Map<String, Object> row = new LinkedHashMap<>();
-            row.put("objectId", UIUtil.getValue(sourceRow, DomainConstants.SELECT_ID));
-            row.put("name", UIUtil.getValue(sourceRow, DomainConstants.SELECT_NAME));
-            row.put("projectName", UIUtil.getValue(sourceRow, projectNameSelect));
-            row.put("title", UIUtil.getValue(sourceRow, titleSelect));
-            row.put("current", current);
-            row.put("currentLabel", UIUtil.isNullOrEmpty(current) ? ""
-                    : EnoviaResourceBundle.getStateI18NString(context, policy, current, language));
-            row.put("changeType", changeType);
-            row.put("changeTypeLabel", UIUtil.isNullOrEmpty(changeType) ? ""
-                    : EnoviaResourceBundle.getRangeI18NString(context, "JFChangeType", changeType, language));
-            row.put("projectPhase", projectPhase);
-            row.put("projectPhaseLabel", UIUtil.isNullOrEmpty(projectPhase) ? ""
-                    : EnoviaResourceBundle.getRangeI18NString(context, "JFProjectPhase", projectPhase, language));
-            row.put("affectedPlant", UIUtil.getValue(sourceRow, affectedPlantSelect));
-            row.put("deviationReason", UIUtil.getValue(sourceRow, deviationReasonSelect));
-            row.put("beforeChange", UIUtil.getValue(sourceRow, beforeChangeSelect));
-            row.put("afterChange", UIUtil.getValue(sourceRow, afterChangeSelect));
-            row.put("daStartTime", UIUtil.getValue(sourceRow, startTimeSelect));
-            row.put("daCloseTime", UIUtil.getValue(sourceRow, closeTimeSelect));
-            row.put("extendedCloseTime", UIUtil.getValue(sourceRow, extendedCloseTimeSelect));
-            row.put("creator", UIUtil.getValue(sourceRow, DomainConstants.SELECT_OWNER));
-            row.put("createdAt", UIUtil.getValue(sourceRow, DomainConstants.SELECT_ORIGINATED));
-            items.add(row);
+            items.add(source.get(index));
         }
 
         Map<String, Object> result = new HashMap<>();
         result.put("items", items);
         result.put("total", total);
         return result;
+    }
+
+    /**
+     * 按当前PLM登录语言解析页面字段标题和属性Range选项
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 页面字段元数据，包含fieldCode、i18nKey、rangeSource和rangeConfig
+     * @return Map 以fieldCode为键的国际化字段元数据
+     * @throws Exception 国际化资源或属性Range读取失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/6 20:30
+     */
+    public Map getPageFieldMetadataLowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        Object fieldsParam = params.get("fields");
+        List fields = fieldsParam instanceof List ? (List) fieldsParam : new ArrayList();
+        if (fields.size() > 300) {
+            throw new IllegalArgumentException("页面字段数量不能超过300个");
+        }
+
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        for (Object item : fields) {
+            if (!(item instanceof Map)) {
+                continue;
+            }
+            Map field = (Map) item;
+            String fieldCode = stringValue(field.get("fieldCode"));
+            if (!fieldCode.matches("[A-Z0-9_]{1,100}")) {
+                continue;
+            }
+            Map<String, Object> fieldMetadata = new LinkedHashMap<>();
+            String displayName = stringValue(field.get("displayName"));
+            String i18nKey = stringValue(field.get("i18nKey"));
+            fieldMetadata.put("label", resolvePageI18nLabel(context, i18nKey, displayName));
+
+            if ("PLM_RANGE".equals(stringValue(field.get("rangeSource")))) {
+                Map rangeConfig = field.get("rangeConfig") instanceof Map
+                        ? (Map) field.get("rangeConfig") : new HashMap();
+                String attributeName = stringValue(rangeConfig.get("attributeName"));
+                if (!attributeName.matches("[A-Za-z0-9_. -]{1,300}")) {
+                    throw new IllegalArgumentException("字段" + fieldCode + "的PLM Range属性名不合法");
+                }
+                StringList choices = mxAttr.getChoices(context, attributeName);
+                List<Map<String, String>> options = new ArrayList<>();
+                for (Object choice : choices) {
+                    String value = String.valueOf(choice);
+                    String label = EnoviaResourceBundle.getRangeI18NString(
+                            context, attributeName, value, context.getLocale().getLanguage());
+                    Map<String, String> option = new LinkedHashMap<>();
+                    option.put("value", value);
+                    option.put("label", UIUtil.isNullOrEmpty(label) ? value : label);
+                    options.add(option);
+                }
+                fieldMetadata.put("options", options);
+            } else if ("PLM_STATE".equals(stringValue(field.get("rangeSource")))) {
+                Map rangeConfig = field.get("rangeConfig") instanceof Map
+                        ? (Map) field.get("rangeConfig") : new HashMap();
+                String policyName = stringValue(rangeConfig.get("policyName"));
+                if (!policyName.matches("[A-Za-z0-9_. -]{1,300}")) {
+                    throw new IllegalArgumentException("字段" + fieldCode + "的PLM Policy名称不合法");
+                }
+                StateRequirementList states = new Policy(policyName).getStateRequirements(context);
+                List<Map<String, String>> options = new ArrayList<>();
+                for (Object itemState : states) {
+                    String value = ((StateRequirement) itemState).getName();
+                    String label = EnoviaResourceBundle.getStateI18NString(
+                            context, policyName, value, context.getLocale().getLanguage());
+                    Map<String, String> option = new LinkedHashMap<>();
+                    option.put("value", value);
+                    option.put("label", UIUtil.isNullOrEmpty(label) ? value : label);
+                    options.add(option);
+                }
+                fieldMetadata.put("options", options);
+            }
+            metadata.put(fieldCode, fieldMetadata);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("fields", metadata);
+        return result;
+    }
+
+    /**
+     * 解析一个字段国际化Key，未配置或未命中时返回设计器显示名称
+     **
+     * @param context 当前PLM登录上下文
+     * @param i18nKey 国际化Key，可使用bundle::key格式指定资源包
+     * @param fallback 未命中时的默认显示名称
+     * @return 当前语言的字段名称
+     * @throws Exception PLM国际化资源读取失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/6 20:30
+     */
+    private String resolvePageI18nLabel(Context context, String i18nKey, String fallback) throws Exception {
+        if (UIUtil.isNullOrEmpty(i18nKey)) {
+            return fallback;
+        }
+        String bundle = i18nKey.startsWith("emxComponents.")
+                ? "emxComponentsStringResource" : "emxFrameworkStringResource";
+        String key = i18nKey;
+        int separator = i18nKey.indexOf("::");
+        if (separator > 0) {
+            bundle = i18nKey.substring(0, separator);
+            key = i18nKey.substring(separator + 2);
+        }
+        if (!bundle.matches("[A-Za-z0-9_.-]{1,200}") || !key.matches("[A-Za-z0-9_.-]{1,300}")) {
+            throw new IllegalArgumentException("字段国际化Key不合法");
+        }
+        String label = EnoviaResourceBundle.getProperty(context, bundle, context.getLocale(), key);
+        return UIUtil.isNullOrEmpty(label) || key.equals(label) ? fallback : label;
+    }
+
+    /**
+     * 将页面元数据参数安全转换为去除首尾空格的字符串
+     **
+     * @param value 原始参数值
+     * @return 非null字符串
+     * @author caipan by codex
+     * @date 2026/9/6 20:30
+     */
+    private String stringValue(Object value) {
+        return value == null ? "" : String.valueOf(value).trim();
     }
 
     /**
@@ -218,6 +313,120 @@ public class JF_LowCode_mxJPO extends DomainObject {
             ContextUtil.abortTransaction(context);
             throw e;
         }
+    }
+
+    /**
+     * 批量删除当前用户所有且处于草稿状态的DA申请单
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 删除参数，ids为逗号分隔的DA对象ID
+     * @return Map 包含deletedCount
+     * @throws Exception 对象类型、所有者、状态校验或删除失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/6 15:30
+     */
+    public Map deleteDALowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        StringList objectIds = new StringList();
+        Object idsParam = params.get("ids");
+        List idSource = idsParam instanceof List
+                ? (List) idsParam
+                : Arrays.asList(idsParam == null ? new String[0] : String.valueOf(idsParam).split(","));
+        for (Object item : idSource) {
+            String objectId = stringValue(item);
+            if (!UIUtil.isNullOrEmpty(objectId) && !objectIds.contains(objectId)) {
+                objectIds.add(objectId);
+            }
+        }
+        if (objectIds.size() == 0 && params.get("items") instanceof List) {
+            for (Object item : (List) params.get("items")) {
+                if (item instanceof Map) {
+                    String objectId = stringValue(((Map) item).get(DomainConstants.SELECT_ID));
+                    if (!UIUtil.isNullOrEmpty(objectId) && !objectIds.contains(objectId)) {
+                        objectIds.add(objectId);
+                    }
+                }
+            }
+        }
+        if (objectIds.size() == 0) {
+            throw new IllegalArgumentException("请至少选择一条DA申请单");
+        }
+        if (objectIds.size() > 100) {
+            throw new IllegalArgumentException("单次最多删除100条DA申请单");
+        }
+
+        String user = context.getUser();
+        StringList selects = new StringList();
+        selects.add(DomainConstants.SELECT_TYPE);
+        selects.add(DomainConstants.SELECT_NAME);
+        selects.add(DomainConstants.SELECT_OWNER);
+        selects.add(DomainConstants.SELECT_CURRENT);
+        for (Object item : objectIds) {
+            String objectId = String.valueOf(item);
+            Map info = DomainObject.newInstance(context, objectId).getInfo(context, selects);
+            String name = UIUtil.getValue(info, DomainConstants.SELECT_NAME);
+            if (!"JFDA".equals(UIUtil.getValue(info, DomainConstants.SELECT_TYPE))) {
+                throw new IllegalArgumentException("选中对象不是DA申请单: " + name);
+            }
+            if (!user.equals(UIUtil.getValue(info, DomainConstants.SELECT_OWNER))
+                    || !"In_Work".equals(UIUtil.getValue(info, DomainConstants.SELECT_CURRENT))) {
+                throw new IllegalArgumentException("只能删除草稿状态并且所有者是自己的DA单据: " + name);
+            }
+        }
+
+        ContextUtil.startTransaction(context, true);
+        try {
+            ContextUtil.pushContext(context);
+            try {
+                DomainObject.deleteObjects(context, objectIds.toStringArray());
+            } finally {
+                ContextUtil.popContext(context);
+            }
+            ContextUtil.commitTransaction(context);
+        } catch (Exception exception) {
+            ContextUtil.abortTransaction(context);
+            throw exception;
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("deletedCount", objectIds.size());
+        return result;
+    }
+
+    /**
+     * 查询PLM属性Range并按当前登录语言返回AMIS选项
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 查询参数，包含attributeName
+     * @return Map 包含options，每项包含Range原值value和国际化显示值label
+     * @throws Exception 属性不存在或Range读取失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/6 16:30
+     */
+    public Map getAttributeRangeOptionsLowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        String attributeName = params.get("attributeName") == null
+                ? "" : String.valueOf(params.get("attributeName")).trim();
+        if (UIUtil.isNullOrEmpty(attributeName)
+                || !attributeName.matches("[A-Za-z0-9_. -]{1,300}")) {
+            throw new IllegalArgumentException("PLM Range属性名不合法");
+        }
+
+        String language = context.getLocale().getLanguage();
+        StringList choices = mxAttr.getChoices(context, attributeName);
+        List<Map<String, String>> options = new ArrayList<>();
+        for (Object item : choices) {
+            String value = String.valueOf(item);
+            String label = EnoviaResourceBundle.getRangeI18NString(
+                    context, attributeName, value, language);
+            Map<String, String> option = new LinkedHashMap<>();
+            option.put("value", value);
+            option.put("label", UIUtil.isNullOrEmpty(label) ? value : label);
+            options.add(option);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("options", options);
+        return result;
     }
 
 
