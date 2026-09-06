@@ -32,6 +32,7 @@ const initialSchema: SchemaObject = {
 };
 
 type WorkspaceView = 'DESIGNER' | 'FIELDS' | 'ACTIONS' | 'BINDINGS' | 'PAGES';
+type PublishNotice = {kind: 'success' | 'error'; text: string};
 
 export default function App() {
   const [pageCode, setPageCode] = useState('');
@@ -51,6 +52,7 @@ export default function App() {
   const [message, setMessage] = useState('正在读取页面...');
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [publishNotice, setPublishNotice] = useState<PublishNotice | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const [view, setView] = useState<WorkspaceView>('DESIGNER');
   const [plmConfig, setPlmConfig] = useState<PlmPageConfig>(emptyPlmConfig());
@@ -228,6 +230,7 @@ export default function App() {
   const publishPage = async () => {
     if (busy || !pageCode || !pageName.trim()) return;
     setPublishing(true);
+    setPublishNotice(null);
     setMessage(dirty ? '正在保存当前页面并发布到PLM...' : '正在发布到PLM...');
 
     try {
@@ -244,20 +247,28 @@ export default function App() {
         refreshPages().catch(() => undefined);
       }
       const {data} = await axios.post<{pageCode: string; version: number; message: string}>(`/api/pages/${pageCode}/publish`);
-      setMessage(`${data.message}：PLM Page ${data.pageCode} 已更新（V${data.version}）`);
+      const successMessage = `${data.message}：PLM Page ${data.pageCode} 已更新（V${data.version}）`;
+      setMessage(successMessage);
+      setPublishNotice({kind: 'success', text: successMessage});
     } catch (error: any) {
-      setMessage(error.response?.status === 410 ? '页面已被删除，无法发布。' : error.response?.data?.detail || error.response?.data?.message || '发布失败，请检查PLM配置和网络连接');
+      const failureMessage = error.response?.status === 410
+        ? '页面已被删除，无法发布。'
+        : error.response?.data?.detail || error.response?.data?.message || '发布失败，请检查PLM配置和网络连接';
+      setMessage(failureMessage);
+      setPublishNotice({kind: 'error', text: failureMessage});
     } finally { setPublishing(false); }
   };
 
   const exportPackage = () => {
+    const pageFields = fields.filter(field => plmConfig.fieldCodes.includes(field.fieldCode));
     const content = JSON.stringify({
       formatVersion: 1,
       pageCode,
       pageName,
       version,
       schema,
-      plmConfig
+      plmConfig,
+      resources: {fields: pageFields}
     }, null, 2);
     const url = URL.createObjectURL(new Blob([content], {type: 'application/json'}));
     const anchor = document.createElement('a');
@@ -315,6 +326,11 @@ export default function App() {
         <button type="button" disabled={!pageCode} className={view === 'BINDINGS' ? 'active' : ''} onClick={() => setView('BINDINGS')}>页面PLM绑定</button>
       </nav>
       <div className="statusbar">{message}</div>
+      {publishNotice && <div className={`publish-notice ${publishNotice.kind}`} role="alert" aria-live="assertive">
+        <span className="publish-notice-icon" aria-hidden="true">{publishNotice.kind === 'success' ? '✓' : '!'}</span>
+        <div><strong>{publishNotice.kind === 'success' ? '发布成功' : '发布失败'}</strong><p>{publishNotice.text}</p></div>
+        <button type="button" aria-label="关闭发布结果提示" onClick={() => setPublishNotice(null)}>×</button>
+      </div>}
       {view === 'PAGES' && <section className="binding-page">
         <div className="binding-heading">
           <div><h2>页面管理</h2><p>每个页面拥有独立编码、布局、PLM绑定和保存版本。</p></div>

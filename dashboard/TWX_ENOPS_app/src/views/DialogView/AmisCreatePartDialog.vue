@@ -146,7 +146,7 @@ const renderAmis = async (): Promise<void> => {
 			loadStyle('jf-amis-iconfont-css', `${amisBaseUrl}/iconfont.css`),
 			loadScript('jf-amis-sdk-js', `${amisBaseUrl}/sdk.js`)
 		]);
-		await loadScript('jf-lowcode-runtime-js', `${spaceBaseUrl}/common/JFLowCode/runtime.js`);
+		await loadScript('jf-lowcode-runtime-js', `${spaceBaseUrl}/common/JFLowCode/runtime.js?v=20260906-4`);
 
 		let pagePackage;
 		try {
@@ -163,7 +163,7 @@ const renderAmis = async (): Promise<void> => {
 			throw new Error('低代码页面配置包格式不正确');
 		}
 
-		(window as any).JFLowCodeRuntime.embed({
+		await (window as any).JFLowCodeRuntime.embed({
 			container: `#${AMIS_CONTAINER_ID}`,
 			pagePackage,
 			adapter: {

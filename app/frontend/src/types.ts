@@ -11,7 +11,7 @@ export interface PlmFieldDefinition {
   editable: boolean;
   multiple: boolean;
   i18nKey: string;
-  rangeSource: 'NONE' | 'FIXED' | 'PLM_RANGE' | 'JPO';
+  rangeSource: 'NONE' | 'FIXED' | 'PLM_RANGE' | 'PLM_STATE' | 'JPO';
   rangeConfig: Record<string, unknown>;
   updatedAt?: string;
 }
@@ -55,6 +55,12 @@ export interface TableBinding {
   totalPath: string;
   objectIdField: string;
   relIdField: string;
+  columnBindings: TableColumnBinding[];
+}
+
+export interface TableColumnBinding {
+  columnName: string;
+  fieldCode: string;
 }
 
 export interface SearchBinding {
@@ -114,13 +120,13 @@ export const emptyPlmConfig = (): PlmPageConfig => ({
 export const normalizePlmConfig = (value?: Partial<PlmPageConfig>): PlmPageConfig => {
   const empty = emptyPlmConfig();
   return {
-    fieldCodes: [...new Set([...(value?.fieldCodes || []), ...(value?.fieldBindings || []).map(item => item.fieldCode)].filter(Boolean))],
+    fieldCodes: [...new Set([...(value?.fieldCodes || []), ...(value?.fieldBindings || []).map(item => item.fieldCode), ...(value?.tableBindings || []).flatMap(item => (item.columnBindings || []).map(column => column.fieldCode))].filter(Boolean))],
     actionCodes: [...new Set([...(value?.actionCodes || []), ...(value?.dataBindings || []).map(item => item.actionCode), ...(value?.actionBindings || []).map(item => item.actionCode), ...(value?.tableBindings || []).map(item => item.queryActionCode)].filter(Boolean))],
     context: {...empty.context, ...(value?.context || {})},
     fieldBindings: value?.fieldBindings || [],
     dataBindings: value?.dataBindings || [],
     actionBindings: value?.actionBindings || [],
-    tableBindings: value?.tableBindings || [],
+    tableBindings: (value?.tableBindings || []).map(item => ({...item, columnBindings: item.columnBindings || []})),
     searchBindings: value?.searchBindings || []
   };
 };

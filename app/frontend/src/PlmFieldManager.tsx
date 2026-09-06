@@ -64,7 +64,15 @@ export default function PlmFieldManager({fields, onReload, notify}: Props) {
     if (!draft.displayName.trim()) invalid.displayName = '请填写显示名称';
     if (!draft.objectType.trim()) invalid.objectType = '请填写对象类型，通用字段填 *';
     if (!draft.schemaName.trim()) invalid.schemaName = '请填写Scheme字段';
-    try { JSON.parse(rangeText || '{}'); } catch { invalid.rangeConfig = 'Range配置不是有效JSON'; }
+    try {
+      const rangeConfig = JSON.parse(rangeText || '{}');
+      if (draft.rangeSource === 'PLM_RANGE' && !String(rangeConfig.attributeName || '').trim()) {
+        invalid.rangeConfig = 'PLM属性Range必须配置attributeName，例如 JFAffectsFactory';
+      }
+      if (draft.rangeSource === 'PLM_STATE' && !String(rangeConfig.policyName || '').trim()) {
+        invalid.rangeConfig = 'PLM状态必须配置policyName，例如 JFDA';
+      }
+    } catch { invalid.rangeConfig = 'Range配置不是有效JSON'; }
     setErrors(invalid);
     if (Object.keys(invalid).length) {
       feedback('未保存，请检查以下内容：' + Object.values(invalid).join('；'));
@@ -132,9 +140,9 @@ export default function PlmFieldManager({fields, onReload, notify}: Props) {
           <label><span>字段来源 <span className="required-mark" aria-hidden="true">*</span></span><select required value={draft.sourceType} onChange={(e) => update('sourceType', e.target.value as PlmFieldDefinition['sourceType'])}><option value="BASIC">对象基础字段</option><option value="ATTRIBUTE">对象属性</option><option value="RELATIONSHIP">关系属性</option><option value="PROGRAM">JPO计算字段</option></select></label>
           <label className="span-2"><span>Scheme字段 {true && <span className="required-mark" aria-hidden="true">*</span>}</span><input aria-required={true} aria-invalid={Boolean(errors.schemaName)} value={draft.schemaName} onChange={(e) => update('schemaName', e.target.value)} placeholder="例如 JF_VPMReference.JF_PartType" />{errorText('schemaName')}</label>
           <label><span>数据类型 <span className="required-mark" aria-hidden="true">*</span></span><select required value={draft.dataType} onChange={(e) => update('dataType', e.target.value as PlmFieldDefinition['dataType'])}><option value="string">单行文本</option><option value="textarea">多行文本</option><option value="number">数字</option><option value="boolean">布尔</option><option value="date">日期</option><option value="datetime">日期时间</option><option value="enum">枚举</option><option value="object">对象选择</option></select></label>
-          <label><span>Range来源 <span className="required-mark" aria-hidden="true">*</span></span><select required value={draft.rangeSource} onChange={(e) => update('rangeSource', e.target.value as PlmFieldDefinition['rangeSource'])}><option value="NONE">无</option><option value="FIXED">固定选项</option><option value="PLM_RANGE">PLM属性Range</option><option value="JPO">JPO获取</option></select></label>
+          <label><span>Range来源 <span className="required-mark" aria-hidden="true">*</span></span><select required value={draft.rangeSource} onChange={(e) => update('rangeSource', e.target.value as PlmFieldDefinition['rangeSource'])}><option value="NONE">无</option><option value="FIXED">固定选项</option><option value="PLM_RANGE">PLM属性Range</option><option value="PLM_STATE">PLM Policy状态</option><option value="JPO">JPO获取</option></select></label>
           <label className="span-2">国际化Key<input value={draft.i18nKey || ''} onChange={(e) => update('i18nKey', e.target.value)} placeholder="例如 emxFramework.Attribute.JF_PartType" /></label>
-          <label className="span-2">Range配置JSON<textarea aria-invalid={Boolean(errors.rangeConfig)} rows={7} value={rangeText} onChange={(e) => { setRangeText(e.target.value); setErrors(current => ({...current, rangeConfig: ''})); }} />{errorText('rangeConfig')}</label>
+          <label className="span-2">Range配置JSON<textarea aria-invalid={Boolean(errors.rangeConfig)} rows={7} value={rangeText} onChange={(e) => { setRangeText(e.target.value); setErrors(current => ({...current, rangeConfig: ''})); }} placeholder={draft.rangeSource === 'PLM_RANGE' ? '{"attributeName":"JFAffectsFactory"}' : draft.rangeSource === 'PLM_STATE' ? '{"policyName":"JFDA"}' : '{}'} />{errorText('rangeConfig')}</label>
           <div className="check-row span-2">
             <label><input type="checkbox" checked={draft.required} onChange={(e) => update('required', e.target.checked)} />必填</label>
             <label><input type="checkbox" checked={draft.editable} onChange={(e) => update('editable', e.target.checked)} />可编辑</label>

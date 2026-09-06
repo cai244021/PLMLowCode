@@ -231,6 +231,9 @@ public class JF_LowCode_mxJPO extends DomainObject {
         String title = params.get("title") == null ? "" : String.valueOf(params.get("title")).trim();
         String changeType = params.get("changeType") == null ? "" : String.valueOf(params.get("changeType")).trim();
         String projectPhase = params.get("projectPhase") == null ? "" : String.valueOf(params.get("projectPhase")).trim();
+        //20260906 update by caipan 创建校验与PLM属性Range保持一致，避免设计器动态选项与JPO固定白名单不一致
+        StringList allowedChangeTypes = mxAttr.getChoices(context, "JFChangeType");
+        StringList allowedProjectPhases = mxAttr.getChoices(context, "JFProjectPhase");
         Object affectedPlantParam = params.get("affectedPlant");
         StringList affectedPlantValues = new StringList();
         StringList allowedAffectedPlants = mxAttr.getChoices(context, "JFAffectsFactory");
@@ -258,12 +261,11 @@ public class JF_LowCode_mxJPO extends DomainObject {
         if (UIUtil.isNullOrEmpty(title) || title.length() > 200) {
             throw new IllegalArgumentException("标题不能为空且长度不能超过200个字符");
         }
-        if (!Arrays.asList("CustomerRequirements", "DesignDeviations", "ProcessDeviations", "VAVE")
-                .contains(changeType)) {
-            throw new IllegalArgumentException("变更类型不在允许范围内");
+        if (UIUtil.isNullOrEmpty(changeType) || !allowedChangeTypes.contains(changeType)) {
+            throw new IllegalArgumentException("变更类型不在PLM属性Range内: " + changeType);
         }
-        if (!Arrays.asList("BatchProduction", "DV", "PV").contains(projectPhase)) {
-            throw new IllegalArgumentException("项目阶段不在允许范围内");
+        if (UIUtil.isNullOrEmpty(projectPhase) || !allowedProjectPhases.contains(projectPhase)) {
+            throw new IllegalArgumentException("项目阶段不在PLM属性Range内: " + projectPhase);
         }
         if (UIUtil.isNullOrEmpty(affectedPlant)) {
             throw new IllegalArgumentException("影响工厂不能为空");

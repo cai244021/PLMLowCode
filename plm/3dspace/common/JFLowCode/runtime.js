@@ -41,7 +41,31 @@
         return 'plm://' + encodeURIComponent(actionCode) + '?componentId=' + encodeURIComponent(componentId);
     }
 
-    function compilePackage(pagePackage) {
+    function findFieldDefinition(pagePackage, fieldCode) {
+        var fields = (pagePackage.resources && pagePackage.resources.fields) || [];
+        var i;
+        for (i = 0; i < fields.length; i += 1) {
+            if (fields[i].fieldCode === fieldCode) {
+                return fields[i];
+            }
+        }
+        return null;
+    }
+
+    function fieldMetadata(metadata, fieldCode) {
+        return metadata && metadata.fields && metadata.fields[fieldCode]
+            ? metadata.fields[fieldCode] : null;
+    }
+
+    function optionsMap(options) {
+        var result = {};
+        (options || []).forEach(function (option) {
+            result[String(option.value)] = option.label;
+        });
+        return result;
+    }
+
+    function compilePackage(pagePackage, metadata) {
         var schema;
         var config;
         var dataBindings;
@@ -77,8 +101,36 @@
 
         fieldBindings.forEach(function (binding) {
             var component = findById(schema, binding.componentId);
+            var field = findFieldDefinition(pagePackage, binding.fieldCode);
+            var translated = fieldMetadata(metadata, binding.fieldCode);
+            var rangeConfig;
             if (component && binding.valueKey) {
                 component.name = binding.valueKey;
+            }
+            if (component && translated && translated.label) {
+                component.label = translated.label;
+            }
+            if (component && field && (field.rangeSource === 'PLM_RANGE' || field.rangeSource === 'PLM_STATE')) {
+                rangeConfig = field.rangeConfig || {};
+                if (field.rangeSource === 'PLM_RANGE' && !rangeConfig.attributeName) {
+                    throw new Error('\u5b57\u6bb5' + binding.fieldCode + '\u7f3a\u5c11PLM Range\u5c5e\u6027\u540d\u914d\u7f6e');
+                }
+                if (translated && translated.options) {
+                    component.options = translated.options;
+                    delete component.source;
+                } else if (field.rangeSource === 'PLM_RANGE') {
+                    delete component.options;
+                    component.source = {
+                        method: 'post',
+                        url: actionUrl('QUERY_ATTRIBUTE_RANGE', binding.componentId),
+                        data: {
+                            fieldCode: binding.fieldCode,
+                            attributeName: rangeConfig.attributeName
+                        }
+                    };
+                } else {
+                    throw new Error('\u5b57\u6bb5' + binding.fieldCode + '\u7684PLM\u72b6\u6001\u5143\u6570\u636e\u672a\u52a0\u8f7d');
+                }
             }
         });
 
@@ -107,6 +159,7 @@
         tableBindings.forEach(function (binding) {
             var component = findById(schema, binding.componentId);
             var apiData;
+            var columns;
             if (component) {
                 apiData = component.api && typeof component.api === 'object' ? component.api.data : null;
                 component.api = {
@@ -116,6 +169,17 @@
                 if (apiData) {
                     component.api.data = apiData;
                 }
+                columns = component.columns || [];
+                (binding.columnBindings || []).forEach(function (columnBinding) {
+                    var column = columns.find(function (item) { return item.name === columnBinding.columnName; });
+                    var translated = fieldMetadata(metadata, columnBinding.fieldCode);
+                    if (!column || !translated) return;
+                    if (translated.label) column.label = translated.label;
+                    if (translated.options && translated.options.length) {
+                        column.type = 'mapping';
+                        column.map = optionsMap(translated.options);
+                    }
+                });
             }
         });
 
@@ -123,7 +187,12 @@
             var component = findById(schema, binding.componentId);
             if (component && component.type === 'button') {
                 component.actionType = 'url';
-                component.url = 'plm://search?componentId=' + encodeURIComponent(binding.componentId);
+                component.url = 'plm://search?componentId=' + encodeURIComponent(binding.componentId)
+                    + '&searchType=' + encodeURIComponent(binding.searchType || '')
+                    + '&formId=' + encodeURIComponent(binding.formId || '')
+                    + '&valueField=' + encodeURIComponent(binding.valueField || '')
+                    + '&labelField=' + encodeURIComponent(binding.labelField || '')
+                    + '&searchParams=' + encodeURIComponent(binding.searchParams || '');
             }
         });
 
@@ -149,7 +218,8 @@
             componentId: params.get('componentId') || '',
             formId: params.get('formId') || '',
             valueField: params.get('valueField') || '',
-            labelField: params.get('labelField') || ''
+            labelField: params.get('labelField') || '',
+            searchParams: params.get('searchParams') || ''
         };
     }
 
@@ -274,8 +344,8 @@
     function embed(options) {
         var pagePackage = options.pagePackage;
         var adapter = options.adapter;
-        var schema = compilePackage(pagePackage);
         var amis = global.amisRequire('amis/embed');
+        var fields = (pagePackage.resources && pagePackage.resources.fields) || [];
         var scoped;
         var env = {
             fetcher: createFetcher(pagePackage, adapter),
@@ -316,8 +386,17 @@
             updateLocation: function () {},
             isCancel: function () { return false; }
         };
-        scoped = amis.embed(options.container, schema, { data: { plmContext: adapter.context || {} } }, env);
-        return scoped;
+        return Promise.resolve(fields.length
+            ? adapter.executeAction('QUERY_PAGE_FIELD_METADATA', {fields: fields}, adapter.context || {})
+            : {status: 0, data: {fields: {}}})
+            .then(function (response) {
+                if (!response || Number(response.status) !== 0) {
+                    throw new Error(response && response.msg ? response.msg : '\u9875\u9762PLM\u56fd\u9645\u5316\u5143\u6570\u636e\u52a0\u8f7d\u5931\u8d25');
+                }
+                var schema = compilePackage(pagePackage, response.data || {});
+                scoped = amis.embed(options.container, schema, { data: { plmContext: adapter.context || {} } }, env);
+                return scoped;
+            });
     }
 
     global.JFLowCodeRuntime = {

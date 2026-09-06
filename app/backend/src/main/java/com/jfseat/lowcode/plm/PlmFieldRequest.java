@@ -14,7 +14,7 @@ public record PlmFieldRequest(
         boolean editable,
         boolean multiple,
         String i18nKey,
-        @Pattern(regexp = "NONE|FIXED|PLM_RANGE|JPO") String rangeSource,
+        @Pattern(regexp = "NONE|FIXED|PLM_RANGE|PLM_STATE|JPO") String rangeSource,
         JsonNode rangeConfig
 ) {
 }

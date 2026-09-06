@@ -18,6 +18,35 @@ export interface PageComponents {
   tables: SchemaComponent[];
 }
 
+export interface TableColumnComponent {
+  name: string;
+  label: string;
+}
+
+export function collectTableColumns(schema: SchemaObject, tableId: string): TableColumnComponent[] {
+  let columns: TableColumnComponent[] = [];
+  const walk = (value: unknown) => {
+    if (Array.isArray(value)) {
+      value.forEach(walk);
+      return;
+    }
+    if (!value || typeof value !== 'object') return;
+    const node = value as Record<string, unknown>;
+    if (node.id === tableId && Array.isArray(node.columns)) {
+      columns = node.columns.flatMap((column) => {
+        if (!column || typeof column !== 'object') return [];
+        const item = column as Record<string, unknown>;
+        if (typeof item.name !== 'string' || !item.name) return [];
+        return [{name: item.name, label: `${String(item.label || item.name)} · ${item.name}`}];
+      });
+      return;
+    }
+    Object.values(node).forEach(walk);
+  };
+  walk(schema);
+  return columns;
+}
+
 export function collectPageComponents(schema: SchemaObject): PageComponents {
   const all: SchemaComponent[] = [];
   const visited = new Set<string>();

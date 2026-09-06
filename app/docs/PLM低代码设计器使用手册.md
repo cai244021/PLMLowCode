@@ -112,8 +112,8 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 | Scheme字段 | PLM真实字段或Select表达式对应名称 | `JF_VPMReference.JF_PartType` |
 | 数据类型 | 文本、数字、日期、枚举等 | enum |
 | 国际化Key | PLM已有资源文件 Key | `emxFramework.Attribute.JF_PartType` |
-| Range来源 | 无、固定选项、PLM Range、JPO | FIXED |
-| Range配置JSON | 固定选项或JPO Range参数 | `{"options":[...]}` |
+| Range来源 | 无、固定选项、PLM属性Range、PLM Policy状态、JPO | PLM_RANGE |
+| Range配置JSON | 固定选项、PLM属性名、Policy名或JPO Range参数 | `{"attributeName":"JFAffectsFactory"}` |
 | 必填/可编辑/多值 | 字段元数据 | 按Scheme填写 |
 
 固定下拉选项示例：
@@ -403,7 +403,7 @@ AMIS CRUD列支持`sortable`、`searchable`和`filterable`；工具栏支持`fil
   "columns": [
     {"name": "title", "label": "标题", "sortable": true, "searchable": true},
     {
-      "name": "changeTypeLabel",
+      "name": "attribute[JFChangeType]",
       "label": "变更类型",
       "filterable": {"options": ["客户需求", "设计偏差", "工艺偏差", "VAVE"]}
     },
@@ -412,9 +412,19 @@ AMIS CRUD列支持`sortable`、`searchable`和`filterable`；工具栏支持`fil
 }
 ```
 
-前端模式只能过滤已经加载到浏览器的数据，不适合大数据量。日期排序应让查询接口同时返回可稳定比较的ISO时间或时间戳，避免按本地化日期字符串排序产生错误。DA示例已启用`loadDataOnce`并通过`api.data.clientSide=true`要求查询JPO一次返回当前用户的全部DA；首次加载后，切换分页、点击列标题排序、展开筛选栏及重置筛选均不重复请求JPO。
+前端模式只能过滤已经加载到浏览器的数据，不适合大数据量。日期排序应让查询接口同时返回可稳定比较的ISO时间或时间戳，避免按本地化日期字符串排序产生错误。DA示例已启用`loadDataOnce`并通过`api.data.clientSide=true`要求查询JPO一次返回当前用户的全部DA；首次加载后，切换分页、点击列标题排序、展开筛选栏及重置筛选均不重复请求JPO。CRUD同时启用`autoFillHeight=true`，切换到50或100条时只滚动Table数据区，筛选、工具栏和分页不会把3DSpace外层页面撑高；设置`autoJumpToTopOnPagerChange=false`，避免切换页码或每页数量时将3DSpace外层Navigator自动滚动到顶部。
 
-DA新建表单的“影响工厂”使用AMIS多选下拉框，选项值与PLM属性`JFAffectsFactory`的Range编码一致。Runtime将选择结果按数组提交，`JF_LowCode:createDALowCode`从Scheme动态读取合法Range、去重后按PLM现有逗号分隔格式写入多值属性；显示标签不写入业务对象。
+DA新建表单的“影响工厂”使用AMIS多选下拉框，并绑定公共字段`AFFECTED_PLANT`。该字段的Range来源配置为`PLM_RANGE`，Range配置为`{"attributeName":"JFAffectsFactory"}`。发布时后端只把本页已引用字段的定义快照放入页面包；Runtime打开页面时通过受控动作`QUERY_PAGE_FIELD_METADATA`一次取得当前PLM语言下的字段标题和Range `label/value`。因此PLM调整国际化资源或工厂Range后不需要重新设计或发布页面，重新打开页面即可取得新内容。AMIS `mapping`对数组值会逐项映射，因此JPO返回的多值属性如果为`StringList`并被JSON序列化为数组，也不需要业务JPO额外生成国际化字段。
+
+DA列表支持勾选一条或多条记录后执行“删除”。页面通过AMIS CRUD的`bulkActions`把选中行的`id`汇总为`ids`，由受控动作`DELETE_DA`调用`JF_LowCode:deleteDALowCode`。后端会先逐条校验对象类型必须为`JFDA`、所有者必须是当前用户、状态必须精确为`In_Work`；全部通过后才在同一事务中删除，任一项不符合时整批回滚。删除成功后页面自动刷新`daList`，无需重新打开页面。
+
+Runtime将多选结果按数组提交，`JF_LowCode:createDALowCode`再次从Scheme动态读取`JFChangeType`、`JFProjectPhase`和`JFAffectsFactory`的合法Range；影响工厂去重后按PLM现有逗号分隔格式写入多值属性，显示标签不写入业务对象。新增或调整这些属性的Range后不需要修改创建JPO的固定白名单。其他Range字段复用同一机制时，只需在公共字段库中选择“PLM属性Range”、填写实际属性名，并将页面控件绑定到该字段，不需要修改Runtime或业务页面JSON。
+
+DA列表工具栏中的“筛选”用于展开或收起查询条件。填写标题、变更类型或项目阶段后，需要点击条件区右侧的“执行筛选”才会应用前端过滤；“重置”用于清除条件并恢复全部已加载数据。由于筛选表单使用`wrapWithPanel=false`，执行按钮必须放在表单`body`内的`button-toolbar`中，不能依赖会被AMIS隐藏的底部`actions`按钮栏。
+
+查询JPO直接返回ENOVIA标准`MapList`，不需要逐行组装页面别名。基础字段直接使用`id`、`name`、`current`、`owner`、`originated`等标准key，属性直接使用`attribute[JFChangeType]`等select key；AMIS列、排序和筛选使用相同的原始key。在“页面PLM绑定→Table查询与对象ID→列字段与国际化”中，为每个需要PLM国际化的Table列选择对应的公共字段。Runtime据此自动替换列标题，并将属性Range或Policy状态原值映射为当前语言显示值，原始业务值不会被改写。
+
+表单控件同样通过“表单字段绑定”取得PLM国际化标题和Range选项。公共字段的“国际化Key”默认从`emxFrameworkStringResource`读取；以`emxComponents.`开头时自动读取`emxComponentsStringResource`，特殊资源包可使用`资源包名::Key`格式。未配置或未命中时回退到设计器中的“显示名称”。
 
 ## 11. 当前示例效果
 
@@ -433,8 +443,7 @@ DA新建表单的“影响工厂”使用AMIS多选下拉框，选项值与PLM�
 
 进入真实PLM运行前仍需开发：
 
-- PLM字段库从Scheme自动同步。
-- PLM国际化资源加载。
+- PLM字段库从Scheme自动同步（当前已可手工维护并在运行时动态解析国际化）。
 - 动态页面、字段和按钮权限。
 - 自动草稿恢复、可视化历史回退和多目标环境管理（单目标Page发布已完成）。
 

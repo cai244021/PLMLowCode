@@ -32,6 +32,15 @@
         } else if ("CREATE_DA".equals(actionCode)) {
             jpoName = "JF_LowCode";
             methodName = "createDALowCode";
+        } else if ("DELETE_DA".equals(actionCode)) {
+            jpoName = "JF_LowCode";
+            methodName = "deleteDALowCode";
+        } else if ("QUERY_ATTRIBUTE_RANGE".equals(actionCode)) {
+            jpoName = "JF_LowCode";
+            methodName = "getAttributeRangeOptionsLowCode";
+        } else if ("QUERY_PAGE_FIELD_METADATA".equals(actionCode)) {
+            jpoName = "JF_LowCode";
+            methodName = "getPageFieldMetadataLowCode";
         } else {
             throw new IllegalArgumentException("不支持的actionCode");
         }
@@ -45,8 +54,9 @@
         Map params = body.length() == 0 ? new HashMap() : (Map) gson.fromJson(body.toString(), Map.class);
         Map data = (Map) JPO.invoke(context, jpoName, null, methodName, JPO.packArgs(params), Map.class);
         result.put("status", 0);
-        result.put("msg", ("CREATE_COMPETITIVE_BOM".equals(actionCode) || "CREATE_DA".equals(actionCode))
-                ? "创建成功" : "");
+        result.put("msg", "DELETE_DA".equals(actionCode) ? "删除成功"
+                : (("CREATE_COMPETITIVE_BOM".equals(actionCode) || "CREATE_DA".equals(actionCode))
+                ? "创建成功" : ""));
         result.put("data", data);
     } catch (Exception e) {
         result.put("status", 1);

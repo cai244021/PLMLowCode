@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import type {SchemaObject} from 'amis';
-import {collectPageComponents} from './schemaComponents';
+import {collectPageComponents, collectTableColumns} from './schemaComponents';
 import PageResources from './PageResources';
 import type {
   ActionBinding,
@@ -80,7 +80,7 @@ export default function PagePlmBinding({pageCode, pageName, schema, config, fiel
     const component = components.tables[0];
     const action = queryActions[0];
     if (!component || !action) return;
-    onChange({...config, tableBindings: [...config.tableBindings, {componentId: component.id, queryActionCode: action.actionCode, itemsPath: 'data.items', totalPath: 'data.total', objectIdField: 'objectId', relIdField: 'relId'}]});
+    onChange({...config, tableBindings: [...config.tableBindings, {componentId: component.id, queryActionCode: action.actionCode, itemsPath: 'data.items', totalPath: 'data.total', objectIdField: 'id', relIdField: 'id[connection]', columnBindings: []}]});
   };
 
   const addSearchBinding = () => {
@@ -187,6 +187,20 @@ export default function PagePlmBinding({pageCode, pageName, schema, config, fiel
             <label>总数路径<input value={binding.totalPath} onChange={(e) => updateTableBinding(index, {totalPath: e.target.value})} /></label>
             <label>对象ID字段<input value={binding.objectIdField} onChange={(e) => updateTableBinding(index, {objectIdField: e.target.value})} /></label>
             <label>关系ID字段<input value={binding.relIdField} onChange={(e) => updateTableBinding(index, {relIdField: e.target.value})} /></label>
+            <div className="span-all">
+              <div className="section-title"><div><strong>列字段与国际化</strong><p>列名直接填写JPO MapList原始key，例如 attribute[JFChangeType]；标题和Range显示值由PLM字段定义自动解析。</p></div><button type="button" disabled={!collectTableColumns(schema, binding.componentId).length || !pageFields.length} onClick={() => {
+                const column = collectTableColumns(schema, binding.componentId)[0];
+                const field = pageFields[0];
+                if (column && field) updateTableBinding(index, {columnBindings: [...(binding.columnBindings || []), {columnName: column.name, fieldCode: field.fieldCode}]});
+              }}>新增列绑定</button></div>
+              {(binding.columnBindings || []).map((columnBinding, columnIndex) => (
+                <div className="binding-row field-row" key={`${columnBinding.columnName}-${columnIndex}`}>
+                  <label>Table列<select value={columnBinding.columnName} onChange={(e) => updateTableBinding(index, {columnBindings: binding.columnBindings.map((item, itemIndex) => itemIndex === columnIndex ? {...item, columnName: e.target.value} : item)})}>{collectTableColumns(schema, binding.componentId).map(column => <option key={column.name} value={column.name}>{column.label}</option>)}</select></label>
+                  <label>PLM字段<select value={columnBinding.fieldCode} onChange={(e) => updateTableBinding(index, {columnBindings: binding.columnBindings.map((item, itemIndex) => itemIndex === columnIndex ? {...item, fieldCode: e.target.value} : item)})}>{pageFields.map(field => <option key={field.fieldCode} value={field.fieldCode}>{field.displayName} · {field.schemaName}</option>)}</select></label>
+                  <button type="button" className="icon-danger" onClick={() => updateTableBinding(index, {columnBindings: binding.columnBindings.filter((_, itemIndex) => itemIndex !== columnIndex)})}>删除列绑定</button>
+                </div>
+              ))}
+            </div>
             <button type="button" className="icon-danger" onClick={() => onChange({...config, tableBindings: config.tableBindings.filter((_, itemIndex) => itemIndex !== index)})}>删除</button>
           </div>
         ))}

@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="JFLowCode/amis/sdk.css">
     <link rel="stylesheet" href="JFLowCode/amis/helper.css">
     <link rel="stylesheet" href="JFLowCode/amis/iconfont.css">
-    <link rel="stylesheet" href="JFLowCode/runtime.css">
+    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260906-1">
 </head>
 <body>
 <div id="jf-lowcode-root">页面加载中...</div>
@@ -41,7 +41,7 @@
     <%@include file="./enoviaCSRFTokenInjection.inc"%>
 </form>
 <script src="JFLowCode/amis/sdk.js"></script>
-<script src="JFLowCode/runtime.js"></script>
+<script src="JFLowCode/runtime.js?v=20260906-4"></script>
 <script src="scripts/emxUIConstants.js"></script>
 <script src="scripts/emxUICore.js"></script>
 <script src="scripts/emxUIModal.js"></script>
@@ -153,7 +153,7 @@
 
     loadPagePackage().then(function (pagePackage) {
         document.getElementById('jf-lowcode-root').innerHTML = '';
-        JFLowCodeRuntime.embed({
+        return JFLowCodeRuntime.embed({
             container: '#jf-lowcode-root',
             pagePackage: pagePackage,
             adapter: {

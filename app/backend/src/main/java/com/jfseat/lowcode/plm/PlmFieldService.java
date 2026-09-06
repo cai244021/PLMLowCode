@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.node.JsonNodeFactory;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PlmFieldService {
@@ -26,6 +28,24 @@ public class PlmFieldService {
     public List<PlmFieldResponse> findAll() {
         return repository.findAllByOrderByFieldCodeAsc().stream()
                 .map(PlmFieldResponse::from)
+                .toList();
+    }
+
+    /**
+     * 按页面引用的字段编码查询发布所需的PLM字段快照
+     **
+     * @param fieldCodes 页面引用的字段编码
+     * @return 页面发布所需的字段定义列表
+     * @author caipan by codex
+     * @date 2026/9/6 16:30
+     */
+    @Transactional(readOnly = true)
+    public List<PlmFieldResponse> findByCodes(List<String> fieldCodes) {
+        Set<String> codes = fieldCodes == null ? Set.of() : fieldCodes.stream()
+                .filter(code -> code != null && !code.isBlank())
+                .collect(Collectors.toSet());
+        return findAll().stream()
+                .filter(field -> codes.contains(field.fieldCode()))
                 .toList();
     }
 
