@@ -134,7 +134,7 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 
 点击顶部“JPO动作库”。
 
-动作库由开发人员或管理员维护。页面设计人员只选择 `actionCode`，不直接输入任意 JPO。
+动作库由开发人员或管理员维护。页面设计人员只选择 `actionCode`，不直接输入任意 JPO。保存公共动作定义后，还需把动作选入具体页面并重新发布；发布服务只把该页面引用且已启用的动作快照写入PLM Page。
 
 | 配置项 | 说明 | 示例 |
 | --- | --- | --- |
@@ -194,7 +194,7 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 
 已被字段、初始化查询、事件或Table绑定使用的资源禁止直接移除，请先删除对应绑定。移除仅影响本页清单，不删除公共定义。公共定义缺失或动作被禁用时，会保留已有引用并显示提示，不会自动替换成其他字段/动作。
 
-旧页面加载时，自动从现有绑定恢复本页清单，不修改已有绑定；首次保存后随页面版本持久化。新增配置为`plmConfig.fieldCodes`和`plmConfig.actionCodes`，无需数据库表结构迁移。公共定义本身仍是共享、非版本锁定的；本次未实现发布快照。
+旧页面加载时，自动从现有绑定恢复本页清单，不修改已有绑定；首次保存后随页面版本持久化。新增配置为`plmConfig.fieldCodes`和`plmConfig.actionCodes`，无需数据库表结构迁移。公共定义在设计端共享；发布时字段和动作定义被固化到该版本的`resources.fields`和`resources.actions`，因此PLM运行端不依赖编辑器数据库。修改公共动作后必须重新发布相关页面才会生效。
 
 ### 7.1 页面上下文参数
 
@@ -351,7 +351,7 @@ field=TYPES=type_ProjectSpace&table=AEFGeneralSearchResults&includeOIDprogram=JF
 
 搜索完成后，统一回调JSP把所选项目的对象ID写入隐藏字段（如`projectId`），把项目显示名称写入可见字段（如`projectName`）。这些字段随表单一起提交给绑定的创建动作。
 
-运行端只允许已登记的 `actionCode`。页面配置包中的JPO名称、方法名、Type、Policy或MQL即使被人为篡改，也不会直接执行。
+运行端只允许当前Page的`resources.actions`中已发布的`actionCode`。Runtime同时提交`pageCode`和`actionCode`，`JF_LowCodeAction.jsp`通过`JF_LowCodePage:prepareActionInvocation`读取动作快照、校验启用状态、POST方式及JPO/方法名称格式，并按`inputMapping`生成JPO参数。Schema和普通请求参数中的JPO名称、方法名、Type、Policy或MQL不会被执行。最终对象权限和状态权限仍必须由目标JPO校验。
 
 ### 10.2 本版TicketService接口
 
@@ -366,7 +366,7 @@ POST /3dspace/TWXPublicRest/TWXTicketService?JPOName=JF_LowCode&FuncName=getCurr
 创建DA申请单：
 
 ```text
-POST /3dspace/common/JF_LowCodeAction.jsp?actionCode=CREATE_DA
+POST /3dspace/common/JF_LowCodeAction.jsp?pageCode=JF_DA_LIST_DEMO&actionCode=CREATE_DA
 ```
 
 Runtime将表单中的`projectId`、`title`、`changeType`、`projectPhase`、`affectedPlant`、`deviationReason`、`beforeChange`和`afterChange`提交给`JF_LowCode:createDALowCode`。JPO使用`type_JFDA`对象生成器创建真实DA对象，写入原生`JFCreateNewDAForm`对应属性并通过`JFChange2Project`连接项目。创建和关联位于同一事务，任一步失败都会回滚。表单配置`reload: "daList"`，成功后只刷新DA表格，不刷新整个Runtime页面。
@@ -447,6 +447,6 @@ DA列表工具栏中的“筛选”用于展开或收起查询条件。填写标
 - 动态页面、字段和按钮权限。
 - 自动草稿恢复、可视化历史回退和多目标环境管理（单目标Page发布已完成）。
 
-新增页面在设计器中可以保存、预览、导出和发布；其中业务请求仍受Runtime动作白名单约束，JSON中的JPO名称和方法名不会被直接执行。
+新增页面在设计器中可以保存、预览、导出和发布；业务请求受当前Page发布动作快照约束。新增业务动作不再修改`JF_LowCodeAction.jsp`：管理员在公共JPO动作库登记JPO、方法和输入映射，将动作选入页面并绑定组件，保存后重新发布Page即可生效。新增或修改目标JPO本身时仍需按PLM部署流程更新JPO程序。
 
 无论前端是否隐藏按钮或字段，真实写入JPO都必须再次检查当前用户、对象状态、角色和字段权限。

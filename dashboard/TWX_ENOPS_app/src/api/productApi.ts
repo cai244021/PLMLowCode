@@ -88,13 +88,15 @@ export async function createVPMReferenceV5ByRest(params: CreateVPMReferenceParam
 }
 
 /**
- * 执行PLM低代码运行端白名单动作
+ * 执行当前已发布页面登记的PLM低代码动作
+ * @param pageCode 已发布页面编码
  * @param actionCode 设计器配置的动作编码
  * @param params 页面数据和PLM上下文
  * @returns Promise<any> AMIS标准响应
  */
-export async function executeLowCodeAction(actionCode: string, params: Record<string, unknown>): Promise<any> {
-	const url = `/common/JF_LowCodeAction.jsp?actionCode=${encodeURIComponent(actionCode)}`;
+export async function executeLowCodeAction(pageCode: string, actionCode: string, params: Record<string, unknown>): Promise<any> {
+	//20260906 update by caipan 动作入口按页面发布快照解析JPO，不再依赖JSP业务白名单。
+	const url = `/common/JF_LowCodeAction.jsp?pageCode=${encodeURIComponent(pageCode)}&actionCode=${encodeURIComponent(actionCode)}`;
 	return http.post(url, params);
 }
 

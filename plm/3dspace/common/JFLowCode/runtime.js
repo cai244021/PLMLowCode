@@ -166,7 +166,12 @@
                     method: 'post',
                     url: actionUrl(binding.queryActionCode, binding.componentId)
                 };
-                if (apiData) {
+                if (component.loadDataOnce) {
+                    component.api.data = Object.assign({}, apiData || {}, {clientSide: true});
+                    if (typeof component.alwaysShowPagination === 'undefined') {
+                        component.alwaysShowPagination = true;
+                    }
+                } else if (apiData) {
                     component.api.data = apiData;
                 }
                 columns = component.columns || [];

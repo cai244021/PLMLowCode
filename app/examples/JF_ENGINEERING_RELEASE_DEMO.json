@@ -1,0 +1,342 @@
+{
+  "type": "page",
+  "id": "u:engineering-release",
+  "title": "",
+  "className": "bg-white",
+  "data": {
+    "items": [
+      {
+        "objectId": "demo-1",
+        "title": "Physical Product0007411",
+        "partNumber": "GP0001125",
+        "nameEN": "2ROW-FRAME",
+        "nameCN": "二排座-骨架",
+        "revision": "AB.1-000",
+        "state": "工作中",
+        "owner": "测试用户",
+        "type": "物理产品",
+        "partType": "塑料件"
+      },
+      {
+        "objectId": "demo-2",
+        "title": "Physical Product0007414",
+        "partNumber": "GP0001126",
+        "nameEN": "2ROW-CORE",
+        "nameCN": "二排座-核心件",
+        "revision": "AB.1-000",
+        "state": "工作中",
+        "owner": "测试用户",
+        "type": "物理产品",
+        "partType": "塑料件"
+      },
+      {
+        "objectId": "demo-3",
+        "title": "Physical Product0007416",
+        "partNumber": "GP0001127",
+        "nameEN": "2ROW-FRAME",
+        "nameCN": "二排座-骨架",
+        "revision": "AB.1-000",
+        "state": "工作中",
+        "owner": "测试用户",
+        "type": "物理产品",
+        "partType": "塑料件"
+      }
+    ]
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "<div style='padding:10px 0;border-bottom:1px solid #ddd;color:#72777b;font-size:13px'>ENOVIA · Engineering Release — test11 <span style='float:right;color:#999'>界面演示 · 非真实PLM数据</span></div>"
+    },
+    {
+      "type": "tpl",
+      "tpl": "<div style='display:flex;gap:28px;align-items:center;padding:22px 14px;border-bottom:1px solid #ddd'><div style='font-size:56px;color:#258fb3'>▣</div><div><div style='font-size:20px;margin-bottom:12px'><b>test11</b> <span style='color:#298bc0'>AB.1-000</span></div><div style='font-size:12px;line-height:24px'>零件号：<span style='color:#298bc0'>GP0001124</span><br>成熟度状态：<span style='background:#0084a0;color:white;padding:2px 7px;border-radius:3px'>工作中</span><br>所有者：测试用户</div></div><div style='font-size:12px;line-height:26px;padding-left:65px'>修改日期：2026/8/4 11:07:47<br>类型：物理产品</div><div style='border-left:1px solid #ddd;margin-left:50px;padding:15px;color:#888'>无描述</div></div>"
+    },
+    {
+      "type": "grid",
+      "columns": [
+        {
+          "md": 6,
+          "body": {
+            "type": "tpl",
+            "tpl": "<div style='padding-top:15px;color:#5b6770;font-size:12px'>3 项目</div>"
+          }
+        },
+        {
+          "md": 6,
+          "body": {
+            "type": "container",
+            "style": {
+              "textAlign": "right",
+              "padding": "8px 0"
+            },
+            "body": [
+              {
+                "type": "button",
+                "id": "u:er-new-product",
+                "label": "新产品",
+                "icon": "fa fa-plus",
+                "level": "primary",
+                "actionType": "dialog",
+                "dialog": {
+                  "type": "dialog",
+                  "id": "u:er-create-dialog",
+                  "title": "新产品",
+                  "size": "md",
+                  "closeOnOutside": false,
+                  "actions": [],
+                  "body": {
+                    "type": "form",
+                    "id": "u:er-product-form",
+                    "title": "",
+                    "mode": "horizontal",
+                    "horizontal": {
+                      "left": 3,
+                      "right": 9
+                    },
+                    "wrapWithPanel": false,
+                    "body": [
+                      {
+                        "type": "tabs",
+                        "tabs": [
+                          {
+                            "title": "属性",
+                            "body": [
+                              {
+                                "type": "input-text",
+                                "id": "u:er-nameCN",
+                                "name": "nameCN",
+                                "label": "零件中文名称",
+                                "required": true,
+                                "placeholder": "输入值",
+                                "maxLength": 100
+                              },
+                              {
+                                "type": "input-text",
+                                "id": "u:er-nameEN",
+                                "name": "nameEN",
+                                "label": "零件英文名称",
+                                "required": true,
+                                "placeholder": "输入值",
+                                "maxLength": 100
+                              },
+                              {
+                                "type": "select",
+                                "id": "u:er-partType",
+                                "name": "partType",
+                                "label": "零件类型",
+                                "required": true,
+                                "options": [
+                                  {
+                                    "label": "整椅",
+                                    "value": "整椅"
+                                  },
+                                  {
+                                    "label": "面套",
+                                    "value": "面套"
+                                  },
+                                  {
+                                    "label": "发泡",
+                                    "value": "发泡"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "input-text",
+                                "id": "u:er-detailCN",
+                                "name": "detailCN",
+                                "label": "详细类别-CN",
+                                "required": true
+                              },
+                              {
+                                "type": "input-text",
+                                "id": "u:er-detailEN",
+                                "name": "detailEN",
+                                "label": "详细类别-EN",
+                                "required": true
+                              },
+                              {
+                                "type": "select",
+                                "id": "u:er-procurement",
+                                "name": "procurement",
+                                "label": "零件采购类型",
+                                "required": true,
+                                "options": [
+                                  {
+                                    "label": "自制件",
+                                    "value": "自制件"
+                                  },
+                                  {
+                                    "label": "采购件",
+                                    "value": "采购件"
+                                  }
+                                ],
+                                "placeholder": "（空）"
+                              },
+                              {
+                                "type": "select",
+                                "id": "u:er-template",
+                                "name": "template",
+                                "label": "模板",
+                                "required": true,
+                                "value": "CATIA V5 - 默认产品",
+                                "options": [
+                                  {
+                                    "label": "CATIA V5 - 默认产品",
+                                    "value": "CATIA V5 - 默认产品"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "select",
+                                "id": "u:er-credentials",
+                                "name": "credentials",
+                                "label": "凭据",
+                                "required": true,
+                                "value": "JFSeat · 研发部 · 领导",
+                                "options": [
+                                  {
+                                    "label": "JFSeat · 研发部 · 领导",
+                                    "value": "JFSeat · 研发部 · 领导"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "collapse-group",
+                                "body": [
+                                  {
+                                    "type": "collapse",
+                                    "header": "显示更多",
+                                    "collapsed": true,
+                                    "body": [
+                                      {
+                                        "type": "textarea",
+                                        "id": "u:er-description",
+                                        "name": "description",
+                                        "label": "描述",
+                                        "minRows": 3,
+                                        "maxLength": 1000
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "title": "零件名称库/书签",
+                            "body": [
+                              {
+                                "type": "alert",
+                                "level": "info",
+                                "body": "此页签仅预留布局，尚未连接PLM零件名称库或书签。"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "alert",
+                        "level": "info",
+                        "body": "演示模式：创建仅校验表单，不调用PLM、不新增列表记录。",
+                        "className": "m-t-sm"
+                      },
+                      {
+                        "type": "checkbox",
+                        "name": "repeat",
+                        "label": "重复",
+                        "disabled": true,
+                        "description": "连续创建将在接入真实创建接口后启用"
+                      }
+                    ],
+                    "actions": [
+                      {
+                        "type": "button",
+                        "label": "创建",
+                        "level": "primary",
+                        "actionType": "submit"
+                      },
+                      {
+                        "type": "button",
+                        "label": "取消",
+                        "actionType": "cancel"
+                      }
+                    ],
+                    "onEvent": {
+                      "validateSucc": {
+                        "actions": [
+                          {
+                            "actionType": "toast",
+                            "args": {
+                              "msgType": "info",
+                              "msg": "表单校验通过。当前为界面演示，尚未创建PLM对象。"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "id": "u:er-product-table",
+      "source": "${items}",
+      "className": "text-sm",
+      "columns": [
+        {
+          "name": "title",
+          "label": "标题",
+          "width": 240
+        },
+        {
+          "name": "partNumber",
+          "label": "零件号",
+          "width": 120
+        },
+        {
+          "name": "nameEN",
+          "label": "零件英文名称",
+          "width": 150
+        },
+        {
+          "name": "nameCN",
+          "label": "零件中文名称",
+          "width": 150
+        },
+        {
+          "name": "revision",
+          "label": "修订版",
+          "width": 110
+        },
+        {
+          "name": "state",
+          "label": "成熟度状态",
+          "width": 110,
+          "type": "tpl",
+          "tpl": "<span style='background:#0084a0;color:white;border-radius:3px;padding:2px 7px'>${state|html}</span>"
+        },
+        {
+          "name": "owner",
+          "label": "所有者",
+          "width": 120
+        },
+        {
+          "name": "type",
+          "label": "类型",
+          "width": 100
+        },
+        {
+          "name": "partType",
+          "label": "零件类型",
+          "width": 110
+        }
+      ]
+    }
+  ]
+}

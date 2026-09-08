@@ -50,6 +50,14 @@
 <script src="scripts/emxUICore.js" type="text/javascript"></script>
 <script type="text/javascript">
     (function () {
+        var result = {
+            type: "JF_LOWCODE_SEARCH_SELECTED",
+            requestId: "<%=XSSUtil.encodeForJavaScript(context, requestId)%>",
+            objectId: "<%=XSSUtil.encodeForJavaScript(context, selectedId)%>",
+            name: "<%=XSSUtil.encodeForJavaScript(context, selectedName)%>",
+            displayName: "<%=XSSUtil.encodeForJavaScript(context, displayName)%>",
+            message: "<%=XSSUtil.encodeForJavaScript(context, message)%>"
+        };
         var targetWindow = null;
         try {
             targetWindow = getTopWindow().getWindowOpener
@@ -59,15 +67,35 @@
             targetWindow = window.opener;
         }
         if (targetWindow && targetWindow.postMessage) {
-            targetWindow.postMessage({
-                type: "JF_LOWCODE_SEARCH_SELECTED",
-                requestId: "<%=XSSUtil.encodeForJavaScript(context, requestId)%>",
-                objectId: "<%=XSSUtil.encodeForJavaScript(context, selectedId)%>",
-                name: "<%=XSSUtil.encodeForJavaScript(context, selectedName)%>",
-                displayName: "<%=XSSUtil.encodeForJavaScript(context, displayName)%>",
-                message: "<%=XSSUtil.encodeForJavaScript(context, message)%>"
-            }, window.location.origin);
+            targetWindow.postMessage(result, window.location.origin);
         }
-        getTopWindow().closeWindow();
+        if (window.BroadcastChannel) {
+            var resultChannel = new BroadcastChannel("JF_LOWCODE_SEARCH_" + result.requestId);
+            resultChannel.postMessage(result);
+            window.setTimeout(function () {
+                resultChannel.close();
+                closeSearchWindow();
+            }, 100);
+        } else {
+            closeSearchWindow();
+        }
+
+        function closeSearchWindow() {
+            var searchWindow = window.top;
+            try {
+                if (searchWindow && typeof searchWindow.closeWindow === "function") {
+                    searchWindow.closeWindow();
+                }
+            } catch (ignore) {
+                // SearchUI.html弹窗不提供平台closeWindow时，继续使用浏览器窗口关闭。
+            }
+            try {
+                if (searchWindow && !searchWindow.closed) {
+                    searchWindow.close();
+                }
+            } catch (ignore) {
+                window.close();
+            }
+        }
     }());
 </script>

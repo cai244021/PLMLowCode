@@ -9,7 +9,7 @@ public record PlmActionRequest(
         @Pattern(regexp = "CREATE|UPDATE|QUERY|ACTION|NAVIGATION") String actionKind,
         String jpoName,
         String methodName,
-        @Pattern(regexp = "GET|POST") String httpMethod,
+        @Pattern(regexp = "POST", message = "PLM动作只允许POST请求") String httpMethod,
         JsonNode inputMapping,
         JsonNode outputMapping,
         boolean enabled

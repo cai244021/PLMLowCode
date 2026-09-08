@@ -25,10 +25,62 @@ body {
     transform: none !important;
 }
 
+/* AMIS Table勾选后高亮整行，包括普通列和固定列单元格。 */
+.amis-scope {
+    --Table-onChecked-bg: #e8f2ff;
+    --Table-onChecked-onHover-bg: #d9eaff;
+}
+
+.amis-scope .cxd-Table-table > tbody > tr.is-checked,
+.amis-scope .cxd-Table-table > tbody > tr.is-checked > td {
+    background-color: #e8f2ff !important;
+}
+
+.amis-scope .cxd-Table-table > tbody > tr.is-checked:hover,
+.amis-scope .cxd-Table-table > tbody > tr.is-checked:hover > td {
+    background-color: #d9eaff !important;
+}
+
 .jf-lowcode-error {
     margin: 20px;
     padding: 12px 16px;
     color: #b42318;
     background: #fef3f2;
     border: 1px solid #fecdca;
+}
+
+/* 统一低代码运行端消息等级，避免AMIS默认Toast仅通过图标区分结果。 */
+.cxd-Toast--error {
+    color: #912018 !important;
+    background: #fef3f2 !important;
+    border-color: #f04438 !important;
+    border-left-width: 4px !important;
+}
+
+.cxd-Toast--warning {
+    color: #7a2e0e !important;
+    background: #fffaeb !important;
+    border-color: #f79009 !important;
+    border-left-width: 4px !important;
+}
+
+.cxd-Toast--success {
+    color: #05603a !important;
+    background: #ecfdf3 !important;
+    border-color: #12b76a !important;
+    border-left-width: 4px !important;
+}
+
+.cxd-Toast--info {
+    color: #1849a9 !important;
+    background: #eff8ff !important;
+    border-color: #2e90fa !important;
+    border-left-width: 4px !important;
+}
+
+.cxd-Toast--error .cxd-Toast-icon,
+.cxd-Toast--warning .cxd-Toast-icon,
+.cxd-Toast--success .cxd-Toast-icon,
+.cxd-Toast--info .cxd-Toast-icon {
+    color: currentColor !important;
 }

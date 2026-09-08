@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="JFLowCode/amis/sdk.css">
     <link rel="stylesheet" href="JFLowCode/amis/helper.css">
     <link rel="stylesheet" href="JFLowCode/amis/iconfont.css">
-    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260906-1">
+    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260908-2">
 </head>
 <body>
 <div id="jf-lowcode-root">页面加载中...</div>
@@ -41,7 +41,7 @@
     <%@include file="./enoviaCSRFTokenInjection.inc"%>
 </form>
 <script src="JFLowCode/amis/sdk.js"></script>
-<script src="JFLowCode/runtime.js?v=20260906-4"></script>
+<script src="JFLowCode/runtime.js?v=20260908-2"></script>
 <script src="scripts/emxUIConstants.js"></script>
 <script src="scripts/emxUICore.js"></script>
 <script src="scripts/emxUIModal.js"></script>
@@ -66,7 +66,8 @@
 
     function executeAction(actionCode, data) {
         var payload = Object.assign({}, data || {}, { plmContext: context });
-        var actionUrl = 'JF_LowCodeAction.jsp?actionCode=' + encodeURIComponent(actionCode);
+        var actionUrl = 'JF_LowCodeAction.jsp?pageCode=' + encodeURIComponent(pageCode)
+            + '&actionCode=' + encodeURIComponent(actionCode);
         var tokenInputs = document.querySelectorAll('#jf-lowcode-csrf input[name]');
         Array.prototype.forEach.call(tokenInputs, function (input) {
             actionUrl += '&' + encodeURIComponent(input.name) + '=' + encodeURIComponent(input.value || '');

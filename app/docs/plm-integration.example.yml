@@ -1,0 +1,5 @@
+plm:
+  integration:
+    base-url: https://your-plm-host/3dspace
+    security-context: VPLMProjectLeader.YourCompany.YourOrganization
+    login-ticket: REPLACE_WITH_X_3DSLOGIN_TICKET

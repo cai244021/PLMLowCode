@@ -110,7 +110,7 @@ const executeAction = async (actionCode: string, data: Record<string, unknown>, 
 
 	submitting.value = true;
 	try {
-		// Dashboard沿用当前已验证的零件创建REST，其余动作交给3DSpace白名单Action JSP。
+		// Dashboard沿用当前已验证的零件创建REST，其余动作按已发布Page动作快照执行。
 		if (actionCode === 'CREATE_COMPETITIVE_BOM') {
 			const response = await createVPMReferenceV5ByRest({
 				partInfo: {
@@ -128,7 +128,8 @@ const executeAction = async (actionCode: string, data: Record<string, unknown>, 
 			}
 			return { status: 0, msg: '创建成功', data: { objectId: response.result[0].physicalid } };
 		}
-		return await executeLowCodeAction(actionCode, { ...data, plmContext: context });
+		//20260906 update by caipan 传入页面编码，避免其他Page调用未发布到本页的动作。
+		return await executeLowCodeAction(AMIS_PAGE_CODE, actionCode, { ...data, plmContext: context });
 	} finally {
 		submitting.value = false;
 	}
@@ -144,6 +145,7 @@ const renderAmis = async (): Promise<void> => {
 			loadStyle('jf-amis-sdk-css', `${amisBaseUrl}/sdk.css`),
 			loadStyle('jf-amis-helper-css', `${amisBaseUrl}/helper.css`),
 			loadStyle('jf-amis-iconfont-css', `${amisBaseUrl}/iconfont.css`),
+			loadStyle('jf-lowcode-runtime-css', `${spaceBaseUrl}/common/JFLowCode/runtime.css?v=20260908-1`),
 			loadScript('jf-amis-sdk-js', `${amisBaseUrl}/sdk.js`)
 		]);
 		await loadScript('jf-lowcode-runtime-js', `${spaceBaseUrl}/common/JFLowCode/runtime.js?v=20260906-4`);

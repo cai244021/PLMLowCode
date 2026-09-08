@@ -1,0 +1,263 @@
+{
+  "type": "page",
+  "id": "u:da-list-page",
+  "title": "DA申请单",
+  "className": "bg-white",
+  "body": [
+    {
+      "type": "crud",
+      "id": "u:da-list-crud",
+      "name": "daList",
+      "syncLocation": false,
+      "selectable": true,
+      "multiple": true,
+      "primaryField": "id",
+      "loadDataOnce": true,
+      "loadDataOnceFetchOnFilter": false,
+      "filterTogglable": true,
+      "filterDefaultVisible": false,
+      "api": {
+        "data": {
+          "clientSide": true
+        }
+      },
+      "perPage": 20,
+      "autoFillHeight": true,
+      "alwaysShowPagination": true,
+      "autoJumpToTopOnPagerChange": false,
+      "perPageAvailable": [
+        5,
+        10,
+        20,
+        50,
+        100
+      ],
+      "headerToolbar": [
+        "filter-toggler",
+        {
+          "type": "button",
+          "id": "u:da-new-button",
+          "label": "新建",
+          "icon": "fa fa-plus",
+          "level": "primary",
+          "actionType": "dialog",
+          "dialog": {
+            "type": "dialog",
+            "id": "u:da-create-dialog",
+            "title": "新建DA申请单",
+            "size": "lg",
+            "closeOnOutside": false,
+            "actions": [
+              {
+                "type": "button",
+                "label": "应用",
+                "actionType": "submit",
+                "close": false
+              },
+              {
+                "type": "button",
+                "label": "确定",
+                "level": "primary",
+                "actionType": "confirm"
+              },
+              {
+                "type": "button",
+                "label": "取消",
+                "actionType": "cancel"
+              }
+            ],
+            "body": {
+              "type": "form",
+              "id": "u:da-create-form",
+              "reload": "daList",
+              "title": "",
+              "mode": "horizontal",
+              "horizontal": {
+                "left": 3,
+                "right": 9
+              },
+              "wrapWithPanel": false,
+              "body": [
+                {
+                  "type": "input-group",
+                  "id": "u:da-project-selector",
+                  "name": "projectSelection",
+                  "label": "项目名称",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "id": "u:da-project-name",
+                      "name": "projectName",
+                      "required": true,
+                      "readOnly": true,
+                      "maxLength": 200,
+                      "placeholder": "请选择项目"
+                    },
+                    {
+                      "type": "button",
+                      "id": "u:da-project-search",
+                      "label": "...",
+                      "actionType": "url",
+                      "url": "plm://search?searchType=PROJECT&formId=u%3Ada-create-form&valueField=projectId&labelField=projectName&searchParams=field%3DTYPES%3Dtype_ProjectSpace%26table%3DAEFGeneralSearchResults%26includeOIDprogram%3DJF_PublicMethodClass%3AgetSystemAllProjectSpaces%26showInitialResults%3Dtrue%26selection%3Dsingle"
+                    }
+                  ]
+                },
+                {
+                  "type": "hidden",
+                  "id": "u:da-project-id",
+                  "name": "projectId"
+                },
+                {
+                  "type": "input-text",
+                  "id": "u:da-title",
+                  "name": "title",
+                  "label": "标题",
+                  "required": true,
+                  "maxLength": 200,
+                  "placeholder": "请输入DA标题"
+                },
+                {
+                  "type": "select",
+                  "id": "u:da-change-type",
+                  "name": "changeType",
+                  "label": "变更类型",
+                  "required": true,
+                  "clearable": true
+                },
+                {
+                  "type": "select",
+                  "id": "u:da-project-phase",
+                  "name": "projectPhase",
+                  "label": "项目阶段",
+                  "required": true,
+                  "clearable": true
+                },
+                {
+                  "type": "select",
+                  "id": "u:da-affected-plant",
+                  "name": "affectedPlant",
+                  "label": "影响工厂",
+                  "required": true,
+                  "multiple": true,
+                  "joinValues": false,
+                  "extractValue": true,
+                  "searchable": true,
+                  "clearable": true,
+                  "checkAll": true,
+                  "placeholder": "请选择影响工厂"
+                },
+                {
+                  "type": "textarea",
+                  "id": "u:da-reason",
+                  "name": "deviationReason",
+                  "label": "偏差原因/描述",
+                  "required": true,
+                  "minRows": 3,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "textarea",
+                  "id": "u:da-before-change",
+                  "name": "beforeChange",
+                  "label": "变更前",
+                  "required": true,
+                  "minRows": 3,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "textarea",
+                  "id": "u:da-after-change",
+                  "name": "afterChange",
+                  "label": "变更后",
+                  "required": true,
+                  "minRows": 3,
+                  "maxLength": 2000
+                }
+              ],
+              "actions": []
+            }
+          }
+        },
+        "bulkActions"
+      ],
+      "bulkActions": [
+        {
+          "type": "button",
+          "id": "u:da-delete-button",
+          "label": "删除",
+          "icon": "fa fa-trash",
+          "level": "danger",
+          "requireSelected": true,
+          "disabledOn": "${!selectedItems || selectedItems.length === 0}",
+          "confirmText": "确认删除选中的 ${selectedItems.length} 条DA申请单吗？",
+          "reload": "daList",
+          "messages": {
+            "success": "DA申请单删除成功",
+            "failed": "DA申请单删除失败"
+          }
+        }
+      ],
+      "filter": {
+        "type": "form",
+        "title": "",
+        "mode": "inline",
+        "wrapWithPanel": false,
+        "body": [
+          {
+            "type": "input-text",
+            "id": "u:da-filter-title",
+            "name": "attribute[Title]",
+            "label": "标题",
+            "clearable": true,
+            "placeholder": "输入标题"
+          },
+          {
+            "type": "select",
+            "id": "u:da-filter-change-type",
+            "name": "attribute[JFChangeType]",
+            "label": "变更类型",
+            "clearable": true
+          },
+          {
+            "type": "select",
+            "id": "u:da-filter-project-phase",
+            "name": "attribute[JFProjectPhase]",
+            "label": "项目阶段",
+            "clearable": true
+          },
+          {
+            "type": "button-toolbar",
+            "label": "",
+            "buttons": [
+              {"type": "submit", "label": "执行筛选", "level": "primary", "icon": "fa fa-search"},
+              {"type": "reset", "label": "重置"}
+            ]
+          }
+        ],
+        "actions": []
+      },
+      "footerToolbar": [
+        "statistics",
+        "switch-per-page",
+        "pagination"
+      ],
+      "columns": [
+        {"name": "name", "label": "名称", "width": 130, "fixed": "left", "sortable": true},
+        {"name": "attribute[JFProjectName]", "label": "项目名称", "width": 150, "sortable": true},
+        {"name": "attribute[Title]", "label": "标题", "width": 160, "sortable": true},
+        {"name": "current", "label": "状态", "width": 90, "sortable": true},
+        {"name": "attribute[JFChangeType]", "label": "变更类型", "width": 110, "sortable": true},
+        {"name": "attribute[JFProjectPhase]", "label": "项目阶段", "width": 90, "sortable": true},
+        {"name": "attribute[JFAffectsFactory]", "label": "影响工厂", "width": 120, "sortable": true},
+        {"name": "attribute[JFReasonDeviation]", "label": "偏差原因/描述", "width": 180},
+        {"name": "attribute[JFBeforeChange]", "label": "变更前", "width": 140},
+        {"name": "attribute[JFAfterChange]", "label": "变更后", "width": 140},
+        {"name": "attribute[JFDAStartTime]", "label": "DA启动时间", "type": "datetime", "width": 150, "sortable": true},
+        {"name": "attribute[JFDACloseTime]", "label": "DA关闭时间", "type": "datetime", "width": 150, "sortable": true},
+        {"name": "attribute[JFDAExtensionTime]", "label": "延期关闭时间", "type": "datetime", "width": 150, "sortable": true},
+        {"name": "owner", "label": "创建者", "width": 120, "sortable": true},
+        {"name": "originated", "label": "创建时间", "type": "datetime", "width": 150, "sortable": true}
+      ]
+    }
+  ]
+}
