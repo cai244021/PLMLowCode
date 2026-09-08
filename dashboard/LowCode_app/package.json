@@ -1,0 +1,24 @@
+{
+	"name": "plm-lowcode-widget",
+	"version": "1.0.7",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite --mode development",
+		"build": "vue-tsc -b --noEmit && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@widget-lab/3ddashboard-utils": "https://btcc.s3-eu-west-1.amazonaws.com/widget-lab/npm/3ddashboard-utils/dist/widget-lab-3ddashboard-utils-2.2.2.tgz",
+		"vue": "^3.5.12"
+	},
+	"devDependencies": {
+		"@tsconfig/node22": "^22.0.0",
+		"@types/node": "^22.9.0",
+		"@vitejs/plugin-vue": "^5.1.4",
+		"@vue/tsconfig": "^0.5.1",
+		"typescript": "^5.7.2",
+		"vite": "^5.4.10",
+		"vue-tsc": "^2.1.10"
+	}
+}
