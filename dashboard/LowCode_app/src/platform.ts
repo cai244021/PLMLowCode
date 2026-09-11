@@ -111,12 +111,32 @@ export async function executeAction(
 	return parseJson(result);
 }
 
+function prepareWidgetSearchParams(searchParams: string): string {
+	const params = new URLSearchParams(searchParams.replace(/^\?/, ''));
+	const wrapProgram = (parameterName: string, delegateParameterName: string, wrapperMethod: string): void => {
+		const configuredProgram = params.get(parameterName);
+		const wrapperProgram = `JF_LowCode:${wrapperMethod}`;
+		if (!configuredProgram || configuredProgram === wrapperProgram) return;
+		if (!/^[A-Za-z0-9_$.-]{1,150}:[A-Za-z0-9_$.-]{1,150}$/.test(configuredProgram)) {
+			throw new Error(`${parameterName}格式不正确，应为JPO名:方法名`);
+		}
+		params.set(delegateParameterName, configuredProgram);
+		params.set(parameterName, wrapperProgram);
+	};
+	wrapProgram('includeOIDprogram', 'lowCodeIncludeOIDprogram', 'filterIncludeSearchOIDsLowCode');
+	wrapProgram('excludeOIDprogram', 'lowCodeExcludeOIDprogram', 'filterExcludeSearchOIDsLowCode');
+	params.set('lowCodeSearchClient', 'widget');
+	return params.toString();
+}
+
 export function openSearch(spaceUrl: string, target: SearchTarget): Promise<SearchResult> {
 	if (!target.searchParams) {
 		return Promise.reject(new Error('未配置emxFullSearch参数'));
 	}
 	const requestId = `jf-lowcode-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 	const launcherName = requestId.replace(/[^a-zA-Z0-9_-]/g, '');
+	//20260909 update by caipan Widget独立准备搜索参数，不依赖Space Runtime的搜索适配器版本
+	const preparedSearchParams = prepareWidgetSearchParams(target.searchParams);
 
 	return new Promise((resolve, reject) => {
 		const launcherWidth = 810;
@@ -141,7 +161,7 @@ export function openSearch(spaceUrl: string, target: SearchTarget): Promise<Sear
 		form.style.display = 'none';
 		[
 			{name: 'requestId', value: requestId},
-			{name: 'searchParams', value: target.searchParams || ''}
+			{name: 'searchParams', value: preparedSearchParams || ''}
 		].forEach(item => {
 			const input = document.createElement('input');
 			input.type = 'hidden';
@@ -174,6 +194,10 @@ export function openSearch(spaceUrl: string, target: SearchTarget): Promise<Sear
 		function finish(value: any): void {
 			window.clearTimeout(timeout);
 			cleanup();
+			if (value.cancelled) {
+				resolve({objectId: '', cancelled: true});
+				return;
+			}
 			if (!value.objectId) {
 				reject(new Error(value.message || '未选择对象'));
 				return;
@@ -182,19 +206,20 @@ export function openSearch(spaceUrl: string, target: SearchTarget): Promise<Sear
 		}
 
 		const timeout = window.setTimeout(() => {
-			cleanup();
-			reject(new Error('PLM搜索已超时'));
+			//20260909 update by caipan 搜索窗口关闭消息丢失时按取消静默清理，避免延迟弹出超时提示
+			finish({cancelled: true});
 		}, 300000);
 		function onMessage(event: MessageEvent): void {
 			const value = event.data || {};
 			if (event.origin !== new URL(spaceUrl).origin
-				|| value.type !== 'JF_LOWCODE_SEARCH_SELECTED'
+				|| (value.type !== 'JF_LOWCODE_SEARCH_SELECTED' && value.type !== 'JF_LOWCODE_SEARCH_CLOSED')
 				|| value.requestId !== requestId) return;
 			finish(value);
 		}
 		function onChannelMessage(event: MessageEvent): void {
 			const value = event.data || {};
-			if (value.type === 'JF_LOWCODE_SEARCH_SELECTED' && value.requestId === requestId) {
+			if ((value.type === 'JF_LOWCODE_SEARCH_SELECTED' || value.type === 'JF_LOWCODE_SEARCH_CLOSED')
+				&& value.requestId === requestId) {
 				finish(value);
 			}
 		}

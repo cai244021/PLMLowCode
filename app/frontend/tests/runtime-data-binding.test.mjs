@@ -4,9 +4,20 @@ import test from 'node:test';
 import vm from 'node:vm';
 
 const source = readFileSync(new URL('../../../plm/3dspace/common/JFLowCode/runtime.js', import.meta.url), 'utf8');
-const sandbox = {window: {}, URLSearchParams};
+let capturedEnv;
+const modalContainer = {};
+const sandbox = {
+  window: {
+    document: {body: modalContainer},
+    amisRequire: () => ({embed: (_container, _schema, _data, env) => {
+      capturedEnv = env;
+      return {getComponentById: () => ({setValues: () => assert.fail('取消搜索不应回填表单')})};
+    }})
+  },
+  URLSearchParams
+};
 vm.runInNewContext(source, sandbox);
-const {compilePackage, parseSearchTarget, applySearchResult} = sandbox.window.JFLowCodeRuntime;
+const {compilePackage, createFetcher, parseSearchTarget, applySearchResult} = sandbox.window.JFLowCodeRuntime;
 
 test('页面初始化绑定为Service注入受控查询API且不修改原Schema', () => {
   const pagePackage = {
@@ -22,6 +33,75 @@ test('页面初始化绑定为Service注入受控查询API且不修改原Schema'
   assert.equal(compiled.body[0].api.method, 'post');
   assert.equal(compiled.body[0].api.url, 'plm://QUERY_HEADER?componentId=u%3Ainit-service');
   assert.equal(pagePackage.schema.body[0].api, '/old-api');
+});
+
+test('页面初始化绑定保留通用报表查询的静态参数', () => {
+  const pagePackage = {
+    schema: {
+      type: 'page',
+      body: [{id: 'u:report-service', type: 'service', api: {data: {reportCode: 'APPROVAL_TASK', scope: 'all'}}}]
+    },
+    plmConfig: {
+      dataBindings: [{componentId: 'u:report-service', trigger: 'INIT', actionCode: 'QUERY_PLM_REPORT_SUMMARY'}]
+    }
+  };
+
+  const compiled = compilePackage(pagePackage);
+  assert.equal(compiled.body[0].api.url, 'plm://QUERY_PLM_REPORT_SUMMARY?componentId=u%3Areport-service');
+  assert.deepEqual({...compiled.body[0].api.data}, {reportCode: 'APPROVAL_TASK', scope: 'all'});
+});
+
+test('请求出口从原始JSON恢复AMIS遗漏的报表静态参数', async () => {
+  let actionRequest;
+  const pagePackage = {
+    schema: {
+      type: 'page',
+      body: [{id: 'u:report-service', type: 'service', api: {data: {reportCode: 'APPROVAL_TASK', scope: 'all'}}}]
+    }
+  };
+  const fetcher = createFetcher(pagePackage, {
+    executeAction: (actionCode, data) => {
+      actionRequest = {actionCode, data};
+      return {status: 0, data: {}};
+    }
+  });
+
+  await fetcher({
+    url: 'plm://QUERY_PLM_REPORT_SUMMARY?componentId=u%3Areport-service',
+    method: 'post',
+    data: {reportCode: 'CHANGE_EXECUTION', scope: 'overdue'}
+  });
+
+  assert.equal(actionRequest.actionCode, 'QUERY_PLM_REPORT_SUMMARY');
+  assert.deepEqual({...actionRequest.data}, {reportCode: 'APPROVAL_TASK', scope: 'overdue'});
+});
+
+test('请求出口不会把尚未计算的动态模板发送到JPO', async () => {
+  let actionRequest;
+  const pagePackage = {
+    schema: {
+      type: 'page',
+      body: [{
+        id: 'u:report-list',
+        type: 'crud',
+        api: {data: {reportCode: 'CHANGE_EXECUTION', scope: '${scope}', page: '${page}'}}
+      }]
+    }
+  };
+  const fetcher = createFetcher(pagePackage, {
+    executeAction: (actionCode, data) => {
+      actionRequest = {actionCode, data};
+      return {status: 0, data: {}};
+    }
+  });
+
+  await fetcher({
+    url: 'plm://QUERY_PLM_REPORT_DETAILS?componentId=u%3Areport-list',
+    method: 'post',
+    data: {scope: 'overdue', page: 1}
+  });
+
+  assert.deepEqual({...actionRequest.data}, {reportCode: 'CHANGE_EXECUTION', scope: 'overdue', page: 1});
 });
 
 test('初始化绑定不会注入到非Service组件', () => {
@@ -166,4 +246,51 @@ test('PLM搜索结果同时回填对象ID和显示名称', () => {
     labelField: 'projectName'
   }, {objectId: '1.2.3.4', displayName: '测试项目'});
   assert.deepEqual({...values}, {projectId: '1.2.3.4', projectName: '测试项目'});
+});
+
+test('Widget手动关闭搜索后保持表单原值', async () => {
+  const pagePackage = {
+    schema: {type: 'page', body: []},
+    plmConfig: {searchBindings: [{
+      componentId: 'u:search', formId: 'u:form', valueField: 'projectId',
+      labelField: 'projectName', searchParams: 'field=TYPES=type_ProjectSpace'
+    }]}
+  };
+  await sandbox.window.JFLowCodeRuntime.embed({
+    container: '#root',
+    pagePackage,
+    adapter: {
+      executeAction: () => ({status: 0, data: {fields: {}}}),
+      openSearch: () => Promise.resolve({objectId: '', cancelled: true})
+    }
+  });
+  assert.equal(capturedEnv.getModalContainer(), modalContainer);
+  capturedEnv.jumpTo('plm://search?componentId=u%3Asearch');
+  await new Promise(resolve => setImmediate(resolve));
+});
+
+test('PLM报表明细与动态过滤选项共享汇总Service数据域', () => {
+  [
+    'JF_APPROVAL_TASK_REPORT.json',
+    'JF_PROJECT_TASK_STATUS_REPORT.json',
+    'JF_CHANGE_EXECUTION_REPORT.json'
+  ].forEach(fileName => {
+    const pagePackage = JSON.parse(readFileSync(
+      new URL(`../../examples/reports/${fileName}`, import.meta.url),
+      'utf8'
+    ));
+    const compiled = compilePackage(pagePackage);
+    const service = compiled.body[0];
+    const detail = service.body.find(component => component.type === 'crud');
+    const dynamicFilters = detail.filter.body.filter(component => component.source);
+
+    assert.equal(pagePackage.schema.body.length, 1);
+    assert.equal(service.type, 'service');
+    assert.ok(detail);
+    assert.ok(dynamicFilters.length > 0);
+    assert.equal(detail.api.data.scope, '${scope}');
+    assert.equal(detail.api.data.page, '${page}');
+    assert.match(detail.api.url, /^plm:\/\/QUERY_PLM_REPORT_DETAILS\?/);
+    dynamicFilters.forEach(component => assert.match(component.source, /^\$\{filterOptions\./));
+  });
 });

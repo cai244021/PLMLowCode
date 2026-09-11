@@ -41,7 +41,7 @@
     <%@include file="./enoviaCSRFTokenInjection.inc"%>
 </form>
 <script src="JFLowCode/amis/sdk.js"></script>
-<script src="JFLowCode/runtime.js?v=20260908-2"></script>
+<script src="JFLowCode/runtime.js?v=20260910-5"></script>
 <script src="scripts/emxUIConstants.js"></script>
 <script src="scripts/emxUICore.js"></script>
 <script src="scripts/emxUIModal.js"></script>
@@ -84,6 +84,28 @@
         });
     }
 
+    function prepareSpaceSearchParams(searchParams) {
+        var params = new URLSearchParams(String(searchParams || '').replace(/^\?/, ''));
+
+        function wrapProgram(parameterName, delegateParameterName, wrapperMethod) {
+            var configuredProgram = params.get(parameterName);
+            var wrapperProgram = 'JF_LowCode:' + wrapperMethod;
+            if (!configuredProgram || configuredProgram === wrapperProgram) {
+                return;
+            }
+            if (!/^[A-Za-z0-9_$.-]{1,150}:[A-Za-z0-9_$.-]{1,150}$/.test(configuredProgram)) {
+                throw new Error(parameterName + '\u683c\u5f0f\u4e0d\u6b63\u786e\uff0c\u5e94\u4e3aJPO\u540d:\u65b9\u6cd5\u540d');
+            }
+            params.set(delegateParameterName, configuredProgram);
+            params.set(parameterName, wrapperProgram);
+        }
+
+        wrapProgram('includeOIDprogram', 'lowCodeIncludeOIDprogram', 'filterIncludeSearchOIDsLowCode');
+        wrapProgram('excludeOIDprogram', 'lowCodeExcludeOIDprogram', 'filterExcludeSearchOIDsLowCode');
+        params.set('lowCodeSearchClient', 'space');
+        return params.toString();
+    }
+
     function openSearch(searchTarget) {
         return new Promise(function (resolve, reject) {
             if (!searchTarget || !searchTarget.searchParams) {
@@ -113,15 +135,23 @@
                 reject(new Error('\u9879\u76ee\u641c\u7d22\u5df2\u8d85\u65f6'));
             }, 300000);
 
-            var configuredParams = new URLSearchParams(searchTarget.searchParams.replace(/^\?/, ''));
-            configuredParams.delete('submitURL');
+            //20260909 update by caipan Space Runtime使用标准达索搜索窗口，并统一包装候选ID程序
+            var preparedSearchParams = prepareSpaceSearchParams(searchTarget.searchParams);
+            var configuredParams = new URLSearchParams(preparedSearchParams);
+            var configuredSubmitURL = configuredParams.get('submitURL');
             configuredParams.delete('requestId');
             configuredParams.set('selection', 'single');
             configuredParams.set('submitAction', 'refreshCaller');
-            configuredParams.set('submitURL', '../common/JF_LowCodeSearchSubmit.jsp');
+            //20260909 update by caipan Space保留页面配置的原生提交JSP，未配置时使用统一回填页
+            configuredParams.set('submitURL', configuredSubmitURL || '../common/JF_LowCodeSearchSubmit.jsp');
             configuredParams.set('requestId', requestId);
             var searchUrl = '../common/emxFullSearch.jsp?' + configuredParams.toString();
             showModalDialog(searchUrl, 850, 630, true, 'Large');
+            if (configuredSubmitURL) {
+                window.removeEventListener('message', onMessage);
+                window.clearTimeout(timeoutId);
+                resolve({ cancelled: true });
+            }
         });
     }
 

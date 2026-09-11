@@ -17,6 +17,7 @@ export interface SearchResult {
 	objectId: string;
 	name?: string;
 	displayName?: string;
+	cancelled?: boolean;
 }
 
 export interface PagePackage {

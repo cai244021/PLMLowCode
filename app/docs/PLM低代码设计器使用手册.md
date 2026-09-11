@@ -349,6 +349,14 @@ field=TYPES=type_ProjectSpace&table=AEFGeneralSearchResults&includeOIDprogram=JF
 
 `field`中的类型、状态等过滤条件，以及`table`、`form`、`includeOIDprogram`、`excludeOIDprogram`、`showInitialResults`、`suiteKey`等参数由Runtime透传给3DSpace。为保证回填链路不可被页面配置替换，Runtime会忽略配置中的`submitURL`和`requestId`，写入统一回调地址和本次搜索的唯一标识；当前版本只支持单选，因此`selection`固定为`single`。
 
+同一个页面JSON不需要配置运行端类型。3DSpace页面由Space搜索适配器直接调用平台`emxFullSearch`；Dashboard Widget在自身代码中独立准备搜索参数，再由Widget搜索适配器打开`JF_LowCodeSearchLauncher.jsp`，通过`postMessage`和`BroadcastChannel`把选择结果传回Widget。两种方式使用独立的参数处理、窗口和回调链路，不要求Widget与Space的`runtime.js`搜索方法保持相同版本，但共享同一套页面搜索业务参数和PLM端ID保护规则。
+
+当搜索配置包含`includeOIDprogram`或`excludeOIDprogram`时，Runtime会自动使用`JF_LowCode`包装原JPO。包装方法仍以当前登录用户上下文调用原程序，要求其返回达索标准`StringList`，随后去除空ID并按原顺序去重。去重后超过2000条会记录服务器告警，超过5000条会停止搜索并提示增加类型、状态、项目或其他索引条件。页面JSON仍填写原程序，例如`JF_PublicMethodClass:getSystemAllProjectSpaces`，不要直接填写包装方法。
+
+搜索参数可以配置`submitURL`。Space适配器保持达索原生行为，选择后直接提交给配置的JSP；Widget适配器会保留低代码桥接页，由桥接页使用相同登录会话和选中行参数POST调用配置的JSP，调用成功后再回填Widget并关闭搜索窗口。Widget只允许当前3DSpace下的同源`.jsp`地址；目标JSP返回HTTP 2xx即视为成功，也可以返回`{"status":0}`或`{"success":true}`，失败时返回非2xx、`status`非0/200或`success=false`。目标JSP中依赖浏览器执行的返回脚本不会由桥接请求执行，选中值回填应继续使用低代码统一回调，业务写入应在JSP/JPO服务端完成。
+
+Widget搜索实际包含Launcher和达索搜索两个窗口。正常选择后两者都会关闭；用户直接关闭达索搜索窗口时，Launcher会识别为取消并同步关闭，页面表单保持原值且不显示失败提示。
+
 搜索完成后，统一回调JSP把所选项目的对象ID写入隐藏字段（如`projectId`），把项目显示名称写入可见字段（如`projectName`）。这些字段随表单一起提交给绑定的创建动作。
 
 运行端只允许当前Page的`resources.actions`中已发布的`actionCode`。Runtime同时提交`pageCode`和`actionCode`，`JF_LowCodeAction.jsp`通过`JF_LowCodePage:prepareActionInvocation`读取动作快照、校验启用状态、POST方式及JPO/方法名称格式，并按`inputMapping`生成JPO参数。Schema和普通请求参数中的JPO名称、方法名、Type、Policy或MQL不会被执行。最终对象权限和状态权限仍必须由目标JPO校验。

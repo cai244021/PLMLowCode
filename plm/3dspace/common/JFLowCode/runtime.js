@@ -91,11 +91,17 @@
 
         dataBindings.forEach(function (binding) {
             var component = findById(schema, binding.componentId);
+            var apiData;
             if (component && component.type === 'service' && binding.trigger === 'INIT') {
+                apiData = component.api && typeof component.api === 'object' ? component.api.data : null;
                 component.api = {
                     method: 'post',
                     url: actionUrl(binding.actionCode, binding.componentId)
                 };
+                //20260910 update by caipan 保留页面配置的报表编码等静态参数，供通用查询动作分派
+                if (apiData) {
+                    component.api.data = apiData;
+                }
             }
         });
 
@@ -289,6 +295,8 @@
         return function (api) {
             var url = typeof api === 'string' ? api : api.url;
             var requestData = typeof api === 'string' ? {} : (api.data || {});
+            var sourceComponent;
+            var configuredData;
             var target;
             if (String(url).indexOf('plm://') !== 0) {
                 if (!adapter.fetch) {
@@ -297,6 +305,21 @@
                 return adapter.fetch(api);
             }
             target = parsePlmUrl(url);
+            sourceComponent = findById(pagePackage.schema, target.componentId);
+            configuredData = sourceComponent && sourceComponent.api
+                && typeof sourceComponent.api === 'object' ? sourceComponent.api.data : null;
+            //20260910 update by caipan 只恢复原始JSON中的静态参数，动态模板必须使用AMIS计算后的值
+            requestData = Object.assign({}, requestData || {});
+            Object.keys(configuredData || {}).forEach(function (key) {
+                var value = configuredData[key];
+                if (requestData[key] === undefined
+                    && !(typeof value === 'string' && value.indexOf('${') !== -1)) {
+                    requestData[key] = value;
+                }
+            });
+            if (configuredData && configuredData.reportCode) {
+                requestData.reportCode = configuredData.reportCode;
+            }
             return Promise.resolve(adapter.executeAction(target.actionCode, requestData, adapter.context || {}))
                 .then(normalizeFetcherResult)
                 .then(function (result) {
@@ -354,6 +377,9 @@
         var scoped;
         var env = {
             fetcher: createFetcher(pagePackage, adapter),
+            getModalContainer: function () {
+                return global.document.body;
+            },
             jumpTo: function (target) {
                 if (String(target).indexOf('plm://search?') === 0) {
                     if (!adapter.openSearch) {
@@ -372,6 +398,10 @@
                         };
                     }
                     Promise.resolve(adapter.openSearch(searchTarget)).then(function (result) {
+                        //20260909 update by caipan Widget手动关闭搜索时不清空表单，也不显示错误提示
+                        if (result && result.cancelled) {
+                            return;
+                        }
                         applySearchResult(scoped, searchTarget, result || {});
                     }).catch(function (error) {
                         if (adapter.notifyError) {

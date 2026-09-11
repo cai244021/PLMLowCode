@@ -1,0 +1,209 @@
+{
+  "formatVersion": 1,
+  "pageCode": "JF_CHANGE_EXECUTION_REPORT",
+  "pageName": "变更执行智能报表",
+  "version": 1,
+  "schema": {
+    "type": "page",
+    "id": "u:change-execution-report-page",
+    "title": "变更执行智能报表",
+    "className": "bg-white",
+    "body": [
+      {
+        "type": "service",
+        "id": "u:change-execution-summary-service",
+        "name": "changeExecutionSummary",
+        "api": {"data": {"reportCode": "CHANGE_EXECUTION"}},
+        "body": [
+          {"type": "alert", "level": "${insight.level}", "showIcon": true, "body": "${insight.message}", "visibleOn": "${insight && insight.message}"},
+          {
+            "type": "cards",
+            "source": "${metrics || []}",
+            "columnsCount": 4,
+            "card": {
+              "className": "shadow-sm",
+              "header": {
+                "className": {
+                  "bg-blue-50": "${level === 'primary'}",
+                  "bg-red-50": "${level === 'danger'}",
+                  "bg-yellow-50": "${level === 'warning'}",
+                  "bg-green-50": "${level === 'success'}"
+                },
+                "title": "${label}",
+                "titleClassName": "font-semibold text-gray-700",
+                "subTitle": "",
+                "description": ""
+              },
+              "body": [
+                {
+                  "type": "button",
+                  "label": "${value}${unit}",
+                  "level": "${level}",
+                  "size": "lg",
+                  "className": "font-bold",
+                  "style": {"fontSize": "28px", "lineHeight": "36px", "height": "auto", "minWidth": "96px", "padding": "4px 20px"},
+                  "actionType": "button",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "reload",
+                          "componentName": "reportDetailList",
+                          "data": {"scope": "${scope}", "page": 1},
+                          "args": {"resetPage": true},
+                          "ignoreError": false
+                        }
+                      ]
+                    }
+                  }
+                },
+                {"type": "tpl", "tpl": "点击数字筛选下方明细", "className": "text-gray-500 m-t-sm"}
+              ]
+            }
+          },
+          {
+            "type": "grid",
+            "gap": "md",
+            "columns": [
+              {
+                "md": 6,
+                "body": {
+                  "type": "panel",
+                  "title": "${charts[0].title}",
+                  "visibleOn": "${charts && charts[0]}",
+                  "body": {
+                    "type": "chart",
+                    "height": 290,
+                    "replaceChartOption": true,
+                    "trackExpression": "${charts[0]|json}",
+                    "config": {
+                      "tooltip": {"trigger": "axis"},
+                      "grid": {"left": 40, "right": 20, "top": 20, "bottom": 45, "containLabel": true},
+                      "xAxis": {"type": "category", "data": "${charts[0].option.xAxis.data}", "axisLabel": {"interval": 0, "rotate": 20}},
+                      "yAxis": {"type": "value", "minInterval": 1},
+                      "series": [{"type": "bar", "data": "${charts[0].option.series[0].data}", "barMaxWidth": 48}]
+                    }
+                  }
+                }
+              },
+              {
+                "md": 6,
+                "body": {
+                  "type": "panel",
+                  "title": "${charts[1].title}",
+                  "visibleOn": "${charts && charts[1]}",
+                  "body": {
+                    "type": "chart",
+                    "height": 290,
+                    "replaceChartOption": true,
+                    "trackExpression": "${charts[1]|json}",
+                    "config": {
+                      "tooltip": {"trigger": "item"},
+                      "legend": {"bottom": 0},
+                      "series": [{"type": "pie", "radius": ["35%", "65%"], "center": ["50%", "45%"], "data": "${charts[1].option.series[0].data}"}]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+        "type": "crud",
+        "id": "u:change-execution-list",
+        "name": "reportDetailList",
+        "title": "变更明细",
+        "syncLocation": false,
+        "primaryField": "id",
+        "loadDataOnce": false,
+        "perPage": 20,
+        "alwaysShowPagination": true,
+        "perPageAvailable": [10, 20, 50, 100],
+        "api": {"data": {
+          "reportCode": "CHANGE_EXECUTION",
+          "scope": "${scope}",
+          "page": "${page}",
+          "perPage": "${perPage}",
+          "orderBy": "${orderBy}",
+          "orderDir": "${orderDir}",
+          "keyword": "${keyword}",
+          "changeType": "${changeType}",
+          "current": "${current}",
+          "projectName": "${projectName}",
+          "createdRange": "${createdRange}"
+        }},
+        "filterTogglable": true,
+        "filterDefaultVisible": true,
+        "filter": {
+          "type": "form",
+          "title": "",
+          "mode": "inline",
+          "wrapWithPanel": false,
+          "body": [
+            {"type": "input-text", "name": "keyword", "label": "编号/标题", "clearable": true},
+            {"type": "select", "name": "changeType", "label": "变更类型", "clearable": true, "source": "${filterOptions.changeType}"},
+            {"type": "select", "name": "current", "label": "成熟度状态", "clearable": true, "source": "${filterOptions.current}"},
+            {"type": "select", "name": "projectName", "label": "项目", "clearable": true, "searchable": true, "source": "${filterOptions.projectName}"},
+            {"type": "input-date-range", "name": "createdRange", "label": "创建日期", "format": "YYYY-MM-DD", "joinValues": false},
+            {"type": "submit", "label": "查询", "level": "primary"},
+            {"type": "reset", "label": "重置"}
+          ],
+          "actions": []
+        },
+        "headerToolbar": ["filter-toggler", "reload"],
+        "footerToolbar": ["statistics", "switch-per-page", "pagination"],
+        "columns": [
+          {"name": "name", "label": "变更编号", "width": 140, "fixed": "left", "sortable": true},
+          {"name": "attribute[Title]", "label": "标题", "width": 190, "sortable": true},
+          {"name": "attribute[JFProjectName]", "label": "项目名称", "width": 150, "sortable": true},
+          {"name": "currentLabel", "label": "成熟度状态", "width": 100, "sortable": true},
+          {"name": "changeTypeLabel", "label": "变更类型", "width": 120, "sortable": true},
+          {"name": "riskLevel", "label": "执行风险", "type": "mapping", "width": 90, "map": {
+            "success": "<span class='label label-success'>正常</span>",
+            "warning": "<span class='label label-warning'>临期</span>",
+            "danger": "<span class='label label-danger'>逾期</span>"
+          }},
+          {"name": "owner", "label": "所有者", "width": 110, "sortable": true},
+          {"name": "coordinator", "label": "变更协调人", "width": 120, "sortable": true},
+          {"name": "targetDate", "label": "目标关闭时间", "type": "date", "width": 130, "sortable": true},
+          {"name": "actualCloseDate", "label": "实际关闭时间", "type": "date", "width": 130, "sortable": true},
+          {"name": "cycleDays", "label": "执行周期(天)", "type": "number", "width": 110, "sortable": true},
+          {"name": "overdueDays", "label": "逾期天数", "type": "number", "width": 90, "sortable": true},
+          {"name": "originated", "label": "创建时间", "type": "datetime", "width": 165, "sortable": true},
+          {"name": "objectId", "label": "对象ID", "width": 220, "toggled": false}
+        ]
+          }
+        ]
+      }
+    ]
+  },
+  "plmConfig": {
+    "fieldCodes": ["DA_NAME", "DA_PROJECT_NAME", "DA_TITLE", "DA_CURRENT", "DA_CHANGE_TYPE", "DA_OWNER", "DA_ORIGINATED"],
+    "actionCodes": ["QUERY_PLM_REPORT_SUMMARY", "QUERY_PLM_REPORT_DETAILS"],
+    "context": {"objectIdParam": "objectId", "parentOidParam": "parentOID", "relIdParam": "relId"},
+    "fieldBindings": [],
+    "dataBindings": [
+      {"componentId": "u:change-execution-summary-service", "trigger": "INIT", "actionCode": "QUERY_PLM_REPORT_SUMMARY"}
+    ],
+    "actionBindings": [],
+    "tableBindings": [
+      {
+        "componentId": "u:change-execution-list",
+        "queryActionCode": "QUERY_PLM_REPORT_DETAILS",
+        "itemsPath": "data.items",
+        "totalPath": "data.total",
+        "objectIdField": "objectId",
+        "relIdField": "id[connection]",
+        "columnBindings": [
+          {"columnName": "name", "fieldCode": "DA_NAME"},
+          {"columnName": "attribute[JFProjectName]", "fieldCode": "DA_PROJECT_NAME"},
+          {"columnName": "attribute[Title]", "fieldCode": "DA_TITLE"},
+          {"columnName": "current", "fieldCode": "DA_CURRENT"},
+          {"columnName": "attribute[JFChangeType]", "fieldCode": "DA_CHANGE_TYPE"},
+          {"columnName": "owner", "fieldCode": "DA_OWNER"},
+          {"columnName": "originated", "fieldCode": "DA_ORIGINATED"}
+        ]
+      }
+    ],
+    "searchBindings": []
+  }
+}

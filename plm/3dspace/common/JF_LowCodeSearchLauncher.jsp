@@ -27,6 +27,38 @@
         var caller = window.opener || window.parent;
         var requestId = "<%=XSSUtil.encodeForJavaScript(context, requestId)%>";
         var searchParams = "<%=XSSUtil.encodeForJavaScript(context, searchParams)%>";
+        var completed = false;
+        var closeMonitor = null;
+        var searchWindow = null;
+
+        function publishToCaller(data) {
+            if (caller && !caller.closed && caller.postMessage) {
+                caller.postMessage(data, "*");
+            }
+            if (window.BroadcastChannel) {
+                var resultChannel = new BroadcastChannel("JF_LOWCODE_SEARCH_" + requestId);
+                resultChannel.postMessage(data);
+                window.setTimeout(function () { resultChannel.close(); }, 100);
+            }
+        }
+
+        function closeLauncherAsCancelled() {
+            if (completed) {
+                return;
+            }
+            completed = true;
+            if (closeMonitor) {
+                window.clearInterval(closeMonitor);
+            }
+            window.removeEventListener("message", forwardResult);
+            publishToCaller({
+                type: "JF_LOWCODE_SEARCH_CLOSED",
+                requestId: requestId,
+                cancelled: true
+            });
+            //20260909 update by caipan 为跨窗口消息留出发送时间后再关闭Launcher
+            window.setTimeout(function () { window.close(); }, 100);
+        }
 
         function forwardResult(event) {
             var data = event.data || {};
@@ -35,9 +67,11 @@
                     || data.requestId !== requestId) {
                 return;
             }
-            if (caller && !caller.closed && caller.postMessage) {
-                caller.postMessage(data, window.location.origin);
+            completed = true;
+            if (closeMonitor) {
+                window.clearInterval(closeMonitor);
             }
+            publishToCaller(data);
             try {
                 var searchWindow = event.source && event.source.top;
                 if (searchWindow && searchWindow !== window && !searchWindow.closed) {
@@ -57,14 +91,36 @@
         window.addEventListener("message", forwardResult);
 
         var configuredParams = new URLSearchParams(searchParams.replace(/^\?/, ""));
+        var configuredSubmitURL = configuredParams.get("submitURL") || "";
         configuredParams.delete("submitURL");
         configuredParams.delete("requestId");
         configuredParams.set("selection", "single");
         configuredParams.set("submitAction", "refreshCaller");
-        configuredParams.set("submitURL", "../common/JF_LowCodeSearchSubmit.jsp");
+        var bridgeSubmitURL = "../common/JF_LowCodeSearchSubmit.jsp";
+        if (configuredSubmitURL) {
+            bridgeSubmitURL += "?lowCodeSubmitURL=" + encodeURIComponent(configuredSubmitURL);
+        }
+        configuredParams.set("submitURL", bridgeSubmitURL);
         configuredParams.set("requestId", requestId);
-        showModalDialog("../common/emxFullSearch.jsp?" + configuredParams.toString(),
+        //20260909 update by caipan Widget保留Launcher桥接层，以便执行自定义提交JSP后仍能通知Widget
+        searchWindow = showModalDialog("../common/emxFullSearch.jsp?" + configuredParams.toString(),
                 850, 630, true, "Large");
+        closeMonitor = window.setInterval(function () {
+            try {
+                if (searchWindow && searchWindow.closed) {
+                    closeLauncherAsCancelled();
+                }
+            } catch (ignore) {
+                closeLauncherAsCancelled();
+            }
+        }, 300);
+        window.addEventListener("focus", function () {
+            window.setTimeout(function () {
+                if (!completed && (!searchWindow || searchWindow.closed)) {
+                    closeLauncherAsCancelled();
+                }
+            }, 100);
+        });
         window.setTimeout(function () {
             window.blur();
         }, 100);

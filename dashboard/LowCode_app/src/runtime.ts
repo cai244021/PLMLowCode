@@ -41,7 +41,7 @@ export async function loadRuntime(spaceUrl: string): Promise<void> {
 		loadStyle('jf-lowcode-runtime-css', `${base}/runtime.css?v=20260908-2`),
 		loadScript('jf-amis-sdk-js', `${base}/amis/sdk.js`)
 	]);
-	await loadScript('jf-lowcode-runtime-js', `${base}/runtime.js?v=20260908-2`);
+	await loadScript('jf-lowcode-runtime-js', `${base}/runtime.js?v=20260910-5`);
 	if (!window.JFLowCodeRuntime) throw new Error('PLM低代码解析引擎加载失败');
 }
 

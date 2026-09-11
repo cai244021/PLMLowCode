@@ -16,12 +16,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 /*
  * @description:和其他系统集成的JPO BI SRM ESB等
@@ -68,12 +74,15 @@ public class JF_LowCode_mxJPO extends DomainObject {
         String startTimeSelect = "attribute[JFDAStartTime]";
         String closeTimeSelect = "attribute[JFDACloseTime]";
         String extendedCloseTimeSelect = "attribute[JFDAExtensionTime]";
+        //20260910 update by caipan 报表直接读取关闭状态实际到达时间，避免把计划关闭时间当成实际关闭时间
+        String actualCloseTimeSelect = "state[Close].actual";
         StringList selects = new StringList();
         selects.addAll(Arrays.asList(DomainConstants.SELECT_ID, DomainConstants.SELECT_NAME,
                 DomainConstants.SELECT_OWNER, DomainConstants.SELECT_CURRENT, DomainConstants.SELECT_POLICY,
                 DomainConstants.SELECT_ORIGINATED, projectNameSelect, titleSelect, changeTypeSelect,
                 projectPhaseSelect, affectedPlantSelect, deviationReasonSelect, beforeChangeSelect,
-                afterChangeSelect, startTimeSelect, closeTimeSelect, extendedCloseTimeSelect));
+                afterChangeSelect, startTimeSelect, closeTimeSelect, extendedCloseTimeSelect,
+                actualCloseTimeSelect));
 
         String ownerWhere = JF_PublicMethodClass_mxJPO.buildStringInStrings(
                 "owner=='", context.getUser(), "'");
@@ -429,6 +438,947 @@ public class JF_LowCode_mxJPO extends DomainObject {
         Map<String, Object> result = new HashMap<>();
         result.put("options", options);
         return result;
+    }
+
+    /**
+     * 执行低代码搜索配置中的includeOIDprogram并清洗候选对象ID
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 达索搜索请求参数，包含lowCodeIncludeOIDprogram
+     * @return StringList 去空、去重后的候选对象ID
+     * @throws Exception 原候选程序执行失败或候选对象超过安全上限时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/9 18:00
+     */
+    public StringList filterIncludeSearchOIDsLowCode(Context context, String[] args) throws Exception {
+        return filterSearchOIDsLowCode(context, args,
+                "lowCodeIncludeOIDprogram", "includeOIDprogram");
+    }
+
+    /**
+     * 执行低代码搜索配置中的excludeOIDprogram并清洗排除对象ID
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 达索搜索请求参数，包含lowCodeExcludeOIDprogram
+     * @return StringList 去空、去重后的排除对象ID
+     * @throws Exception 原排除程序执行失败或排除对象超过安全上限时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/9 18:00
+     */
+    public StringList filterExcludeSearchOIDsLowCode(Context context, String[] args) throws Exception {
+        return filterSearchOIDsLowCode(context, args,
+                "lowCodeExcludeOIDprogram", "excludeOIDprogram");
+    }
+
+    /**
+     * 调用原达索搜索ID程序并统一执行数量保护
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 达索搜索请求参数
+     * @param delegateParameter 保存原JPO方法的参数名
+     * @param originalParameter 达索原始JPO参数名
+     * @return StringList 去空、去重后的对象ID
+     * @throws Exception 原搜索程序配置不合法、调用失败或结果超过5000条时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/9 18:00
+     */
+    private StringList filterSearchOIDsLowCode(Context context, String[] args,
+                                                String delegateParameter,
+                                                String originalParameter) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        String programSpec = stringValue(params.get(delegateParameter));
+        if (!programSpec.matches("[A-Za-z0-9_$.-]{1,150}:[A-Za-z0-9_$.-]{1,150}")) {
+            throw new IllegalArgumentException("低代码搜索候选程序配置不合法");
+        }
+        String[] programParts = programSpec.split(":", 2);
+        if ("JF_LowCode".equals(programParts[0])
+                && ("filterIncludeSearchOIDsLowCode".equals(programParts[1])
+                || "filterExcludeSearchOIDsLowCode".equals(programParts[1]))) {
+            throw new IllegalArgumentException("低代码搜索候选程序不允许循环调用");
+        }
+
+        Map delegateParams = new HashMap(params);
+        delegateParams.put(originalParameter, programSpec);
+        delegateParams.remove(delegateParameter);
+        StringList sourceIds = (StringList) JPO.invoke(context, programParts[0], null,
+                programParts[1], JPO.packArgs(delegateParams), StringList.class);
+        Set<String> uniqueIds = new LinkedHashSet<>();
+        if (sourceIds != null) {
+            for (Object item : sourceIds) {
+                String objectId = stringValue(item);
+                if (!UIUtil.isNullOrEmpty(objectId)) {
+                    uniqueIds.add(objectId);
+                }
+            }
+        }
+        if (uniqueIds.size() > 5000) {
+            throw new IllegalArgumentException("低代码搜索候选对象超过5000条，请增加索引过滤条件");
+        }
+        if (uniqueIds.size() > 2000) {
+            JF_LOGGER.warn("PLM low-code search has {} candidate IDs, client={}",
+                    uniqueIds.size(), stringValue(params.get("lowCodeSearchClient")));
+        }
+        StringList result = new StringList();
+        result.addAll(uniqueIds);
+        return result;
+    }
+
+    /**
+     * 查询通用PLM报表汇总数据
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 报表参数，必须包含白名单内的reportCode
+     * @return Map 包含metrics、charts、insight和filterOptions
+     * @throws Exception 报表编码不合法或PLM数据查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    public Map getReportSummaryLowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        String reportCode = validateReportCode(params.get("reportCode"));
+        List<Map<String, Object>> rows = loadReportRowsLowCode(context, reportCode);
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("reportCode", reportCode);
+        result.put("metrics", buildReportMetricsLowCode(context, reportCode, rows));
+        result.put("charts", buildReportChartsLowCode(context, reportCode, rows));
+        result.put("insight", buildReportInsightLowCode(context, reportCode, rows));
+        result.put("filterOptions", buildReportFilterOptionsLowCode(rows));
+        return result;
+    }
+
+    /**
+     * 查询通用PLM报表明细数据
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 报表编码、scope、筛选、排序和分页参数
+     * @return Map 包含当前页items和筛选后total
+     * @throws Exception 报表编码、筛选参数不合法或PLM数据查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    public Map getReportDetailsLowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        String reportCode = validateReportCode(params.get("reportCode"));
+        List<Map<String, Object>> source = loadReportRowsLowCode(context, reportCode);
+        List<Map<String, Object>> filtered = new ArrayList<>();
+        for (Map<String, Object> row : source) {
+            if (matchesReportFiltersLowCode(reportCode, row, params)) {
+                filtered.add(row);
+            }
+        }
+        sortReportRowsLowCode(reportCode, filtered, params);
+        int page = reportIntValue(params.get("page"), 1, 1, 100000);
+        int perPage = reportIntValue(params.get("perPage"), 20, 1, 200);
+        int fromIndex = (int) Math.min((long) (page - 1) * perPage, filtered.size());
+        int toIndex = Math.min(fromIndex + perPage, filtered.size());
+        MapList items = new MapList();
+        for (int index = fromIndex; index < toIndex; index++) {
+            items.add(filtered.get(index));
+        }
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("items", items);
+        result.put("total", filtered.size());
+        return result;
+    }
+
+    /**
+     * 校验通用报表编码白名单
+     **
+     * @param value 请求中的报表编码
+     * @return String 合法报表编码
+     * @throws IllegalArgumentException 编码为空或不在白名单时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private String validateReportCode(Object value) {
+        String reportCode = stringValue(value);
+        if (!Arrays.asList("APPROVAL_TASK", "PROJECT_TASK_STATUS", "CHANGE_EXECUTION")
+                .contains(reportCode)) {
+            throw new IllegalArgumentException("不支持的PLM报表编码: " + reportCode);
+        }
+        return reportCode;
+    }
+
+    /**
+     * 按报表编码加载当前用户有权访问的PLM数据
+     **
+     * @param context 当前PLM登录上下文
+     * @param reportCode 已校验的报表编码
+     * @return List 标准化报表行，保留ENOVIA原始select key
+     * @throws Exception PLM数据查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, Object>> loadReportRowsLowCode(Context context,
+                                                             String reportCode) throws Exception {
+        if ("APPROVAL_TASK".equals(reportCode)) {
+            return loadApprovalTaskRowsLowCode(context);
+        }
+        if ("PROJECT_TASK_STATUS".equals(reportCode)) {
+            return loadProjectTaskRowsLowCode(context);
+        }
+        return loadChangeExecutionRowsLowCode(context);
+    }
+
+    /**
+     * 复用达索我的任务查询并生成审核任务报表行
+     **
+     * @param context 当前PLM登录上下文
+     * @return List 当前用户、角色或用户组承接的审核任务
+     * @throws Exception 达索任务查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, Object>> loadApprovalTaskRowsLowCode(Context context) throws Exception {
+        MapList source = (MapList) JPO.invoke(context, "emxInboxTask", null,
+                "getMyDeskTasks", JPO.packArgs(new HashMap()), MapList.class);
+        List<Map<String, Object>> rows = new ArrayList<>();
+        String routeNameSelect = "from[Route Task].to.name";
+        String objectNameSelect = "from[Route Task].to.to[Route Scope].from.name";
+        String objectTitleSelect = "from[Route Task].to.to[Route Scope].from.attribute[Title]";
+        String objectIdSelect = "from[Route Task].to.to[Route Scope].from.id";
+        String dueDateSelect = "attribute[Scheduled Completion Date]";
+        String taskTypeSelect = "attribute[Route Action]";
+        String completeState = FrameworkUtil.lookupStateName(context,
+                DomainConstants.POLICY_INBOX_TASK, "state_Complete");
+        for (Object item : source) {
+            if (!(item instanceof Map)
+                    || !DomainConstants.TYPE_INBOX_TASK.equals(stringValue(((Map) item).get(DomainConstants.SELECT_TYPE)))) {
+                continue;
+            }
+            Map sourceRow = (Map) item;
+            Map<String, Object> row = new LinkedHashMap<>(sourceRow);
+            String taskId = stringValue(sourceRow.get(DomainConstants.SELECT_ID));
+            String title = firstReportValue(sourceRow, DomainConstants.SELECT_ATTRIBUTE_TITLE,
+                    DomainConstants.SELECT_NAME);
+            String current = stringValue(sourceRow.get(DomainConstants.SELECT_CURRENT));
+            if (current.equals(completeState)) {
+                continue;
+            }
+            String taskType = stringValue(sourceRow.get(taskTypeSelect));
+            Date dueDate = reportDateValue(sourceRow.get(dueDateSelect));
+            int overdueDays = dueDate == null || !dueDate.before(new Date())
+                    ? 0 : reportDaysBetween(dueDate, new Date());
+            int remainingDays = dueDate == null ? Integer.MAX_VALUE
+                    : reportDaysBetween(new Date(), dueDate);
+            String riskLevel = overdueDays > 0 ? "danger"
+                    : remainingDays <= 3 ? "warning" : "success";
+            row.put("id", taskId);
+            row.put("taskId", taskId);
+            row.put("name", title);
+            row.put("routeTitle", stringValue(sourceRow.get(routeNameSelect)));
+            row.put("taskType", taskType);
+            row.put("taskTypeLabel", reportRangeLabel(context, "Route Action", taskType));
+            row.put("businessObjectName", firstReportValue(sourceRow,
+                    objectTitleSelect, objectNameSelect));
+            row.put("current", current);
+            row.put("currentLabel", reportStateLabel(context,
+                    DomainConstants.POLICY_INBOX_TASK, current));
+            row.put("riskLevel", riskLevel);
+            row.put("dueDate", reportDateText(dueDate));
+            row.put("overdueDays", overdueDays);
+            row.put("owner", firstReportValue(sourceRow,
+                    "TaskAssignee", DomainConstants.SELECT_OWNER));
+            row.put("originated", reportDateText(reportDateValue(
+                    sourceRow.get(DomainConstants.SELECT_ORIGINATED))));
+            row.put("objectId", stringValue(sourceRow.get(objectIdSelect)));
+            row.put("_scope", overdueDays > 0 ? "overdue"
+                    : remainingDays <= 3 ? "dueSoon" : "normal");
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    /**
+     * 查询当前用户拥有的项目任务并生成状态报表行
+     **
+     * @param context 当前PLM登录上下文
+     * @return List 当前用户拥有且有权读取的项目任务
+     * @throws Exception 项目任务查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, Object>> loadProjectTaskRowsLowCode(Context context) throws Exception {
+        String plannedStartSelect = "attribute[Task Estimated Start Date]";
+        String plannedFinishSelect = "attribute[Task Estimated Finish Date]";
+        String actualFinishSelect = "attribute[Task Actual Finish Date]";
+        String progressSelect = "attribute[Percent Complete]";
+        String milestoneSelect = "attribute[Task Type]";
+        String projectNameSelect = "to[Project Access Key].from.from[Project Access List].to.name";
+        String predecessorSelect = "to[Dependency].from.name";
+        StringList selects = new StringList();
+        selects.addAll(Arrays.asList(DomainConstants.SELECT_ID, DomainConstants.SELECT_TYPE,
+                DomainConstants.SELECT_NAME, DomainConstants.SELECT_OWNER, DomainConstants.SELECT_CURRENT,
+                DomainConstants.SELECT_POLICY, DomainConstants.SELECT_ORIGINATED,
+                DomainConstants.SELECT_ATTRIBUTE_TITLE, plannedStartSelect, plannedFinishSelect,
+                actualFinishSelect, progressSelect, milestoneSelect, projectNameSelect,
+                predecessorSelect));
+        // 复用现有任务类型配置和“当前用户拥有”口径，再批量补齐报表select，避免复制任务类型白名单
+        MapList ownedTasks = (MapList) JPO.invoke(context, "JF_MyTask", null,
+                "getAllProjectTask", JPO.packArgs(new HashMap()), MapList.class);
+        StringList taskIds = new StringList();
+        for (Object item : ownedTasks) {
+            if (item instanceof Map) {
+                String taskId = stringValue(((Map) item).get(DomainConstants.SELECT_ID));
+                if (!UIUtil.isNullOrEmpty(taskId)) {
+                    taskIds.add(taskId);
+                }
+            }
+        }
+        MapList source = taskIds.size() == 0 ? new MapList()
+                : DomainObject.getInfo(context, taskIds.toStringArray(), selects);
+        List<Map<String, Object>> rows = new ArrayList<>();
+        for (Object item : source) {
+            Map sourceRow = (Map) item;
+            Map<String, Object> row = new LinkedHashMap<>(sourceRow);
+            String objectId = stringValue(sourceRow.get(DomainConstants.SELECT_ID));
+            String current = stringValue(sourceRow.get(DomainConstants.SELECT_CURRENT));
+            String policy = stringValue(sourceRow.get(DomainConstants.SELECT_POLICY));
+            Date plannedFinish = reportDateValue(sourceRow.get(plannedFinishSelect));
+            Date actualFinish = reportDateValue(sourceRow.get(actualFinishSelect));
+            boolean complete = "Complete".equals(current);
+            int delayDays = complete || plannedFinish == null || !plannedFinish.before(new Date())
+                    ? 0 : reportDaysBetween(plannedFinish, new Date());
+            int remainingDays = plannedFinish == null ? Integer.MAX_VALUE
+                    : reportDaysBetween(new Date(), plannedFinish);
+            String riskLevel = delayDays > 0 ? "danger"
+                    : !complete && remainingDays <= 7 ? "warning" : "success";
+            row.put("id", objectId);
+            row.put("objectId", objectId);
+            row.put("projectName", stringValue(sourceRow.get(projectNameSelect)));
+            row.put("name", firstReportValue(sourceRow,
+                    DomainConstants.SELECT_ATTRIBUTE_TITLE, DomainConstants.SELECT_NAME));
+            row.put("milestone", firstReportValue(sourceRow,
+                    milestoneSelect, DomainConstants.SELECT_TYPE));
+            row.put("current", current);
+            row.put("currentLabel", reportStateLabel(context, policy, current));
+            row.put("progress", reportNumberValue(sourceRow.get(progressSelect), complete ? 100 : 0));
+            row.put("riskLevel", riskLevel);
+            row.put("owner", stringValue(sourceRow.get(DomainConstants.SELECT_OWNER)));
+            row.put("plannedStart", reportDateText(reportDateValue(sourceRow.get(plannedStartSelect))));
+            row.put("plannedFinish", reportDateText(plannedFinish));
+            row.put("actualFinish", reportDateText(actualFinish));
+            row.put("delayDays", delayDays);
+            row.put("predecessor", stringValue(sourceRow.get(predecessorSelect)));
+            row.put("_scope", complete ? "complete" : delayDays > 0 ? "delayed" : "active");
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    /**
+     * 查询当前用户DA并生成变更执行报表行
+     **
+     * @param context 当前PLM登录上下文
+     * @return List 当前用户拥有的DA变更执行数据
+     * @throws Exception DA查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, Object>> loadChangeExecutionRowsLowCode(Context context) throws Exception {
+        Map queryParams = new HashMap();
+        queryParams.put("clientSide", true);
+        Map queryResult = getCurrentUserDAListLowCode(context, JPO.packArgs(queryParams));
+        MapList source = (MapList) queryResult.get("items");
+        List<Map<String, Object>> rows = new ArrayList<>();
+        for (Object item : source) {
+            Map sourceRow = (Map) item;
+            Map<String, Object> row = new LinkedHashMap<>(sourceRow);
+            String objectId = stringValue(sourceRow.get(DomainConstants.SELECT_ID));
+            String current = stringValue(sourceRow.get(DomainConstants.SELECT_CURRENT));
+            String changeType = stringValue(sourceRow.get("attribute[JFChangeType]"));
+            Date startDate = reportDateValue(sourceRow.get("attribute[JFDAStartTime]"));
+            Date closeDate = reportDateValue(sourceRow.get("attribute[JFDACloseTime]"));
+            Date extensionDate = reportDateValue(sourceRow.get("attribute[JFDAExtensionTime]"));
+            Date actualCloseDate = reportDateValue(sourceRow.get("state[Close].actual"));
+            Date targetDate = extensionDate == null ? closeDate : extensionDate;
+            boolean closed = "Close".equals(current);
+            int overdueDays = closed || targetDate == null || !targetDate.before(new Date())
+                    ? 0 : reportDaysBetween(targetDate, new Date());
+            int remainingDays = targetDate == null ? Integer.MAX_VALUE
+                    : reportDaysBetween(new Date(), targetDate);
+            String riskLevel = overdueDays > 0 ? "danger"
+                    : !closed && remainingDays <= 7 ? "warning" : "success";
+            row.put("id", objectId);
+            row.put("objectId", objectId);
+            row.put("currentLabel", reportStateLabel(context, "JFDA", current));
+            row.put("changeTypeLabel", reportRangeLabel(context, "JFChangeType", changeType));
+            row.put("riskLevel", riskLevel);
+            row.put("coordinator", stringValue(sourceRow.get(DomainConstants.SELECT_OWNER)));
+            row.put("targetDate", reportDateText(targetDate));
+            row.put("actualCloseDate", reportDateText(actualCloseDate));
+            row.put("cycleDays", startDate == null ? 0
+                    : reportDaysBetween(startDate, closed && actualCloseDate != null ? actualCloseDate : new Date()));
+            row.put("overdueDays", overdueDays);
+            row.put("_scope", closed ? "closed" : overdueDays > 0 ? "overdue"
+                    : "Implement".equals(current) ? "implement" : "active");
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    /**
+     * 根据通用报表请求执行scope及字段筛选
+     **
+     * @param reportCode 已校验的报表编码
+     * @param row 当前报表行
+     * @param params 请求参数
+     * @return boolean 当前行是否命中筛选条件
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private boolean matchesReportFiltersLowCode(String reportCode, Map<String, Object> row, Map params) {
+        String scope = stringValue(params.get("scope"));
+        if (!UIUtil.isNullOrEmpty(scope) && !"all".equals(scope)) {
+            String rowScope = stringValue(row.get("_scope"));
+            if ("highRisk".equals(scope)) {
+                if (!"danger".equals(stringValue(row.get("riskLevel")))) {
+                    return false;
+                }
+            } else if (!scope.equals(rowScope)) {
+                return false;
+            }
+        }
+        if ("APPROVAL_TASK".equals(reportCode)) {
+            return reportContains(row, params.get("keyword"), "name", "routeTitle", "businessObjectName")
+                    && reportEquals(row, params.get("taskType"), "taskType")
+                    && reportEquals(row, params.get("riskLevel"), "riskLevel")
+                    && reportDateRangeMatches(row.get("dueDate"), params.get("dueDateRange"));
+        }
+        if ("PROJECT_TASK_STATUS".equals(reportCode)) {
+            return reportContains(row, params.get("projectKeyword"), "projectName")
+                    && reportContains(row, params.get("taskKeyword"), "name")
+                    && reportEquals(row, params.get("current"), "current")
+                    && reportEquals(row, params.get("owner"), "owner")
+                    && reportDateRangeMatches(row.get("plannedFinish"), params.get("plannedRange"));
+        }
+        return reportContains(row, params.get("keyword"), "name", "attribute[Title]")
+                && reportEquals(row, params.get("changeType"), "attribute[JFChangeType]")
+                && reportEquals(row, params.get("current"), "current")
+                && reportEquals(row, params.get("projectName"), "attribute[JFProjectName]")
+                && reportDateRangeMatches(row.get("originated"), params.get("createdRange"));
+    }
+
+    /**
+     * 对报表明细执行白名单字段排序
+     **
+     * @param reportCode 已校验的报表编码
+     * @param rows 待排序报表行
+     * @param params 请求排序参数
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private void sortReportRowsLowCode(String reportCode, List<Map<String, Object>> rows, Map params) {
+        String orderBy = stringValue(params.get("orderBy"));
+        Set<String> allowed = new LinkedHashSet<>();
+        if ("APPROVAL_TASK".equals(reportCode)) {
+            allowed.addAll(Arrays.asList("name", "routeTitle", "taskType", "taskTypeLabel", "current", "currentLabel",
+                    "dueDate", "overdueDays", "owner", "originated"));
+        } else if ("PROJECT_TASK_STATUS".equals(reportCode)) {
+            allowed.addAll(Arrays.asList("projectName", "name", "milestone", "current", "currentLabel",
+                    "progress", "owner", "plannedStart", "plannedFinish", "actualFinish", "delayDays"));
+        } else {
+            allowed.addAll(Arrays.asList("name", "attribute[Title]", "attribute[JFProjectName]",
+                    "current", "currentLabel", "attribute[JFChangeType]", "changeTypeLabel", "owner", "targetDate", "actualCloseDate",
+                    "cycleDays", "overdueDays", "originated"));
+        }
+        if (!allowed.contains(orderBy)) {
+            return;
+        }
+        final String sortField = orderBy;
+        final int direction = "desc".equalsIgnoreCase(stringValue(params.get("orderDir"))) ? -1 : 1;
+        Collections.sort(rows, new Comparator<Map<String, Object>>() {
+            public int compare(Map<String, Object> left, Map<String, Object> right) {
+                Object leftValue = left.get(sortField);
+                Object rightValue = right.get(sortField);
+                if (leftValue instanceof Number && rightValue instanceof Number) {
+                    return direction * Double.compare(((Number) leftValue).doubleValue(),
+                            ((Number) rightValue).doubleValue());
+                }
+                return direction * stringValue(leftValue).compareToIgnoreCase(stringValue(rightValue));
+            }
+        });
+    }
+
+    /**
+     * 生成通用报表指标卡
+     **
+     * @param context 当前PLM登录上下文
+     * @param reportCode 已校验的报表编码
+     * @param rows 全量报表行
+     * @return List 动态指标卡数据
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, Object>> buildReportMetricsLowCode(Context context, String reportCode,
+                                                                List<Map<String, Object>> rows) {
+        boolean zh = "zh".equalsIgnoreCase(context.getLocale().getLanguage());
+        List<Map<String, Object>> metrics = new ArrayList<>();
+        if ("APPROVAL_TASK".equals(reportCode)) {
+            addReportMetric(metrics, "total", zh ? "待审核任务" : "Pending tasks", rows.size(), "all", "primary");
+            addReportMetric(metrics, "overdue", zh ? "已逾期" : "Overdue", countReportScope(rows, "overdue"), "overdue", "danger");
+            addReportMetric(metrics, "dueSoon", zh ? "三天内到期" : "Due in 3 days", countReportScope(rows, "dueSoon"), "dueSoon", "warning");
+            addReportMetric(metrics, "highRisk", zh ? "高风险" : "High risk", countReportRisk(rows, "danger"), "highRisk", "danger");
+        } else if ("PROJECT_TASK_STATUS".equals(reportCode)) {
+            addReportMetric(metrics, "total", zh ? "项目任务" : "Project tasks", rows.size(), "all", "primary");
+            addReportMetric(metrics, "delayed", zh ? "延期任务" : "Delayed", countReportScope(rows, "delayed"), "delayed", "danger");
+            addReportMetric(metrics, "active", zh ? "进行中" : "Active", countReportScope(rows, "active"), "active", "warning");
+            addReportMetric(metrics, "complete", zh ? "已完成" : "Complete", countReportScope(rows, "complete"), "complete", "success");
+        } else {
+            addReportMetric(metrics, "total", zh ? "变更总数" : "Changes", rows.size(), "all", "primary");
+            addReportMetric(metrics, "overdue", zh ? "逾期变更" : "Overdue", countReportScope(rows, "overdue"), "overdue", "danger");
+            addReportMetric(metrics, "implement", zh ? "执行中" : "Implementing", countReportScope(rows, "implement"), "implement", "warning");
+            addReportMetric(metrics, "closed", zh ? "已关闭" : "Closed", countReportScope(rows, "closed"), "closed", "success");
+        }
+        return metrics;
+    }
+
+    /**
+     * 生成通用报表图表配置
+     **
+     * @param context 当前PLM登录上下文
+     * @param reportCode 已校验的报表编码
+     * @param rows 全量报表行
+     * @return List 两个可由AMIS直接渲染的ECharts配置
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, Object>> buildReportChartsLowCode(Context context, String reportCode,
+                                                               List<Map<String, Object>> rows) {
+        boolean zh = "zh".equalsIgnoreCase(context.getLocale().getLanguage());
+        String firstField = "currentLabel";
+        String secondField = "APPROVAL_TASK".equals(reportCode) ? "taskTypeLabel"
+                : "PROJECT_TASK_STATUS".equals(reportCode) ? "projectName" : "changeTypeLabel";
+        String firstTitle = zh ? "状态分布" : "Status distribution";
+        String secondTitle = "APPROVAL_TASK".equals(reportCode)
+                ? (zh ? "任务类型分布" : "Task type distribution")
+                : "PROJECT_TASK_STATUS".equals(reportCode)
+                ? (zh ? "项目任务分布" : "Tasks by project")
+                : (zh ? "变更类型分布" : "Change type distribution");
+        List<Map<String, Object>> charts = new ArrayList<>();
+        charts.add(reportChart(firstTitle, countReportValues(rows, firstField), "bar"));
+        charts.add(reportChart(secondTitle, countReportValues(rows, secondField), "pie"));
+        return charts;
+    }
+
+    /**
+     * 生成报表智能提示
+     **
+     * @param context 当前PLM登录上下文
+     * @param reportCode 已校验的报表编码
+     * @param rows 全量报表行
+     * @return Map AMIS alert所需level和message
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private Map<String, Object> buildReportInsightLowCode(Context context, String reportCode,
+                                                          List<Map<String, Object>> rows) {
+        boolean zh = "zh".equalsIgnoreCase(context.getLocale().getLanguage());
+        int riskCount = countReportRisk(rows, "danger");
+        Map<String, Object> insight = new LinkedHashMap<>();
+        insight.put("level", riskCount > 0 ? "warning" : "success");
+        insight.put("message", riskCount > 0
+                ? (zh ? "当前有 " + riskCount + " 条高风险数据，请优先处理。"
+                : riskCount + " high-risk item(s) require attention.")
+                : (zh ? "当前未发现高风险数据。" : "No high-risk items were found."));
+        return insight;
+    }
+
+    /**
+     * 从报表行提取通用筛选选项
+     **
+     * @param rows 全量报表行
+     * @return Map 各筛选字段的label/value选项
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private Map<String, Object> buildReportFilterOptionsLowCode(List<Map<String, Object>> rows) {
+        Map<String, Object> options = new LinkedHashMap<>();
+        options.put("taskType", reportOptions(rows, "taskType", "taskTypeLabel"));
+        options.put("riskLevel", reportOptions(rows, "riskLevel", "riskLevel"));
+        options.put("current", reportOptions(rows, "current", "currentLabel"));
+        options.put("owner", reportOptions(rows, "owner", "owner"));
+        options.put("changeType", reportOptions(rows, "attribute[JFChangeType]", "changeTypeLabel"));
+        options.put("projectName", reportOptions(rows, "attribute[JFProjectName]", "attribute[JFProjectName]"));
+        return options;
+    }
+
+    /**
+     * 创建单个报表指标卡数据
+     **
+     * @param metrics 指标集合
+     * @param code 指标编码
+     * @param label 显示名称
+     * @param value 指标值
+     * @param scope 点击后明细范围
+     * @param level AMIS按钮级别
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private void addReportMetric(List<Map<String, Object>> metrics, String code, String label,
+                                 int value, String scope, String level) {
+        Map<String, Object> metric = new LinkedHashMap<>();
+        metric.put("code", code);
+        metric.put("label", label);
+        metric.put("value", value);
+        metric.put("unit", "");
+        metric.put("scope", scope);
+        metric.put("level", level);
+        metric.put("description", "");
+        metrics.add(metric);
+    }
+
+    /**
+     * 将分组计数转换为ECharts配置
+     **
+     * @param title 图表标题
+     * @param values 分组计数
+     * @param type bar或pie
+     * @return Map 图表标题、通用数据和option
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private Map<String, Object> reportChart(String title, Map<String, Integer> values, String type) {
+        Map<String, Object> chart = new LinkedHashMap<>();
+        chart.put("title", title);
+        chart.put("categories", new ArrayList<>(values.keySet()));
+        chart.put("values", new ArrayList<>(values.values()));
+        List<Map<String, Object>> chartData = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : values.entrySet()) {
+            Map<String, Object> dataItem = new LinkedHashMap<>();
+            dataItem.put("name", entry.getKey());
+            dataItem.put("value", entry.getValue());
+            chartData.add(dataItem);
+        }
+        chart.put("data", chartData);
+        Map<String, Object> option = new LinkedHashMap<>();
+        option.put("tooltip", new LinkedHashMap<>());
+        List<Map<String, Object>> series = new ArrayList<>();
+        Map<String, Object> seriesItem = new LinkedHashMap<>();
+        seriesItem.put("type", type);
+        if ("pie".equals(type)) {
+            seriesItem.put("radius", Arrays.asList("35%", "65%"));
+            seriesItem.put("data", chartData);
+        } else {
+            Map<String, Object> xAxis = new LinkedHashMap<>();
+            xAxis.put("type", "category");
+            xAxis.put("data", new ArrayList<>(values.keySet()));
+            option.put("xAxis", xAxis);
+            Map<String, Object> yAxis = new LinkedHashMap<>();
+            yAxis.put("type", "value");
+            option.put("yAxis", yAxis);
+            seriesItem.put("data", new ArrayList<>(values.values()));
+        }
+        series.add(seriesItem);
+        option.put("series", series);
+        chart.put("option", option);
+        return chart;
+    }
+
+    /**
+     * 统计报表指定字段的分组数量
+     **
+     * @param rows 报表行
+     * @param field 分组字段
+     * @return Map 分组名称及数量
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private Map<String, Integer> countReportValues(List<Map<String, Object>> rows, String field) {
+        Map<String, Integer> values = new LinkedHashMap<>();
+        for (Map<String, Object> row : rows) {
+            String key = stringValue(row.get(field));
+            if (UIUtil.isNullOrEmpty(key)) {
+                key = "-";
+            }
+            values.put(key, values.containsKey(key) ? values.get(key) + 1 : 1);
+        }
+        return values;
+    }
+
+    /**
+     * 构造去重后的AMIS下拉选项
+     **
+     * @param rows 报表行
+     * @param valueField 选项值字段
+     * @param labelField 选项显示字段
+     * @return List label/value选项
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private List<Map<String, String>> reportOptions(List<Map<String, Object>> rows,
+                                                     String valueField, String labelField) {
+        Map<String, String> unique = new LinkedHashMap<>();
+        for (Map<String, Object> row : rows) {
+            String value = stringValue(row.get(valueField));
+            if (!UIUtil.isNullOrEmpty(value)) {
+                String label = firstReportValue(row, labelField, valueField);
+                unique.put(value, UIUtil.isNullOrEmpty(label) ? value : label);
+            }
+        }
+        List<Map<String, String>> options = new ArrayList<>();
+        for (Map.Entry<String, String> entry : unique.entrySet()) {
+            Map<String, String> option = new LinkedHashMap<>();
+            option.put("value", entry.getKey());
+            option.put("label", entry.getValue());
+            options.add(option);
+        }
+        return options;
+    }
+
+    /**
+     * 判断报表字段是否包含关键字
+     **
+     * @param row 报表行
+     * @param keyword 关键字
+     * @param fields 参与匹配的字段
+     * @return boolean 未输入关键字或任一字段命中时返回true
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private boolean reportContains(Map<String, Object> row, Object keyword, String... fields) {
+        String expected = stringValue(keyword).toLowerCase();
+        if (UIUtil.isNullOrEmpty(expected)) {
+            return true;
+        }
+        for (String field : fields) {
+            if (stringValue(row.get(field)).toLowerCase().contains(expected)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断报表字段是否等于筛选值
+     **
+     * @param row 报表行
+     * @param expected 筛选值
+     * @param field 字段名
+     * @return boolean 未选择或值相等时返回true
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private boolean reportEquals(Map<String, Object> row, Object expected, String field) {
+        String value = stringValue(expected);
+        return UIUtil.isNullOrEmpty(value) || value.equals(stringValue(row.get(field)));
+    }
+
+    /**
+     * 判断PLM日期是否落在AMIS日期范围内
+     **
+     * @param value 当前行日期
+     * @param range 日期范围参数
+     * @return boolean 未选择范围或日期在范围内时返回true
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private boolean reportDateRangeMatches(Object value, Object range) {
+        if (!(range instanceof List) || ((List) range).size() < 2) {
+            return true;
+        }
+        Date current = reportDateValue(value);
+        Date start = reportDateValue(((List) range).get(0));
+        Date end = reportDateValue(((List) range).get(1));
+        return current != null && (start == null || !current.before(start))
+                && (end == null || !current.after(end));
+    }
+
+    /**
+     * 读取报表行中首个非空字段
+     **
+     * @param row 报表行
+     * @param fields 候选字段
+     * @return String 首个非空值
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private String firstReportValue(Map row, String... fields) {
+        for (String field : fields) {
+            String value = stringValue(row.get(field));
+            if (!UIUtil.isNullOrEmpty(value)) {
+                return value;
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 解析报表整数参数并限制范围
+     **
+     * @param value 参数值
+     * @param defaultValue 默认值
+     * @param min 最小值
+     * @param max 最大值
+     * @return int 合法整数
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private int reportIntValue(Object value, int defaultValue, int min, int max) {
+        try {
+            int result = value instanceof Number ? ((Number) value).intValue()
+                    : Integer.parseInt(stringValue(value));
+            return Math.max(min, Math.min(max, result));
+        } catch (Exception ignored) {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * 解析报表数值字段
+     **
+     * @param value PLM字段值
+     * @param defaultValue 默认值
+     * @return int 取整后的数值
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private int reportNumberValue(Object value, int defaultValue) {
+        try {
+            return (int) Math.round(Double.parseDouble(stringValue(value)));
+        } catch (Exception ignored) {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * 解析Matrix日期或ISO日期
+     **
+     * @param value 日期值
+     * @return Date 可计算日期，空值或格式不合法时返回null
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private Date reportDateValue(Object value) {
+        String text = stringValue(value);
+        if (UIUtil.isNullOrEmpty(text) || "-".equals(text)) {
+            return null;
+        }
+        try {
+            return eMatrixDateFormat.getJavaDate(text);
+        } catch (Exception ignored) {
+            for (String pattern : Arrays.asList("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd")) {
+                try {
+                    return new SimpleDateFormat(pattern).parse(text);
+                } catch (Exception parseIgnored) {
+                    // 尝试下一种受支持格式
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 将日期统一为AMIS可识别格式
+     **
+     * @param value 日期值
+     * @return String yyyy-MM-dd HH:mm:ss格式，空日期返回空字符串
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private String reportDateText(Date value) {
+        return value == null ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(value);
+    }
+
+    /**
+     * 计算两个日期相差的自然天数
+     **
+     * @param start 开始日期
+     * @param end 结束日期
+     * @return int 非负天数
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private int reportDaysBetween(Date start, Date end) {
+        if (start == null || end == null || !end.after(start)) {
+            return 0;
+        }
+        long millis = end.getTime() - start.getTime();
+        return (int) Math.ceil(millis / 86400000.0d);
+    }
+
+    /**
+     * 获取PLM状态国际化名称
+     **
+     * @param context 当前PLM登录上下文
+     * @param policyName 策略名称
+     * @param stateName 状态名称
+     * @return String 国际化名称，解析失败回退原值
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private String reportStateLabel(Context context, String policyName, String stateName) {
+        if (UIUtil.isNullOrEmpty(policyName) || UIUtil.isNullOrEmpty(stateName)) {
+            return stateName;
+        }
+        try {
+            String label = EnoviaResourceBundle.getStateI18NString(
+                    context, policyName, stateName, context.getLocale().getLanguage());
+            return UIUtil.isNullOrEmpty(label) ? stateName : label;
+        } catch (Exception ignored) {
+            return stateName;
+        }
+    }
+
+    /**
+     * 获取PLM属性Range国际化名称
+     **
+     * @param context 当前PLM登录上下文
+     * @param attributeName 属性名称
+     * @param rangeValue Range原值
+     * @return String 国际化名称，解析失败回退原值
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private String reportRangeLabel(Context context, String attributeName, String rangeValue) {
+        if (UIUtil.isNullOrEmpty(rangeValue)) {
+            return rangeValue;
+        }
+        try {
+            String label = EnoviaResourceBundle.getRangeI18NString(
+                    context, attributeName, rangeValue, context.getLocale().getLanguage());
+            return UIUtil.isNullOrEmpty(label) ? rangeValue : label;
+        } catch (Exception ignored) {
+            return rangeValue;
+        }
+    }
+
+    /**
+     * 统计指定scope的报表行
+     **
+     * @param rows 报表行
+     * @param scope scope值
+     * @return int 命中数量
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private int countReportScope(List<Map<String, Object>> rows, String scope) {
+        int count = 0;
+        for (Map<String, Object> row : rows) {
+            if (scope.equals(stringValue(row.get("_scope")))) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 统计指定风险级别的报表行
+     **
+     * @param rows 报表行
+     * @param riskLevel 风险级别
+     * @return int 命中数量
+     * @author caipan by codex
+     * @date 2026/9/10 16:00
+     */
+    private int countReportRisk(List<Map<String, Object>> rows, String riskLevel) {
+        int count = 0;
+        for (Map<String, Object> row : rows) {
+            if (riskLevel.equals(stringValue(row.get("riskLevel")))) {
+                count++;
+            }
+        }
+        return count;
     }
 
 
