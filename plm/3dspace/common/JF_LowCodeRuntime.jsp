@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="JFLowCode/amis/sdk.css">
     <link rel="stylesheet" href="JFLowCode/amis/helper.css">
     <link rel="stylesheet" href="JFLowCode/amis/iconfont.css">
-    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260908-2">
+    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260912-1">
 </head>
 <body>
 <div id="jf-lowcode-root">页面加载中...</div>
@@ -41,7 +41,7 @@
     <%@include file="./enoviaCSRFTokenInjection.inc"%>
 </form>
 <script src="JFLowCode/amis/sdk.js"></script>
-<script src="JFLowCode/runtime.js?v=20260910-5"></script>
+<script src="JFLowCode/runtime.js?v=20260912-5"></script>
 <script src="scripts/emxUIConstants.js"></script>
 <script src="scripts/emxUICore.js"></script>
 <script src="scripts/emxUIModal.js"></script>
@@ -167,6 +167,50 @@
         });
     }
 
+    function bindTableDrop(target, onDrop) {
+        return new Promise(function (resolve, reject) {
+            var requireFunctions = [];
+            function appendRequire(frame) {
+                try {
+                    if (frame && typeof frame.require === 'function'
+                            && requireFunctions.indexOf(frame.require) < 0) {
+                        requireFunctions.push(frame.require);
+                    }
+                } catch (ignore) {}
+            }
+            appendRequire(window.parent);
+            appendRequire(window.top);
+            appendRequire(window);
+            if (!requireFunctions.length) {
+                reject(new Error('\u5f53\u524dSpace\u9875\u9762\u4e0d\u652f\u6301\u8fbe\u7d22\u62d6\u62fd\u6a21\u5757'));
+                return;
+            }
+            function loadFrom(index) {
+                if (index >= requireFunctions.length) {
+                    reject(new Error('\u8fbe\u7d22\u62d6\u62fd\u6a21\u5757\u52a0\u8f7d\u5931\u8d25'));
+                    return;
+                }
+                try {
+                    requireFunctions[index](['DS/DataDragAndDrop/DataDragAndDrop'], function (DataDragAndDrop) {
+                        DataDragAndDrop.droppable(target, {
+                            drop: function (data) {
+                                target.classList.remove('jf-lowcode-drop-active');
+                                onDrop(data);
+                            },
+                            enter: function () { target.classList.add('jf-lowcode-drop-active'); },
+                            over: function () {},
+                            leave: function () { target.classList.remove('jf-lowcode-drop-active'); }
+                        });
+                        resolve(function () { DataDragAndDrop.unbind(target); });
+                    }, function () { loadFrom(index + 1); });
+                } catch (error) {
+                    loadFrom(index + 1);
+                }
+            }
+            loadFrom(0);
+        });
+    }
+
     function loadPagePackage() {
         return fetch('JF_LowCodePage.jsp?pageCode=' + encodeURIComponent(pageCode) + '&_=' + Date.now(), {
             credentials: 'same-origin',
@@ -189,6 +233,7 @@
             pagePackage: pagePackage,
             adapter: {
                 context: context,
+                bindTableDrop: bindTableDrop,
                 executeAction: executeAction,
                 openSearch: openSearch,
                 notifyError: function (error) {

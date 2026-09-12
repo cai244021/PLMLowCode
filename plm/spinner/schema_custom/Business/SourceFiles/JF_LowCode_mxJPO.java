@@ -104,6 +104,159 @@ public class JF_LowCode_mxJPO extends DomainObject {
     }
 
     /**
+     * 按对象ID查询可拖入DA列表的一行数据
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 查询参数，包含DA对象objectId
+     * @return Map 与DA列表列绑定一致的对象数据
+     * @throws Exception 对象不存在、类型不匹配、非当前用户数据或无权访问时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/12 17:20
+     */
+    public Map getDATableRowLowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        String objectId = stringValue(params.get("objectId"));
+        if (!objectId.matches("[A-Za-z0-9.:-]{1,100}")) {
+            throw new IllegalArgumentException("DA对象ID不合法");
+        }
+
+        StringList selects = StringList.create(
+                DomainConstants.SELECT_ID, DomainConstants.SELECT_TYPE, DomainConstants.SELECT_NAME,
+                DomainConstants.SELECT_OWNER, DomainConstants.SELECT_CURRENT, DomainConstants.SELECT_POLICY,
+                DomainConstants.SELECT_ORIGINATED, "attribute[JFProjectName]", "attribute[Title]",
+                "attribute[JFChangeType]", "attribute[JFProjectPhase]", "attribute[JFAffectsFactory]",
+                "attribute[JFReasonDeviation]", "attribute[JFBeforeChange]", "attribute[JFAfterChange]",
+                "attribute[JFDAStartTime]", "attribute[JFDACloseTime]", "attribute[JFDAExtensionTime]");
+        Map row = DomainObject.newInstance(context, objectId).getInfo(context, selects);
+        if (!"JFDA".equals(UIUtil.getValue(row, DomainConstants.SELECT_TYPE))) {
+            throw new IllegalArgumentException("所选对象不是DA申请单");
+        }
+        if (!context.getUser().equals(UIUtil.getValue(row, DomainConstants.SELECT_OWNER))) {
+            throw new IllegalArgumentException("只能加载当前用户拥有的DA申请单");
+        }
+        return row;
+    }
+
+    /**
+     * 查询DA详情页所需的特性、零件、流程、生命周期和附件数据
+     **
+     * @param context 当前PLM登录上下文
+     * @param args 查询参数，包含DA对象objectId
+     * @return Map 包含DA特性及五页签所需数据
+     * @throws Exception 对象不存在、类型不匹配、无权访问或数据查询失败时抛出异常
+     * @author caipan by codex
+     * @date 2026/9/12 16:30
+     */
+    public Map getDADetailLowCode(Context context, String[] args) throws Exception {
+        Map params = JPO.unpackArgs(args);
+        String objectId = stringValue(params.get("objectId"));
+        if (!objectId.matches("[A-Za-z0-9.:-]{1,100}")) {
+            throw new IllegalArgumentException("DA对象ID不合法");
+        }
+
+        DomainObject daObj = DomainObject.newInstance(context, objectId);
+        StringList propertySelects = StringList.create(
+                DomainConstants.SELECT_ID, DomainConstants.SELECT_TYPE, DomainConstants.SELECT_NAME,
+                DomainConstants.SELECT_REVISION, DomainConstants.SELECT_POLICY, DomainConstants.SELECT_CURRENT,
+                DomainConstants.SELECT_DESCRIPTION, DomainConstants.SELECT_OWNER, DomainConstants.SELECT_ORIGINATED,
+                DomainConstants.SELECT_MODIFIED, "attribute[Title]", "attribute[JFProjectName]",
+                "attribute[JFProjectPhase]", "attribute[JFChangeType]", "attribute[JFAffectsFactory]",
+                "attribute[JFReasonDeviation]", "attribute[JFBeforeChange]", "attribute[JFAfterChange]",
+                "attribute[JFDAStartTime]", "attribute[JFDACloseTime]", "attribute[JFDAExtensionTime]",
+                "attribute[JFDAExtensionTimeBak]", "attribute[JFDADelayCount]", "attribute[JFDAIsDelay]");
+        Map daInfo = daObj.getInfo(context, propertySelects);
+        if (!"JFDA".equals(UIUtil.getValue(daInfo, DomainConstants.SELECT_TYPE))) {
+            throw new IllegalArgumentException("所选对象不是DA申请单");
+        }
+        if (!context.getUser().equals(UIUtil.getValue(daInfo, DomainConstants.SELECT_OWNER))) {
+            throw new IllegalArgumentException("无权查看该DA申请单");
+        }
+
+        StringList partSelects = StringList.create(
+                DomainConstants.SELECT_ID, DomainConstants.SELECT_NAME, DomainConstants.SELECT_REVISION,
+                DomainConstants.SELECT_CURRENT, DomainConstants.SELECT_DESCRIPTION, DomainConstants.SELECT_OWNER,
+                "attribute[EnterpriseExtension.V_PartNumber]", "attribute[JF_VPMReference.JF_PartNameEN]",
+                "attribute[JF_VPMReference.JF_PartNameCN]");
+        MapList parts = daObj.getRelatedObjects(context, "JFDA2VPMReference", "VPMReference",
+                partSelects, new StringList(), false, true, (short) 1, "", "", 0);
+
+        StringList processSelects = StringList.create(
+                DomainConstants.SELECT_ID, DomainConstants.SELECT_NAME, DomainConstants.SELECT_CURRENT,
+                DomainConstants.SELECT_OWNER, DomainConstants.SELECT_ORIGINATED, DomainConstants.SELECT_MODIFIED,
+                "attribute[Title]", "attribute[Route Status]");
+        StringList processRelSelects = StringList.create("attribute[Route Base State]");
+        MapList processes = daObj.getRelatedObjects(context, DomainConstants.RELATIONSHIP_OBJECT_ROUTE,
+                DomainConstants.TYPE_ROUTE, processSelects, processRelSelects,
+                false, true, (short) 1, "", "", 0);
+
+        String policyName = UIUtil.getValue(daInfo, DomainConstants.SELECT_POLICY);
+        String currentState = UIUtil.getValue(daInfo, DomainConstants.SELECT_CURRENT);
+        StateRequirementList states = new Policy(policyName).getStateRequirements(context);
+        StringList lifecycleSelects = new StringList();
+        for (Object itemState : states) {
+            lifecycleSelects.add("state[" + ((StateRequirement) itemState).getName() + "].actual");
+        }
+        Map lifecycleInfo = daObj.getInfo(context, lifecycleSelects);
+        MapList lifecycle = new MapList();
+        int stateIndex = 0;
+        boolean reachedCurrent = false;
+        for (Object itemState : states) {
+            String stateName = ((StateRequirement) itemState).getName();
+            Map<String, Object> stateRow = new LinkedHashMap<>();
+            stateRow.put("sequence", ++stateIndex);
+            stateRow.put("state", stateName);
+            stateRow.put("stateLabel", EnoviaResourceBundle.getStateI18NString(
+                    context, policyName, stateName, context.getLocale().getLanguage()));
+            stateRow.put("actualDate", UIUtil.getValue(lifecycleInfo, "state[" + stateName + "].actual"));
+            if (stateName.equals(currentState)) {
+                stateRow.put("status", "CURRENT");
+                reachedCurrent = true;
+            } else {
+                stateRow.put("status", reachedCurrent ? "PENDING" : "COMPLETED");
+            }
+            lifecycle.add(stateRow);
+        }
+
+        StringList attachmentSelects = StringList.create(
+                DomainConstants.SELECT_ID, DomainConstants.SELECT_NAME, DomainConstants.SELECT_REVISION,
+                DomainConstants.SELECT_CURRENT, DomainConstants.SELECT_DESCRIPTION, DomainConstants.SELECT_OWNER,
+                DomainConstants.SELECT_MODIFIED, "attribute[Title]");
+        MapList attachments = daObj.getRelatedObjects(context, "Reference Document", "Document",
+                attachmentSelects, new StringList(), false, true, (short) 1, "", "", 0);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("objectId", objectId);
+        result.put("type", UIUtil.getValue(daInfo, DomainConstants.SELECT_TYPE));
+        result.put("name", UIUtil.getValue(daInfo, DomainConstants.SELECT_NAME));
+        result.put("revision", UIUtil.getValue(daInfo, DomainConstants.SELECT_REVISION));
+        result.put("policy", policyName);
+        result.put("current", currentState);
+        result.put("description", UIUtil.getValue(daInfo, DomainConstants.SELECT_DESCRIPTION));
+        result.put("owner", UIUtil.getValue(daInfo, DomainConstants.SELECT_OWNER));
+        result.put("originated", UIUtil.getValue(daInfo, DomainConstants.SELECT_ORIGINATED));
+        result.put("modified", UIUtil.getValue(daInfo, DomainConstants.SELECT_MODIFIED));
+        result.put("title", UIUtil.getValue(daInfo, "attribute[Title]"));
+        result.put("projectName", UIUtil.getValue(daInfo, "attribute[JFProjectName]"));
+        result.put("projectPhase", UIUtil.getValue(daInfo, "attribute[JFProjectPhase]"));
+        result.put("changeType", UIUtil.getValue(daInfo, "attribute[JFChangeType]"));
+        result.put("affectedPlant", UIUtil.getValue(daInfo, "attribute[JFAffectsFactory]"));
+        result.put("deviationReason", UIUtil.getValue(daInfo, "attribute[JFReasonDeviation]"));
+        result.put("beforeChange", UIUtil.getValue(daInfo, "attribute[JFBeforeChange]"));
+        result.put("afterChange", UIUtil.getValue(daInfo, "attribute[JFAfterChange]"));
+        result.put("startTime", UIUtil.getValue(daInfo, "attribute[JFDAStartTime]"));
+        result.put("closeTime", UIUtil.getValue(daInfo, "attribute[JFDACloseTime]"));
+        result.put("extensionTime", UIUtil.getValue(daInfo, "attribute[JFDAExtensionTime]"));
+        result.put("extensionTimeBak", UIUtil.getValue(daInfo, "attribute[JFDAExtensionTimeBak]"));
+        result.put("delayCount", UIUtil.getValue(daInfo, "attribute[JFDADelayCount]"));
+        result.put("isDelay", UIUtil.getValue(daInfo, "attribute[JFDAIsDelay]"));
+        result.put("parts", parts);
+        result.put("processes", processes);
+        result.put("lifecycle", lifecycle);
+        result.put("attachments", attachments);
+        return result;
+    }
+
+    /**
      * 按当前PLM登录语言解析页面字段标题和属性Range选项
      **
      * @param context 当前PLM登录上下文
@@ -551,7 +704,7 @@ public class JF_LowCode_mxJPO extends DomainObject {
      **
      * @param context 当前PLM登录上下文
      * @param args 报表编码、scope、筛选、排序和分页参数
-     * @return Map 包含当前页items和筛选后total
+     * @return Map 包含当前页items、筛选后total和动态过滤选项
      * @throws Exception 报表编码、筛选参数不合法或PLM数据查询失败时抛出异常
      * @author caipan by codex
      * @date 2026/9/10 16:00
@@ -578,6 +731,8 @@ public class JF_LowCode_mxJPO extends DomainObject {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("items", items);
         result.put("total", filtered.size());
+        //20260911 update by caipan 明细CRUD使用独立数据域，直接返回全量可见数据生成的过滤选项
+        result.put("filterOptions", buildReportFilterOptionsLowCode(source));
         return result;
     }
 

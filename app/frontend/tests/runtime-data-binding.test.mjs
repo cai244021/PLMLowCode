@@ -5,19 +5,29 @@ import vm from 'node:vm';
 
 const source = readFileSync(new URL('../../../plm/3dspace/common/JFLowCode/runtime.js', import.meta.url), 'utf8');
 let capturedEnv;
+let capturedData;
 const modalContainer = {};
+const bodyClasses = new Set();
+const documentBody = {classList: {add: value => bodyClasses.add(value)}};
 const sandbox = {
   window: {
-    document: {body: modalContainer},
-    amisRequire: () => ({embed: (_container, _schema, _data, env) => {
+    document: {
+      body: documentBody,
+      querySelector: selector => selector === '#root' || selector === '.amis-scope' ? modalContainer : null
+    },
+    amisRequire: () => ({embed: (_container, _schema, data, env) => {
       capturedEnv = env;
+      capturedData = data;
       return {getComponentById: () => ({setValues: () => assert.fail('取消搜索不应回填表单')})};
     }})
   },
   URLSearchParams
 };
 vm.runInNewContext(source, sandbox);
-const {compilePackage, createFetcher, parseSearchTarget, applySearchResult} = sandbox.window.JFLowCodeRuntime;
+const {
+  compilePackage, createFetcher, parseSearchTarget, applySearchResult,
+  parseDroppedItems, validateDroppedItems, mergeDroppedRows
+} = sandbox.window.JFLowCodeRuntime;
 
 test('页面初始化绑定为Service注入受控查询API且不修改原Schema', () => {
   const pagePackage = {
@@ -49,6 +59,27 @@ test('页面初始化绑定保留通用报表查询的静态参数', () => {
   const compiled = compilePackage(pagePackage);
   assert.equal(compiled.body[0].api.url, 'plm://QUERY_PLM_REPORT_SUMMARY?componentId=u%3Areport-service');
   assert.deepEqual({...compiled.body[0].api.data}, {reportCode: 'APPROVAL_TASK', scope: 'all'});
+});
+
+test('页面初始化绑定保留Service动态请求跟踪条件', () => {
+  const pagePackage = {
+    schema: {
+      type: 'page',
+      body: [{
+        id: 'u:detail-service',
+        type: 'service',
+        api: {data: {objectId: '${objectId}'}, trackExpression: '${objectId}'}
+      }]
+    },
+    plmConfig: {
+      dataBindings: [{componentId: 'u:detail-service', trigger: 'INIT', actionCode: 'QUERY_DETAIL'}]
+    }
+  };
+
+  const compiled = compilePackage(pagePackage);
+  assert.equal(compiled.body[0].api.url, 'plm://QUERY_DETAIL?componentId=u%3Adetail-service');
+  assert.equal(compiled.body[0].api.trackExpression, '${objectId}');
+  assert.deepEqual({...compiled.body[0].api.data}, {objectId: '${objectId}'});
 });
 
 test('请求出口从原始JSON恢复AMIS遗漏的报表静态参数', async () => {
@@ -141,11 +172,32 @@ test('PLM元数据自动替换表单和Table标题并用Range原值映射国际�
   const metadata = {fields: {CHANGE_TYPE: {label: 'Change Type', options: [{value: 'VAVE', label: 'Value Analysis'}]}}};
   const compiled = compilePackage(pagePackage, metadata);
   assert.equal(compiled.body[0].label, 'Change Type');
-  assert.deepEqual(compiled.body[0].options, [{value: 'VAVE', label: 'Value Analysis'}]);
+  assert.equal(compiled.body[0].options, undefined);
+  assert.equal(compiled.body[0].source, '${__plmFieldOptions.CHANGE_TYPE}');
   assert.equal(compiled.body[1].columns[0].name, 'attribute[JFChangeType]');
   assert.equal(compiled.body[1].columns[0].label, 'Change Type');
   assert.equal(compiled.body[1].columns[0].type, 'mapping');
   assert.deepEqual({...compiled.body[1].columns[0].map}, {VAVE: 'Value Analysis'});
+});
+
+test('PLM Range选项注入AMIS初始数据域供表单动态加载', async () => {
+  const pagePackage = {
+    schema: {type: 'page', body: [{id: 'u:type', type: 'select'}]},
+    resources: {fields: [{fieldCode: 'CHANGE_TYPE', rangeSource: 'PLM_RANGE', rangeConfig: {attributeName: 'JFChangeType'}}]},
+    plmConfig: {fieldBindings: [{componentId: 'u:type', fieldCode: 'CHANGE_TYPE', valueKey: 'changeType'}]}
+  };
+  const fieldOptions = [{value: 'VAVE', label: 'Value Analysis'}];
+
+  await sandbox.window.JFLowCodeRuntime.embed({
+    container: '#root',
+    pagePackage,
+    adapter: {
+      context: {},
+      executeAction: () => ({status: 0, data: {fields: {CHANGE_TYPE: {label: 'Change Type', options: fieldOptions}}}})
+    }
+  });
+
+  assert.deepEqual(capturedData.data.__plmFieldOptions.CHANGE_TYPE, fieldOptions);
 });
 
 test('PLM Policy状态元数据可直接映射MapList的current字段', () => {
@@ -184,6 +236,80 @@ test('前端分页Table绑定自动请求全部数据并始终显示分页', () 
   assert.deepEqual({...compiled.body[0].api.data}, {clientSide: true});
   assert.equal(compiled.body[0].alwaysShowPagination, true);
   assert.equal(pagePackage.schema.body[0].alwaysShowPagination, undefined);
+});
+
+test('Table拖拽绑定生成独立投放区域并解析3DSearch对象', () => {
+  const pagePackage = {
+    schema: {type: 'page', body: [{id: 'u:da-list', type: 'crud'}]},
+    plmConfig: {tableBindings: [{
+      componentId: 'u:da-list', queryActionCode: 'QUERY_LIST',
+      drop: {actionCode: 'QUERY_DA_TABLE_ROW', acceptedTypes: ['JFDA']}
+    }]}
+  };
+  const compiled = compilePackage(pagePackage);
+  assert.match(compiled.body[0].className, /jf-lowcode-drop-u-da-list/);
+  assert.equal(pagePackage.schema.body[0].className, undefined);
+  const items = parseDroppedItems(JSON.stringify({data: {items: [{objectId: '1.2.3', objectType: 'JFDA'}]}}));
+  assert.deepEqual(JSON.parse(JSON.stringify(items)), [{objectId: '1.2.3', objectType: 'JFDA', objectTaxonomies: []}]);
+  assert.doesNotThrow(() => validateDroppedItems(items, ['type_JFDA']));
+  assert.throws(() => validateDroppedItems(items, ['VPMReference']), /Table/);
+});
+
+test('Table拖入数据按objectId去重更新并移动到第一行', async () => {
+  let nextData;
+  const table = {
+    getData: () => ({items: [{id: '0', name: '原第一行'}, {id: '1', name: '旧名称'}], total: 2}),
+    setData: (data) => { nextData = data; }
+  };
+  await mergeDroppedRows({getComponentById: () => table}, {componentId: 'u:list', objectIdField: 'id'}, [
+    {id: '1', name: '新名称'}, {id: '2', name: '新增对象'}
+  ]);
+  assert.equal(JSON.stringify(nextData.items), JSON.stringify([
+    {id: '1', name: '新名称'}, {id: '2', name: '新增对象'}, {id: '0', name: '原第一行'}
+  ]));
+  assert.equal(nextData.total, 3);
+});
+
+test('Table投放后按每个objectId调用配置动作并写入当前Table', async () => {
+  const target = {};
+  let dropHandler;
+  let actionRequest;
+  let tableData = {items: [], total: 0};
+  const originalQuerySelector = sandbox.window.document.querySelector;
+  const originalAmisRequire = sandbox.window.amisRequire;
+  try {
+    sandbox.window.document.querySelector = selector => selector === '.jf-lowcode-drop-u-da-list' ? target : modalContainer;
+    sandbox.window.amisRequire = () => ({embed: () => ({
+      getComponentById: () => ({
+        getData: () => tableData,
+        setData: data => { tableData = data; }
+      })
+    })});
+    await sandbox.window.JFLowCodeRuntime.embed({
+      container: '#root',
+      pagePackage: {
+        schema: {type: 'page', body: [{id: 'u:da-list', type: 'crud'}]},
+        plmConfig: {tableBindings: [{
+          componentId: 'u:da-list', queryActionCode: 'QUERY_LIST', objectIdField: 'id',
+          drop: {actionCode: 'QUERY_DA_TABLE_ROW', acceptedTypes: ['JFDA']}
+        }]}
+      },
+      adapter: {
+        executeAction: (actionCode, data) => {
+          actionRequest = {actionCode, data};
+          return {status: 0, data: {id: data.objectId, name: 'DA-0001'}};
+        },
+        bindTableDrop: (_target, handler) => { dropHandler = handler; }
+      }
+    });
+    dropHandler(JSON.stringify({data: {items: [{objectId: '1.2.3', objectType: 'JFDA'}]}}));
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(JSON.stringify(actionRequest), JSON.stringify({actionCode: 'QUERY_DA_TABLE_ROW', data: {objectId: '1.2.3'}}));
+    assert.equal(JSON.stringify(tableData.items), JSON.stringify([{id: '1.2.3', name: 'DA-0001'}]));
+  } finally {
+    sandbox.window.document.querySelector = originalQuerySelector;
+    sandbox.window.amisRequire = originalAmisRequire;
+  }
 });
 
 test('DA批量删除按钮编译为受控动作并保留选择与刷新配置', () => {
@@ -264,7 +390,8 @@ test('Widget手动关闭搜索后保持表单原值', async () => {
       openSearch: () => Promise.resolve({objectId: '', cancelled: true})
     }
   });
-  assert.equal(capturedEnv.getModalContainer(), modalContainer);
+  assert.equal(capturedEnv.getModalContainer(), documentBody);
+  assert.ok(bodyClasses.has('amis-scope'));
   capturedEnv.jumpTo('plm://search?componentId=u%3Asearch');
   await new Promise(resolve => setImmediate(resolve));
 });
@@ -281,11 +408,13 @@ test('PLM报表明细与动态过滤选项共享汇总Service数据域', () => {
     ));
     const compiled = compilePackage(pagePackage);
     const service = compiled.body[0];
+    const cards = service.body.find(component => component.type === 'cards');
     const detail = service.body.find(component => component.type === 'crud');
     const dynamicFilters = detail.filter.body.filter(component => component.source);
 
     assert.equal(pagePackage.schema.body.length, 1);
     assert.equal(service.type, 'service');
+    assert.equal(cards.card.useCardLabel, false);
     assert.ok(detail);
     assert.ok(dynamicFilters.length > 0);
     assert.equal(detail.api.data.scope, '${scope}');

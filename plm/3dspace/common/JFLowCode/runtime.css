@@ -17,6 +17,29 @@ body {
     box-sizing: border-box;
 }
 
+.jf-lowcode-drop-active {
+    position: relative;
+    outline: 2px dashed #368ec4;
+    outline-offset: -3px;
+    background-color: rgba(54, 142, 196, 0.06);
+}
+
+.jf-lowcode-drop-active::after {
+    content: "+  \653e\624b\6dfb\52a0";
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #176b9c;
+    font-size: 22px;
+    font-weight: 600;
+    background: rgba(235, 247, 255, 0.88);
+    border: 2px dashed #368ec4;
+    pointer-events: none;
+}
+
 /* CRUD底部的每页条数下拉框位于3DSpace内容区底部，向下展开会被iframe裁剪。 */
 #jf-lowcode-root .cxd-Crud-pageSwitch .cxd-Select-popover {
     top: auto !important;

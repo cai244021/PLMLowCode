@@ -37,6 +37,132 @@
         return found;
     }
 
+    function dropTargetClass(componentId) {
+        return 'jf-lowcode-drop-' + String(componentId || '').replace(/[^A-Za-z0-9_-]/g, '-');
+    }
+
+    function parseDroppedItems(data) {
+        var payload = typeof data === 'string' ? JSON.parse(data) : (data || {});
+        var items = payload && payload.data && Array.isArray(payload.data.items)
+            ? payload.data.items : [];
+        return items.map(function (item) {
+            return {
+                objectId: String(item.objectId || item.physicalId || item.resourceid || '').trim(),
+                objectType: String(item.objectType || item.displayType || '').trim(),
+                objectTaxonomies: Array.isArray(item.objectTaxonomies) ? item.objectTaxonomies : []
+            };
+        }).filter(function (item) { return !!item.objectId; });
+    }
+
+    function normalizedDropType(value) {
+        return String(value || '').replace(/^type_/i, '').toLowerCase();
+    }
+
+    function validateDroppedItems(items, acceptedTypes) {
+        var accepted = (acceptedTypes || []).map(normalizedDropType).filter(Boolean);
+        var invalid;
+        if (!items.length) {
+            throw new Error('\u62d6\u62fd\u6570\u636e\u4e2d\u672a\u627e\u5230objectId');
+        }
+        if (items.length > 50) {
+            throw new Error('\u4e00\u6b21\u6700\u591a\u62d6\u516550\u4e2a\u5bf9\u8c61');
+        }
+        if (!accepted.length) {
+            return;
+        }
+        invalid = items.find(function (item) {
+            var candidates = [item.objectType].concat(item.objectTaxonomies || [])
+                .map(normalizedDropType).filter(Boolean);
+            return candidates.length && !candidates.some(function (candidate) {
+                return accepted.indexOf(candidate) !== -1;
+            });
+        });
+        if (invalid) {
+            throw new Error('\u5f53\u524dTable\u4e0d\u652f\u6301\u62d6\u5165\u8be5\u5bf9\u8c61\u7c7b\u578b: ' + invalid.objectType);
+        }
+    }
+
+    function mergeDroppedRows(scoped, binding, rows) {
+        var table = scoped && scoped.getComponentById(binding.componentId);
+        var data;
+        var currentItems;
+        var objectIdField = binding.objectIdField || 'id';
+        var droppedItems = [];
+        var droppedIds = {};
+        if (!table || typeof table.getData !== 'function' || typeof table.setData !== 'function') {
+            throw new Error('\u672a\u627e\u5230\u53ef\u66f4\u65b0\u7684Table: ' + binding.componentId);
+        }
+        data = table.getData() || {};
+        currentItems = Array.isArray(data.items) ? data.items.slice() : [];
+        rows.forEach(function (row) {
+            var objectId = String(row && row[objectIdField] || '');
+            if (!objectId || droppedIds[objectId]) {
+                return;
+            }
+            droppedIds[objectId] = true;
+            droppedItems.push(row);
+        });
+        currentItems = droppedItems.concat(currentItems.filter(function (item) {
+            return !droppedIds[String(item && item[objectIdField] || '')];
+        }));
+        return Promise.resolve(table.setData({items: currentItems, total: currentItems.length}, false));
+    }
+
+    function bindTableDrops(pagePackage, scoped, adapter) {
+        var bindings = (pagePackage.plmConfig && pagePackage.plmConfig.tableBindings) || [];
+        if (!adapter.bindTableDrop) {
+            return Promise.resolve();
+        }
+        return Promise.all(bindings.map(function (binding) {
+            var drop = binding.drop;
+            if (!drop || !drop.actionCode) {
+                return Promise.resolve();
+            }
+            return new Promise(function (resolve, reject) {
+                var attempts = 0;
+                function bindWhenReady() {
+                    var target = global.document.querySelector('.' + dropTargetClass(binding.componentId));
+                    attempts += 1;
+                    if (target) {
+                        resolve(target);
+                    } else if (attempts >= 100) {
+                        reject(new Error('\u672a\u627e\u5230\u53ef\u62d6\u5165Table: ' + binding.componentId));
+                    } else {
+                        global.setTimeout(bindWhenReady, 50);
+                    }
+                }
+                bindWhenReady();
+            }).then(function (target) {
+                return adapter.bindTableDrop(target, function (rawData) {
+                    var items;
+                    try {
+                        items = parseDroppedItems(rawData);
+                        validateDroppedItems(items, drop.acceptedTypes);
+                    } catch (error) {
+                        if (adapter.notifyError) adapter.notifyError(error);
+                        return;
+                    }
+                    Promise.all(items.map(function (item) {
+                        return Promise.resolve(adapter.executeAction(
+                            drop.actionCode, {objectId: item.objectId}, adapter.context || {}
+                        )).then(function (response) {
+                            if (!response || Number(response.status) !== 0) {
+                                throw new Error(response && response.msg ? response.msg : '\u62d6\u62fd\u5bf9\u8c61\u52a0\u8f7d\u5931\u8d25');
+                            }
+                            return response.data || {};
+                        });
+                    })).then(function (rows) {
+                        return mergeDroppedRows(scoped, binding, rows);
+                    }).catch(function (error) {
+                        if (adapter.notifyError) adapter.notifyError(error);
+                    });
+                });
+            }).catch(function (error) {
+                if (adapter.notifyError) adapter.notifyError(error);
+            });
+        }));
+    }
+
     function actionUrl(actionCode, componentId) {
         return 'plm://' + encodeURIComponent(actionCode) + '?componentId=' + encodeURIComponent(componentId);
     }
@@ -92,8 +218,11 @@
         dataBindings.forEach(function (binding) {
             var component = findById(schema, binding.componentId);
             var apiData;
+            var apiTrackExpression;
             if (component && component.type === 'service' && binding.trigger === 'INIT') {
                 apiData = component.api && typeof component.api === 'object' ? component.api.data : null;
+                apiTrackExpression = component.api && typeof component.api === 'object'
+                    ? component.api.trackExpression : null;
                 component.api = {
                     method: 'post',
                     url: actionUrl(binding.actionCode, binding.componentId)
@@ -101,6 +230,10 @@
                 //20260910 update by caipan 保留页面配置的报表编码等静态参数，供通用查询动作分派
                 if (apiData) {
                     component.api.data = apiData;
+                }
+                //20260912 update by caipan 保留动态请求跟踪条件，数据域变化时重新加载Service
+                if (apiTrackExpression) {
+                    component.api.trackExpression = apiTrackExpression;
                 }
             }
         });
@@ -122,8 +255,9 @@
                     throw new Error('\u5b57\u6bb5' + binding.fieldCode + '\u7f3a\u5c11PLM Range\u5c5e\u6027\u540d\u914d\u7f6e');
                 }
                 if (translated && translated.options) {
-                    component.options = translated.options;
-                    delete component.source;
+                    //20260911 update by caipan 统一通过AMIS动态数据域加载PLM选项，避免表单初始化覆盖options
+                    delete component.options;
+                    component.source = '${__plmFieldOptions.' + binding.fieldCode + '}';
                 } else if (field.rangeSource === 'PLM_RANGE') {
                     delete component.options;
                     component.source = {
@@ -167,6 +301,10 @@
             var apiData;
             var columns;
             if (component) {
+                if (binding.drop && binding.drop.actionCode) {
+                    component.className = ((component.className || '') + ' '
+                        + dropTargetClass(binding.componentId)).trim();
+                }
                 apiData = component.api && typeof component.api === 'object' ? component.api.data : null;
                 component.api = {
                     method: 'post',
@@ -375,6 +513,8 @@
         var amis = global.amisRequire('amis/embed');
         var fields = (pagePackage.resources && pagePackage.resources.fields) || [];
         var scoped;
+        //20260912 update by caipan 浮层挂到不滚动的body，并补齐AMIS作用域，兼顾定位和样式
+        global.document.body.classList.add('amis-scope');
         var env = {
             fetcher: createFetcher(pagePackage, adapter),
             getModalContainer: function () {
@@ -425,12 +565,20 @@
             ? adapter.executeAction('QUERY_PAGE_FIELD_METADATA', {fields: fields}, adapter.context || {})
             : {status: 0, data: {fields: {}}})
             .then(function (response) {
+                var initialData = { plmContext: adapter.context || {}, __plmFieldOptions: {} };
+                var metadataFields;
                 if (!response || Number(response.status) !== 0) {
                     throw new Error(response && response.msg ? response.msg : '\u9875\u9762PLM\u56fd\u9645\u5316\u5143\u6570\u636e\u52a0\u8f7d\u5931\u8d25');
                 }
+                metadataFields = response.data && response.data.fields ? response.data.fields : {};
+                Object.keys(metadataFields).forEach(function (fieldCode) {
+                    initialData.__plmFieldOptions[fieldCode] = metadataFields[fieldCode].options || [];
+                });
                 var schema = compilePackage(pagePackage, response.data || {});
-                scoped = amis.embed(options.container, schema, { data: { plmContext: adapter.context || {} } }, env);
-                return scoped;
+                scoped = amis.embed(options.container, schema, { data: initialData }, env);
+                return bindTableDrops(pagePackage, scoped, adapter).then(function () {
+                    return scoped;
+                });
             });
     }
 
@@ -441,6 +589,9 @@
         parseSearchTarget: parseSearchTarget,
         findSearchBinding: findSearchBinding,
         applySearchResult: applySearchResult,
+        parseDroppedItems: parseDroppedItems,
+        validateDroppedItems: validateDroppedItems,
+        mergeDroppedRows: mergeDroppedRows,
         embed: embed,
         parseJson: parseJson
     };

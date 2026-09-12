@@ -238,3 +238,25 @@ export async function publishDashboardEvent(topic: string, data?: unknown): Prom
 	const platformApi: any = await requirejsPromise('DS/PlatformAPI/PlatformAPI');
 	platformApi.publish(topic, data);
 }
+
+export async function bindTableDrop(target: HTMLElement, onDrop: (data: string) => void): Promise<() => void> {
+	let dataDragAndDrop: any;
+	try {
+		const parentRequire = (window.parent as any)?.require;
+		dataDragAndDrop = parentRequire
+			? await new Promise((resolve, reject) => parentRequire(['DS/DataDragAndDrop/DataDragAndDrop'], resolve, reject))
+			: await requirejsPromise('DS/DataDragAndDrop/DataDragAndDrop');
+	} catch {
+		dataDragAndDrop = await requirejsPromise('DS/DataDragAndDrop/DataDragAndDrop');
+	}
+	dataDragAndDrop.droppable(target, {
+		drop: (data: string) => {
+			target.classList.remove('jf-lowcode-drop-active');
+			onDrop(data);
+		},
+		enter: () => target.classList.add('jf-lowcode-drop-active'),
+		over: () => {},
+		leave: () => target.classList.remove('jf-lowcode-drop-active')
+	});
+	return () => dataDragAndDrop.unbind(target);
+}

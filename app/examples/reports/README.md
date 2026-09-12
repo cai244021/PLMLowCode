@@ -124,7 +124,7 @@ reportDetailList?scope=overdue&page=1
 
 ## 明细动作返回契约
 
-所有明细动作统一返回：
+所有明细动作统一返回。`filterOptions`由当前用户有权查看的全量数据生成，不随当前分页或筛选条件收缩：
 
 ```json
 {
@@ -132,7 +132,11 @@ reportDetailList?scope=overdue&page=1
   "msg": "",
   "data": {
     "items": [],
-    "total": 0
+    "total": 0,
+    "filterOptions": {
+      "current": [{"label": "草稿", "value": "Create"}],
+      "changeType": [{"label": "客户需求", "value": "CustomerRequirement"}]
+    }
   }
 }
 ```

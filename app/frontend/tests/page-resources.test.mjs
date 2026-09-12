@@ -48,6 +48,15 @@ test('Table列绑定会自动纳入页面字段资源且补齐旧配置', () => 
   assert.deepEqual(normalizePlmConfig({tableBindings: [{componentId: 'u:list', queryActionCode: 'QUERY'}]}).tableBindings[0].columnBindings, []);
 });
 
+test('Table拖拽动作自动纳入页面动作资源并保留允许类型', () => {
+  const result = normalizePlmConfig({tableBindings: [{
+    componentId: 'u:list', queryActionCode: 'QUERY_LIST',
+    drop: {actionCode: 'QUERY_DA_TABLE_ROW', acceptedTypes: ['JFDA']}
+  }]});
+  assert.deepEqual(result.actionCodes, ['QUERY_LIST', 'QUERY_DA_TABLE_ROW']);
+  assert.deepEqual(result.tableBindings[0].drop, {actionCode: 'QUERY_DA_TABLE_ROW', acceptedTypes: ['JFDA']});
+});
+
 test('DA新建弹框包含应用、确定、取消且应用提交后不关闭', () => {
   const schema = JSON.parse(readFileSync(new URL('../../examples/JF_DA_LIST_DEMO.json', import.meta.url), 'utf8'));
   const crud = schema.body[0];
@@ -100,6 +109,33 @@ test('DA列表通过标准批量动作删除选中行并在成功后刷新', () 
   assert.equal(deleteButton.messages.success, 'DA申请单删除成功');
 });
 
+test('DA信息动作以可拖动右侧面板展示五个详情页签', () => {
+  const schema = JSON.parse(readFileSync(new URL('../../examples/JF_DA_LIST_DEMO.json', import.meta.url), 'utf8'));
+  const crud = schema.body[0];
+  const infoButton = crud.bulkActions.find(item => item.id === 'u:da-info-button');
+  const detailService = infoButton.drawer.body;
+  const tabs = detailService.body.find(item => item.id === 'u:da-detail-tabs').tabs;
+  assert.equal(crud.bulkActions.indexOf(infoButton), crud.bulkActions.findIndex(item => item.id === 'u:da-delete-button') + 1);
+  assert.equal(infoButton.actionType, 'drawer');
+  assert.equal(infoButton.disabledOn.includes('selectedItems.length !== 1'), true);
+  assert.equal(infoButton.drawer.position, 'right');
+  assert.equal(infoButton.drawer.resizable, true);
+  assert.equal(infoButton.drawer.overlay, false);
+  const detailReload = infoButton.onEvent.click.actions[0];
+  assert.equal(detailReload.actionType, 'reload');
+  assert.equal(detailReload.componentId, 'u:da-detail-service');
+  assert.equal(detailReload.data.objectId, '${selectedItems[0].id}');
+  assert.equal(detailService.id, 'u:da-detail-service');
+  assert.equal(detailService.api.data.objectId, '${objectId}');
+  assert.equal(detailService.api.trackExpression, '${objectId}');
+  assert.deepEqual(tabs.map(tab => tab.title), ['特性', '零件清单', '流程', '生命周期', '附件']);
+  assert.equal(tabs[0].body.type, 'form');
+  tabs.slice(1).forEach(tab => {
+    assert.equal(tab.body.type, 'table');
+    assert.equal(tab.body.autoFillHeight, true);
+  });
+});
+
 test('DA创建JPO按PLM属性Range校验变更类型和项目阶段', () => {
   const source = readFileSync(new URL('../../../plm/spinner/schema_custom/Business/SourceFiles/JF_LowCode_mxJPO.java', import.meta.url), 'utf8');
   assert.equal(source.includes('mxAttr.getChoices(context, "JFChangeType")'), true);
@@ -108,12 +144,20 @@ test('DA创建JPO按PLM属性Range校验变更类型和项目阶段', () => {
   assert.equal(source.includes('Arrays.asList("BatchProduction", "DV", "PV").contains(projectPhase)'), false);
 });
 
+test('DA拖拽加载JPO按objectId返回列表行并校验类型和所有者', () => {
+  const source = readFileSync(new URL('../../../plm/spinner/schema_custom/Business/SourceFiles/JF_LowCode_mxJPO.java', import.meta.url), 'utf8');
+  assert.equal(source.includes('public Map getDATableRowLowCode(Context context, String[] args)'), true);
+  assert.equal(source.includes('"JFDA".equals(UIUtil.getValue(row, DomainConstants.SELECT_TYPE))'), true);
+  assert.equal(source.includes('context.getUser().equals(UIUtil.getValue(row, DomainConstants.SELECT_OWNER))'), true);
+  assert.equal(source.includes('"attribute[JFDAExtensionTime]"'), true);
+});
+
 test('3DSpace Runtime将长页面限制在当前视口并启用纵向滚动', () => {
   const css = readFileSync(new URL('../../../plm/3dspace/common/JFLowCode/runtime.css', import.meta.url), 'utf8');
   const jsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeRuntime.jsp', import.meta.url), 'utf8');
   assert.equal(/html,\s*body\s*\{[^}]*height:\s*100%;[^}]*overflow:\s*hidden;/s.test(css), true);
   assert.equal(/#jf-lowcode-root\s*\{[^}]*height:\s*100%;[^}]*overflow-y:\s*auto;/s.test(css), true);
-  assert.equal(jsp.includes('JFLowCode/runtime.css?v=20260908-2'), true);
+  assert.equal(jsp.includes('JFLowCode/runtime.css?v=20260912-1'), true);
 });
 
 test('PLM动作由当前Page发布快照解析而不是JSP业务白名单', () => {

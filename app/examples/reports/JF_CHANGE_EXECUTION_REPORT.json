@@ -21,6 +21,7 @@
             "source": "${metrics || []}",
             "columnsCount": 4,
             "card": {
+              "useCardLabel": false,
               "className": "shadow-sm",
               "header": {
                 "className": {
@@ -30,9 +31,7 @@
                   "bg-green-50": "${level === 'success'}"
                 },
                 "title": "${label}",
-                "titleClassName": "font-semibold text-gray-700",
-                "subTitle": "",
-                "description": ""
+                "titleClassName": "font-semibold text-gray-700"
               },
               "body": [
                 {

@@ -1,5 +1,5 @@
 import type {PagePackage, PlmContext, SearchTarget} from './types';
-import {executeAction, openSearch} from './platform';
+import {bindTableDrop, executeAction, openSearch} from './platform';
 
 function loadStyle(id: string, url: string): Promise<void> {
 	if (document.getElementById(id)) return Promise.resolve();
@@ -38,10 +38,10 @@ export async function loadRuntime(spaceUrl: string): Promise<void> {
 		loadStyle('jf-amis-sdk-css', `${base}/amis/sdk.css`),
 		loadStyle('jf-amis-helper-css', `${base}/amis/helper.css`),
 		loadStyle('jf-amis-iconfont-css', `${base}/amis/iconfont.css`),
-		loadStyle('jf-lowcode-runtime-css', `${base}/runtime.css?v=20260908-2`),
+		loadStyle('jf-lowcode-runtime-css', `${base}/runtime.css?v=20260912-1`),
 		loadScript('jf-amis-sdk-js', `${base}/amis/sdk.js`)
 	]);
-	await loadScript('jf-lowcode-runtime-js', `${base}/runtime.js?v=20260910-5`);
+	await loadScript('jf-lowcode-runtime-js', `${base}/runtime.js?v=20260912-5`);
 	if (!window.JFLowCodeRuntime) throw new Error('PLM低代码解析引擎加载失败');
 }
 
@@ -59,6 +59,7 @@ export async function renderPage(
 		pagePackage,
 		adapter: {
 			context,
+			bindTableDrop,
 			executeAction: (actionCode: string, data: Record<string, unknown>) =>
 				executeAction(spaceUrl, pageCode, actionCode, data, context),
 			openSearch: (target: SearchTarget) => openSearch(spaceUrl, target),

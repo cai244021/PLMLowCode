@@ -1,6 +1,6 @@
 {
 	"name": "plm-lowcode-widget",
-	"version": "1.0.7",
+	"version": "1.0.13",
 	"private": true,
 	"type": "module",
 	"scripts": {

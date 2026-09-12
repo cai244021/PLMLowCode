@@ -56,11 +56,17 @@ export interface TableBinding {
   objectIdField: string;
   relIdField: string;
   columnBindings: TableColumnBinding[];
+  drop?: TableDropBinding;
 }
 
 export interface TableColumnBinding {
   columnName: string;
   fieldCode: string;
+}
+
+export interface TableDropBinding {
+  actionCode: string;
+  acceptedTypes: string[];
 }
 
 export interface SearchBinding {
@@ -121,12 +127,16 @@ export const normalizePlmConfig = (value?: Partial<PlmPageConfig>): PlmPageConfi
   const empty = emptyPlmConfig();
   return {
     fieldCodes: [...new Set([...(value?.fieldCodes || []), ...(value?.fieldBindings || []).map(item => item.fieldCode), ...(value?.tableBindings || []).flatMap(item => (item.columnBindings || []).map(column => column.fieldCode))].filter(Boolean))],
-    actionCodes: [...new Set([...(value?.actionCodes || []), ...(value?.dataBindings || []).map(item => item.actionCode), ...(value?.actionBindings || []).map(item => item.actionCode), ...(value?.tableBindings || []).map(item => item.queryActionCode)].filter(Boolean))],
+    actionCodes: [...new Set([...(value?.actionCodes || []), ...(value?.dataBindings || []).map(item => item.actionCode), ...(value?.actionBindings || []).map(item => item.actionCode), ...(value?.tableBindings || []).flatMap(item => [item.queryActionCode, item.drop?.actionCode])].filter(Boolean) as string[])],
     context: {...empty.context, ...(value?.context || {})},
     fieldBindings: value?.fieldBindings || [],
     dataBindings: value?.dataBindings || [],
     actionBindings: value?.actionBindings || [],
-    tableBindings: (value?.tableBindings || []).map(item => ({...item, columnBindings: item.columnBindings || []})),
+    tableBindings: (value?.tableBindings || []).map(item => ({
+      ...item,
+      columnBindings: item.columnBindings || [],
+      drop: item.drop?.actionCode ? {...item.drop, acceptedTypes: item.drop.acceptedTypes || []} : undefined
+    })),
     searchBindings: value?.searchBindings || []
   };
 };

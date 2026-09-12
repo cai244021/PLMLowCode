@@ -195,6 +195,154 @@
             "success": "DA申请单删除成功",
             "failed": "DA申请单删除失败"
           }
+        },
+        {
+          "type": "button",
+          "id": "u:da-info-button",
+          "label": "信息",
+          "icon": "fa fa-info-circle",
+          "level": "primary",
+          "requireSelected": true,
+          "disabledOn": "${!selectedItems || selectedItems.length !== 1}",
+          "actionType": "drawer",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "reload",
+                  "componentId": "u:da-detail-service",
+                  "data": {"objectId": "${selectedItems[0].id}"}
+                }
+              ]
+            }
+          },
+          "drawer": {
+            "type": "drawer",
+            "id": "u:da-detail-drawer",
+            "position": "right",
+            "width": "45%",
+            "resizable": true,
+            "overlay": false,
+            "closeOnEsc": true,
+            "closeOnOutside": false,
+            "showCloseButton": true,
+            "actions": [],
+            "data": {
+              "objectId": "${selectedItems[0].id}",
+              "selectedName": "${selectedItems[0].name}"
+            },
+            "title": "${selectedName} · DA详情",
+            "body": {
+              "type": "service",
+              "id": "u:da-detail-service",
+              "api": {"data": {"objectId": "${objectId}"}, "trackExpression": "${objectId}"},
+              "body": [
+                {
+                  "type": "tpl",
+                  "className": "m-b-md text-muted",
+                  "tpl": "<strong>${name}</strong> &nbsp; ${title} &nbsp; <span class='label label-info'>${current}</span>"
+                },
+                {
+                  "type": "tabs",
+                  "id": "u:da-detail-tabs",
+                  "mountOnEnter": true,
+                  "tabs": [
+                    {
+                      "title": "特性",
+                      "body": {
+                        "type": "form",
+                        "id": "u:da-detail-properties-form",
+                        "title": "",
+                        "mode": "horizontal",
+                        "columnCount": 2,
+                        "wrapWithPanel": false,
+                        "actions": [],
+                        "body": [
+                          {"type": "input-text", "name": "type", "label": "类型", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-name", "name": "name", "label": "名称", "static": true},
+                          {"type": "input-text", "name": "revision", "label": "修订版", "static": true},
+                          {"type": "input-text", "name": "policy", "label": "策略", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-current", "name": "current", "label": "成熟度状态", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-title", "name": "title", "label": "标题", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-project", "name": "projectName", "label": "项目名称", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-phase", "name": "projectPhase", "label": "项目阶段", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-change-type", "name": "changeType", "label": "变更类型", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-plant", "name": "affectedPlant", "label": "影响工厂", "static": true},
+                          {"type": "textarea", "id": "u:da-detail-reason", "name": "deviationReason", "label": "偏差原因/描述", "static": true, "columnRatio": 12},
+                          {"type": "textarea", "id": "u:da-detail-before", "name": "beforeChange", "label": "变更前", "static": true, "columnRatio": 12},
+                          {"type": "textarea", "id": "u:da-detail-after", "name": "afterChange", "label": "变更后", "static": true, "columnRatio": 12},
+                          {"type": "input-datetime", "id": "u:da-detail-start", "name": "startTime", "label": "DA启动时间", "static": true},
+                          {"type": "input-datetime", "id": "u:da-detail-close", "name": "closeTime", "label": "DA关闭时间", "static": true},
+                          {"type": "input-datetime", "id": "u:da-detail-extension", "name": "extensionTime", "label": "延期关闭时间", "static": true},
+                          {"type": "input-text", "name": "delayCount", "label": "延期次数", "static": true},
+                          {"type": "input-text", "id": "u:da-detail-owner", "name": "owner", "label": "所有者", "static": true},
+                          {"type": "input-datetime", "id": "u:da-detail-originated", "name": "originated", "label": "创建日期", "static": true},
+                          {"type": "input-datetime", "name": "modified", "label": "修改日期", "static": true}
+                        ]
+                      }
+                    },
+                    {
+                      "title": "零件清单",
+                      "body": {
+                        "type": "table", "id": "u:da-detail-parts-table", "source": "${parts}", "placeholder": "暂无关联零件", "autoFillHeight": true,
+                        "columns": [
+                          {"name": "name", "label": "名称", "width": 150},
+                          {"name": "attribute[EnterpriseExtension.V_PartNumber]", "label": "零件号", "width": 140},
+                          {"name": "attribute[JF_VPMReference.JF_PartNameCN]", "label": "零件中文名称", "width": 160},
+                          {"name": "attribute[JF_VPMReference.JF_PartNameEN]", "label": "零件英文名称", "width": 160},
+                          {"name": "revision", "label": "修订版", "width": 90},
+                          {"name": "current", "label": "成熟度状态", "width": 110},
+                          {"name": "owner", "label": "所有者", "width": 120}
+                        ]
+                      }
+                    },
+                    {
+                      "title": "流程",
+                      "body": {
+                        "type": "table", "id": "u:da-detail-process-table", "source": "${processes}", "placeholder": "暂无关联流程", "autoFillHeight": true,
+                        "columns": [
+                          {"name": "attribute[Title]", "label": "标题", "width": 180},
+                          {"name": "name", "label": "名称", "width": 160},
+                          {"name": "current", "label": "状态", "width": 100},
+                          {"name": "attribute[Route Status]", "label": "流程状态", "width": 110},
+                          {"name": "attribute[Route Base State]", "label": "基础状态", "width": 120},
+                          {"name": "owner", "label": "所有者", "width": 120},
+                          {"name": "originated", "label": "创建日期", "type": "datetime", "width": 150}
+                        ]
+                      }
+                    },
+                    {
+                      "title": "生命周期",
+                      "body": {
+                        "type": "table", "id": "u:da-detail-lifecycle-table", "source": "${lifecycle}", "placeholder": "暂无生命周期数据", "autoFillHeight": true,
+                        "columns": [
+                          {"name": "sequence", "label": "序号", "width": 70},
+                          {"name": "stateLabel", "label": "状态", "width": 160},
+                          {"name": "status", "label": "进度", "type": "mapping", "map": {"COMPLETED": "已完成", "CURRENT": "当前", "PENDING": "未开始"}, "width": 100},
+                          {"name": "actualDate", "label": "实际到达时间", "type": "datetime", "width": 180}
+                        ]
+                      }
+                    },
+                    {
+                      "title": "附件",
+                      "body": {
+                        "type": "table", "id": "u:da-detail-attachments-table", "source": "${attachments}", "placeholder": "暂无附件", "autoFillHeight": true,
+                        "columns": [
+                          {"name": "attribute[Title]", "label": "标题", "width": 180},
+                          {"name": "name", "label": "名称", "width": 180},
+                          {"name": "revision", "label": "修订版", "width": 90},
+                          {"name": "current", "label": "状态", "width": 100},
+                          {"name": "description", "label": "描述", "width": 220},
+                          {"name": "owner", "label": "所有者", "width": 120},
+                          {"name": "modified", "label": "修改日期", "type": "datetime", "width": 150}
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         }
       ],
       "filter": {

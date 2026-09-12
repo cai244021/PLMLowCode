@@ -177,7 +177,7 @@ export default function PagePlmBinding({pageCode, pageName, schema, config, fiel
       </div>
 
       <div className="binding-section">
-        <div className="section-title"><div><h3>Table查询与对象ID</h3><p>配置查询JPO、数据路径以及行对象和关系ID字段。</p></div><button type="button" onClick={addTableBinding} disabled={!components.tables.length || !queryActions.length}>新增Table绑定</button></div>
+        <div className="section-title"><div><h3>Table查询、对象ID与达索拖拽</h3><p>配置查询JPO、数据路径、行对象ID；可选择拖拽加载动作，使3DSearch对象拖入Table后按objectId加载完整行数据。</p></div><button type="button" onClick={addTableBinding} disabled={!components.tables.length || !queryActions.length}>新增Table绑定</button></div>
         {!components.tables.length && <div className="empty-tip">当前页面没有CRUD、Table或Table 2.0组件。</div>}
         {config.tableBindings.map((binding, index) => (
           <div className="binding-row table-row" key={`${binding.componentId}-${index}`}>
@@ -187,6 +187,12 @@ export default function PagePlmBinding({pageCode, pageName, schema, config, fiel
             <label>总数路径<input value={binding.totalPath} onChange={(e) => updateTableBinding(index, {totalPath: e.target.value})} /></label>
             <label>对象ID字段<input value={binding.objectIdField} onChange={(e) => updateTableBinding(index, {objectIdField: e.target.value})} /></label>
             <label>关系ID字段<input value={binding.relIdField} onChange={(e) => updateTableBinding(index, {relIdField: e.target.value})} /></label>
+            <label>拖拽加载动作<select value={binding.drop?.actionCode || ''} onChange={(e) => updateTableBinding(index, {
+              drop: e.target.value ? {actionCode: e.target.value, acceptedTypes: binding.drop?.acceptedTypes || []} : undefined
+            })}><option value="">不启用</option>{queryActions.map((action) => <option key={action.actionCode} value={action.actionCode}>{action.actionName} · {action.actionCode}</option>)}</select></label>
+            <label>允许对象类型<input value={(binding.drop?.acceptedTypes || []).join(',')} disabled={!binding.drop?.actionCode} onChange={(e) => updateTableBinding(index, {
+              drop: binding.drop ? {...binding.drop, acceptedTypes: e.target.value.split(',').map(value => value.trim()).filter(Boolean)} : undefined
+            })} placeholder="JFDA,VPMReference" /></label>
             <div className="span-all">
               <div className="section-title"><div><strong>列字段与国际化</strong><p>列名直接填写JPO MapList原始key，例如 attribute[JFChangeType]；标题和Range显示值由PLM字段定义自动解析。</p></div><button type="button" disabled={!collectTableColumns(schema, binding.componentId).length || !pageFields.length} onClick={() => {
                 const column = collectTableColumns(schema, binding.componentId)[0];
