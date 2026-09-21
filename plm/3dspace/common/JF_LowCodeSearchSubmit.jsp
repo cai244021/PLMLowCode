@@ -1,3 +1,9 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
+%>
 <%@include file="./emxNavigatorInclude.inc"%>
 <%@ page import="com.matrixone.apps.domain.DomainConstants" %>
 <%@ page import="com.matrixone.apps.domain.DomainObject" %>
@@ -10,6 +16,13 @@
     response.setHeader("Cache-Control", "no-store");
     String requestId = emxGetParameter(request, "requestId");
     String lowCodeSubmitURL = emxGetParameter(request, "lowCodeSubmitURL");
+    //20260921 update by caipan 未配置自定义提交页时必须输出空串，避免Java null变成有效的JavaScript字符串"null"
+    if (requestId == null) {
+        requestId = "";
+    }
+    if (lowCodeSubmitURL == null) {
+        lowCodeSubmitURL = "";
+    }
     String[] selectedRows = emxGetParameterValues(request, "emxTableRowId");
     String selectedId = "";
     String selectedName = "";
@@ -85,9 +98,29 @@
             targetWindow = window.opener;
         }
         function publishResult() {
-            if (targetWindow && targetWindow.postMessage) {
-                targetWindow.postMessage(result, window.location.origin);
+            var targets = [];
+            function appendTarget(candidate) {
+                try {
+                    if (candidate && candidate !== window && !candidate.closed
+                            && candidate.postMessage && targets.indexOf(candidate) < 0) {
+                        targets.push(candidate);
+                    }
+                } catch (ignore) {
+                    // 跨窗口属性不可读时跳过，由BroadcastChannel继续传递。
+                }
             }
+            //20260921 update by caipan 同时覆盖Space直开窗口和Widget Launcher桥接窗口，避免选择结果丢失
+            appendTarget(targetWindow);
+            appendTarget(window.opener);
+            appendTarget(window.parent);
+            try {
+                appendTarget(window.top && window.top.opener);
+            } catch (ignore) {
+                // 跨窗口场景由已收集目标和BroadcastChannel兜底。
+            }
+            targets.forEach(function (target) {
+                target.postMessage(result, window.location.origin);
+            });
             if (window.BroadcastChannel) {
                 var resultChannel = new BroadcastChannel("JF_LOWCODE_SEARCH_" + result.requestId);
                 resultChannel.postMessage(result);
@@ -106,9 +139,13 @@
             }
             var submitURL = new URL(configuredSubmitURL, window.location.href);
             var contextRoot = "<%=XSSUtil.encodeForJavaScript(context, request.getContextPath())%>/";
+            //20260921 update by caipan 兼容旧页面已配置统一回填页，避免桥接页递归调用自身
+            if (submitURL.origin === window.location.origin
+                    && submitURL.pathname === window.location.pathname) {
+                return Promise.resolve();
+            }
             if (submitURL.origin !== window.location.origin
                     || submitURL.pathname.indexOf(contextRoot) !== 0
-                    || submitURL.pathname === window.location.pathname
                     || !/\.jsp$/i.test(submitURL.pathname)) {
                 return Promise.reject(new Error("submitURL必须是当前3DSpace内的JSP地址"));
             }

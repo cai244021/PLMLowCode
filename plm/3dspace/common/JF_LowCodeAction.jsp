@@ -32,23 +32,16 @@
         }
         Map params = body.length() == 0 ? new HashMap() : (Map) gson.fromJson(body.toString(), Map.class);
         Map invocationParams = new HashMap();
+        invocationParams.put("protocolVersion", "1".equals(request.getParameter("protocolVersion")) ? 1 : 0);
         invocationParams.put("pageCode", pageCode);
         invocationParams.put("actionCode", actionCode);
         invocationParams.put("params", params);
-        Map invocation = (Map) JPO.invoke(context, "JF_LowCodePage", null,
-                "prepareActionInvocation", JPO.packArgs(invocationParams), Map.class);
-        String jpoName = String.valueOf(invocation.get("jpoName"));
-        String methodName = String.valueOf(invocation.get("methodName"));
-        Map mappedParams = invocation.get("params") instanceof Map
-                ? (Map) invocation.get("params") : new HashMap();
-        Object data = JPO.invoke(context, jpoName, null, methodName,
-                JPO.packArgs(mappedParams), Object.class);
-        String actionKind = String.valueOf(invocation.get("actionKind"));
-        String actionName = String.valueOf(invocation.get("actionName"));
-        result.put("status", 0);
-        result.put("msg", "QUERY".equals(actionKind) ? "" : actionName + "成功");
-        result.put("data", data == null ? new HashMap() : data);
+        //20260917 update by caipan Space与Widget复用同一个注册表动作执行器。
+        String responseJson = (String) JPO.invoke(context, "JF_LowCodePage", null,
+                "executePublishedAction", JPO.packArgs(invocationParams), String.class);
+        result = gson.fromJson(responseJson, Map.class);
     } catch (Exception e) {
+        result.put("protocolVersion", 1);
         result.put("status", 1);
         result.put("msg", e.getMessage() == null ? "执行失败" : e.getMessage());
         result.put("data", new HashMap());

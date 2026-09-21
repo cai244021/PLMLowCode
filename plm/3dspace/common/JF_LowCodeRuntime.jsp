@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="JFLowCode/amis/sdk.css">
     <link rel="stylesheet" href="JFLowCode/amis/helper.css">
     <link rel="stylesheet" href="JFLowCode/amis/iconfont.css">
-    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260912-1">
+    <link rel="stylesheet" href="JFLowCode/runtime.css?v=20260912-2">
 </head>
 <body>
 <div id="jf-lowcode-root">页面加载中...</div>
@@ -41,7 +41,7 @@
     <%@include file="./enoviaCSRFTokenInjection.inc"%>
 </form>
 <script src="JFLowCode/amis/sdk.js"></script>
-<script src="JFLowCode/runtime.js?v=20260912-5"></script>
+<script src="JFLowCode/runtime.js?v=20260921-2"></script>
 <script src="scripts/emxUIConstants.js"></script>
 <script src="scripts/emxUICore.js"></script>
 <script src="scripts/emxUIModal.js"></script>
@@ -67,7 +67,7 @@
     function executeAction(actionCode, data) {
         var payload = Object.assign({}, data || {}, { plmContext: context });
         var actionUrl = 'JF_LowCodeAction.jsp?pageCode=' + encodeURIComponent(pageCode)
-            + '&actionCode=' + encodeURIComponent(actionCode);
+            + '&actionCode=' + encodeURIComponent(actionCode) + '&protocolVersion=1';
         var tokenInputs = document.querySelectorAll('#jf-lowcode-csrf input[name]');
         Array.prototype.forEach.call(tokenInputs, function (input) {
             actionUrl += '&' + encodeURIComponent(input.name) + '=' + encodeURIComponent(input.value || '');
@@ -80,7 +80,11 @@
         }).then(function (response) {
             return response.text();
         }).then(function (text) {
-            return JFLowCodeRuntime.parseJson(text);
+            var result = JFLowCodeRuntime.parseJson(text);
+            if (!result || result.protocolVersion !== 1) {
+                throw new Error('Action协议不兼容：需要版本1，请更新服务端JPO和JSP');
+            }
+            return result;
         });
     }
 
@@ -142,28 +146,15 @@
             configuredParams.delete('requestId');
             configuredParams.set('selection', 'single');
             configuredParams.set('submitAction', 'refreshCaller');
-            //20260909 update by caipan Space保留页面配置的原生提交JSP，未配置时使用统一回填页
-            configuredParams.set('submitURL', configuredSubmitURL || '../common/JF_LowCodeSearchSubmit.jsp');
+            //20260921 update by caipan Space统一经过搜索提交桥，先执行自定义submitURL再可靠回填当前表单
+            var bridgeSubmitURL = '../common/JF_LowCodeSearchSubmit.jsp';
+            if (configuredSubmitURL) {
+                bridgeSubmitURL += '?lowCodeSubmitURL=' + encodeURIComponent(configuredSubmitURL);
+            }
+            configuredParams.set('submitURL', bridgeSubmitURL);
             configuredParams.set('requestId', requestId);
             var searchUrl = '../common/emxFullSearch.jsp?' + configuredParams.toString();
             showModalDialog(searchUrl, 850, 630, true, 'Large');
-            if (configuredSubmitURL) {
-                window.removeEventListener('message', onMessage);
-                window.clearTimeout(timeoutId);
-                resolve({ cancelled: true });
-            }
-        });
-    }
-
-    function loadStaticPackage() {
-        return fetch('JFLowCode/pages/' + encodeURIComponent(pageCode) + '.json?_=' + Date.now(), {
-            credentials: 'same-origin',
-            cache: 'no-store'
-        }).then(function (response) {
-            if (!response.ok) {
-                throw new Error('页面配置加载失败: HTTP ' + response.status);
-            }
-            return response.json();
         });
     }
 
@@ -216,29 +207,40 @@
             credentials: 'same-origin',
             cache: 'no-store'
         }).then(function (response) {
-            if (response.status === 404) {
-                return loadStaticPackage();
-            }
+            //20260917 update by caipan 发布页加载失败直接报错，禁止静默加载静态旧配置。
             if (!response.ok) {
                 throw new Error('已发布页面加载失败: HTTP ' + response.status);
             }
-            return response.text().then(JFLowCodeRuntime.parseJson);
+            return response.text().then(JFLowCodeRuntime.parseJson).then(function (result) {
+                if (!result || result.status !== 0) {
+                    throw new Error(result && result.msg || '页面加载响应格式不正确，请检查服务端部署版本');
+                }
+                if (!result.data || !result.data.schema || !result.data.plmConfig) {
+                    throw new Error('已发布页面配置包格式不正确');
+                }
+                return result.data;
+            });
         });
     }
 
     loadPagePackage().then(function (pagePackage) {
+        if (JFLowCodeRuntime.protocolVersion !== 1) {
+            throw new Error('Runtime协议不兼容：需要版本1，请更新runtime.js');
+        }
         document.getElementById('jf-lowcode-root').innerHTML = '';
         return JFLowCodeRuntime.embed({
             container: '#jf-lowcode-root',
             pagePackage: pagePackage,
             adapter: {
+                protocolVersion: 1,
                 context: context,
                 bindTableDrop: bindTableDrop,
                 executeAction: executeAction,
                 openSearch: openSearch,
                 notifyError: function (error) {
-                    alert(String(error && error.message ? error.message : error));
+                    JFLowCodeRuntime.notify('error', String(error && error.message ? error.message : error));
                 },
+                notify: function (level, message) { JFLowCodeRuntime.notify(level, message); },
                 close: function () {
                     if (window.parent && window.parent !== window && window.parent.history.length > 1) {
                         window.parent.history.back();

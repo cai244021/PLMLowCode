@@ -16,16 +16,16 @@
         }
         Map params = new HashMap();
         params.put("pageCode", pageCode);
-        Map data = (Map) JPO.invoke(context, "JF_LowCodePage", null,
-                "getPublishedPage", JPO.packArgs(params), Map.class);
-        String contents = String.valueOf(data.get("contents"));
-        new Gson().fromJson(contents, Map.class);
-        out.print(contents);
+        //20260917 update by caipan 双端页面加载委托同一个响应入口。
+        String result = (String) JPO.invoke(context, "JF_LowCodePage", null,
+                "getPublishedPageContents", JPO.packArgs(params), String.class);
+        out.print(result);
     } catch (Exception e) {
-        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         Map error = new HashMap();
         error.put("status", 1);
-        error.put("msg", "未找到已发布页面");
+        error.put("msg", "已发布页面加载失败");
+        error.put("data", new HashMap());
         out.print(new Gson().toJson(error));
     }
 %>
