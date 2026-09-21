@@ -109,7 +109,7 @@ public class JF_LowCode_mxJPO extends DomainObject {
      * @param context 当前PLM登录上下文
      * @param args 查询参数，包含DA对象objectId
      * @return Map 与DA列表列绑定一致的对象数据
-     * @throws Exception 对象不存在、类型不匹配、非当前用户数据或无权访问时抛出异常
+     * @throws Exception 对象不存在、类型不匹配或无权读取时抛出异常
      * @author caipan by codex
      * @date 2026/9/12 17:20
      */
@@ -131,9 +131,6 @@ public class JF_LowCode_mxJPO extends DomainObject {
         if (!"JFDA".equals(UIUtil.getValue(row, DomainConstants.SELECT_TYPE))) {
             throw new IllegalArgumentException("所选对象不是DA申请单");
         }
-        if (!context.getUser().equals(UIUtil.getValue(row, DomainConstants.SELECT_OWNER))) {
-            throw new IllegalArgumentException("只能加载当前用户拥有的DA申请单");
-        }
         return row;
     }
 
@@ -143,7 +140,7 @@ public class JF_LowCode_mxJPO extends DomainObject {
      * @param context 当前PLM登录上下文
      * @param args 查询参数，包含DA对象objectId
      * @return Map 包含DA特性及五页签所需数据
-     * @throws Exception 对象不存在、类型不匹配、无权访问或数据查询失败时抛出异常
+     * @throws Exception 对象不存在、类型不匹配、无权读取或数据查询失败时抛出异常
      * @author caipan by codex
      * @date 2026/9/12 16:30
      */
@@ -168,10 +165,6 @@ public class JF_LowCode_mxJPO extends DomainObject {
         if (!"JFDA".equals(UIUtil.getValue(daInfo, DomainConstants.SELECT_TYPE))) {
             throw new IllegalArgumentException("所选对象不是DA申请单");
         }
-        if (!context.getUser().equals(UIUtil.getValue(daInfo, DomainConstants.SELECT_OWNER))) {
-            throw new IllegalArgumentException("无权查看该DA申请单");
-        }
-
         StringList partSelects = StringList.create(
                 DomainConstants.SELECT_ID, DomainConstants.SELECT_NAME, DomainConstants.SELECT_REVISION,
                 DomainConstants.SELECT_CURRENT, DomainConstants.SELECT_DESCRIPTION, DomainConstants.SELECT_OWNER,
