@@ -38,11 +38,12 @@ export async function loadRuntime(spaceUrl: string): Promise<void> {
 		loadStyle('jf-amis-sdk-css', `${base}/amis/sdk.css`),
 		loadStyle('jf-amis-helper-css', `${base}/amis/helper.css`),
 		loadStyle('jf-amis-iconfont-css', `${base}/amis/iconfont.css`),
-		loadStyle('jf-lowcode-runtime-css', `${base}/runtime.css?v=20260912-1`),
+		loadStyle('jf-lowcode-runtime-css', `${base}/runtime.css?v=20260912-2`),
 		loadScript('jf-amis-sdk-js', `${base}/amis/sdk.js`)
 	]);
-	await loadScript('jf-lowcode-runtime-js', `${base}/runtime.js?v=20260912-5`);
+	await loadScript('jf-lowcode-runtime-js', `${base}/runtime.js?v=20260921-2`);
 	if (!window.JFLowCodeRuntime) throw new Error('PLM低代码解析引擎加载失败');
+	if (window.JFLowCodeRuntime.protocolVersion !== 1) throw new Error('Runtime协议不兼容：需要版本1，请更新runtime.js');
 }
 
 export async function renderPage(
@@ -58,12 +59,14 @@ export async function renderPage(
 		container: '#jf-lowcode-root',
 		pagePackage,
 		adapter: {
+			protocolVersion: 1,
 			context,
 			bindTableDrop,
 			executeAction: (actionCode: string, data: Record<string, unknown>) =>
 				executeAction(spaceUrl, pageCode, actionCode, data, context),
 			openSearch: (target: SearchTarget) => openSearch(spaceUrl, target),
-			notifyError: (error: unknown) => window.alert(error instanceof Error ? error.message : String(error)),
+			notifyError: (error: unknown) => window.JFLowCodeRuntime!.notify('error', error instanceof Error ? error.message : String(error)),
+			notify: (level: string, message: string) => window.JFLowCodeRuntime!.notify(level, message),
 			close: () => window.history.back(),
 			refresh: () => window.dispatchEvent(new CustomEvent('jf-lowcode-refresh')),
 			openDetail: (objectId: string) => {

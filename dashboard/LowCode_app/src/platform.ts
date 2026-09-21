@@ -90,10 +90,19 @@ export async function loadSecurityContext(spaceUrl: string): Promise<SecurityCon
 
 export async function loadPagePackage(spaceUrl: string, pageCode: string): Promise<PagePackage> {
 	const result = await authenticatedRequest(
-		`${spaceUrl}/common/JF_LowCodePage.jsp?pageCode=${encodeURIComponent(pageCode)}&_=${Date.now()}`,
-		'GET'
+		`${spaceUrl}/TWXPublicRest/TWXTicketService?JPOName=JF_LowCodePage&FuncName=getPublishedPageContents&_=${Date.now()}`,
+		'POST',
+		{pageCode}
 	);
-	return parseJson(result) as PagePackage;
+	const response = parseJson(result) as {status?: number; msg?: string; data?: PagePackage};
+	if (response?.status !== 0) {
+		throw new Error(response?.msg || '页面加载响应格式不正确，请检查服务端部署版本');
+	}
+	const pagePackage = response.data;
+	if (!pagePackage?.schema || !pagePackage?.plmConfig) {
+		throw new Error(`Page ${pageCode} 的配置包格式不正确`);
+	}
+	return pagePackage;
 }
 
 export async function executeAction(
@@ -104,11 +113,13 @@ export async function executeAction(
 	context: PlmContext
 ): Promise<unknown> {
 	const result = await authenticatedRequest(
-		`${spaceUrl}/common/JF_LowCodeAction.jsp?pageCode=${encodeURIComponent(pageCode)}&actionCode=${encodeURIComponent(actionCode)}`,
+		`${spaceUrl}/TWXPublicRest/TWXTicketService?JPOName=JF_LowCodePage&FuncName=executePublishedAction`,
 		'POST',
-		{...data, plmContext: context}
+		{protocolVersion: 1, pageCode, actionCode, params: {...data, plmContext: context}}
 	);
-	return parseJson(result);
+	const response = parseJson(result) as {protocolVersion?: number};
+	if (response?.protocolVersion !== 1) throw new Error('Action协议不兼容：需要版本1，请更新服务端JPO');
+	return response;
 }
 
 function prepareWidgetSearchParams(searchParams: string): string {
@@ -139,6 +150,7 @@ export function openSearch(spaceUrl: string, target: SearchTarget): Promise<Sear
 	const preparedSearchParams = prepareWidgetSearchParams(target.searchParams);
 
 	return new Promise((resolve, reject) => {
+		let settled = false;
 		const launcherWidth = 810;
 		const launcherHeight = 590;
 		const launcherLeft = Math.max(0, Math.round((window.screen.availWidth - launcherWidth) / 2));
@@ -192,6 +204,9 @@ export function openSearch(spaceUrl: string, target: SearchTarget): Promise<Sear
 		}
 
 		function finish(value: any): void {
+			//20260921 update by caipan Launcher、opener和BroadcastChannel可能同时回传，只处理第一条有效结果
+			if (settled) return;
+			settled = true;
 			window.clearTimeout(timeout);
 			cleanup();
 			if (value.cancelled) {
