@@ -13,6 +13,8 @@ public record PlmActionResponse(
         String httpMethod,
         JsonNode inputMapping,
         JsonNode outputMapping,
+        JsonNode inputParameters,
+        JsonNode outputParameters,
         boolean enabled,
         Instant updatedAt
 ) {
@@ -29,6 +31,7 @@ public record PlmActionResponse(
                 action.getActionCode(), action.getActionName(), action.getActionKind(),
                 action.getJpoName(), action.getMethodName(), action.getHttpMethod(),
                 action.getInputMappingJson(), action.getOutputMappingJson(),
+                action.getInputParametersJson(), action.getOutputParametersJson(),
                 action.isEnabled(), action.getUpdatedAt()
         );
     }

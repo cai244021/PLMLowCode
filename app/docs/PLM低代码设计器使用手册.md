@@ -140,7 +140,7 @@ AMIS Editor 会给组件生成稳定 ID，例如 `u:title-field`。页面PLM绑�
 | --- | --- | --- |
 | 动作编码 | 页面调用的唯一白名单编码 | `CREATE_COMPETITIVE_BOM` |
 | 动作名称 | 业务名称 | 创建竞品BOM |
-| 动作类型 | CREATE、UPDATE、QUERY、ACTION、NAVIGATION | CREATE |
+| 动作类型 | CREATE、UPDATE、QUERY、ACTION | CREATE |
 | 请求方式 | Runtime调用动作页使用的方法 | POST |
 | JPO名称 | Spinner/JPO程序名，不含 `_mxJPO` | `JF_CompetitiveBOM` |
 | 执行方法 | JPO公开方法 | `createCompetitiveBOM` |

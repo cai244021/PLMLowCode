@@ -19,14 +19,23 @@ export interface PlmFieldDefinition {
 export interface PlmActionDefinition {
   actionCode: string;
   actionName: string;
-  actionKind: 'CREATE' | 'UPDATE' | 'QUERY' | 'ACTION' | 'NAVIGATION';
+  actionKind: 'CREATE' | 'UPDATE' | 'QUERY' | 'ACTION';
   jpoName: string;
   methodName: string;
-  httpMethod: 'GET' | 'POST';
+  httpMethod: 'POST';
   inputMapping: Record<string, unknown>;
   outputMapping: Record<string, unknown>;
+  inputParameters: PlmActionParameterDefinition[];
+  outputParameters: PlmActionParameterDefinition[];
   enabled: boolean;
   updatedAt?: string;
+}
+
+export interface PlmActionParameterDefinition {
+  name: string;
+  dataType: 'ANY' | 'STRING' | 'NUMBER' | 'BOOLEAN' | 'OBJECT' | 'ARRAY';
+  required: boolean;
+  description: string;
 }
 
 export interface FieldBinding {
@@ -40,6 +49,41 @@ export interface ActionBinding {
   event: 'click' | 'submit' | 'change';
   actionCode: string;
   successAction: 'NONE' | 'REFRESH' | 'CLOSE' | 'OPEN_DETAIL';
+}
+
+export type PlmEventName = 'init' | 'click' | 'submit' | 'change' | 'rowClick' | 'selectionChange' | 'drop';
+
+export type PlmEffectType = 'SET_DATA' | 'RELOAD' | 'REFRESH_ROW' | 'APPEND_ROWS' | 'REMOVE_ROWS'
+  | 'RESET' | 'OPEN_DIALOG' | 'OPEN_DRAWER' | 'CLOSE' | 'OPEN_DETAIL' | 'NAVIGATE'
+  | 'NOTIFY' | 'CHAIN_ACTION';
+
+export interface PlmActionInvocation {
+  actionCode: string;
+  inputMapping: Record<string, unknown>;
+}
+
+export interface PlmEventEffect {
+  type: PlmEffectType;
+  target?: string;
+  mapping?: unknown;
+  level?: 'success' | 'info' | 'warning' | 'error';
+  message?: string;
+  position?: 'first' | 'last';
+  deduplicateBy?: string;
+  action?: PlmActionInvocation;
+}
+
+export interface PlmEventBindingV2 {
+  id: string;
+  source: {
+    componentId: string;
+    event: PlmEventName;
+    acceptedTypes?: string[];
+  };
+  when?: string;
+  action: PlmActionInvocation;
+  success: PlmEventEffect[];
+  failure: PlmEventEffect[];
 }
 
 export interface DataBinding {
@@ -78,6 +122,7 @@ export interface SearchBinding {
 }
 
 export interface PlmPageConfig {
+  bindingVersion: 1 | 2;
   fieldCodes: string[];
   actionCodes: string[];
   context: {
@@ -90,6 +135,7 @@ export interface PlmPageConfig {
   actionBindings: ActionBinding[];
   tableBindings: TableBinding[];
   searchBindings: SearchBinding[];
+  eventBindings: PlmEventBindingV2[];
 }
 
 export interface PageResponse {
@@ -109,6 +155,7 @@ export interface SchemaComponent {
 }
 
 export const emptyPlmConfig = (): PlmPageConfig => ({
+  bindingVersion: 2,
   fieldCodes: [],
   actionCodes: [],
   context: {
@@ -120,14 +167,23 @@ export const emptyPlmConfig = (): PlmPageConfig => ({
   dataBindings: [],
   actionBindings: [],
   tableBindings: [],
-  searchBindings: []
+  searchBindings: [],
+  eventBindings: []
 });
 
 export const normalizePlmConfig = (value?: Partial<PlmPageConfig>): PlmPageConfig => {
   const empty = emptyPlmConfig();
+  const eventBindings = value?.eventBindings || [];
+  const eventActionCodes = eventBindings.flatMap(binding => [
+    binding.action?.actionCode,
+    ...[...(binding.success || []), ...(binding.failure || [])]
+      .filter(effect => effect.type === 'CHAIN_ACTION')
+      .map(effect => effect.action?.actionCode)
+  ]);
   return {
+    bindingVersion: value?.bindingVersion === 2 || eventBindings.length ? 2 : value ? 1 : 2,
     fieldCodes: [...new Set([...(value?.fieldCodes || []), ...(value?.fieldBindings || []).map(item => item.fieldCode), ...(value?.tableBindings || []).flatMap(item => (item.columnBindings || []).map(column => column.fieldCode))].filter(Boolean))],
-    actionCodes: [...new Set([...(value?.actionCodes || []), ...(value?.dataBindings || []).map(item => item.actionCode), ...(value?.actionBindings || []).map(item => item.actionCode), ...(value?.tableBindings || []).flatMap(item => [item.queryActionCode, item.drop?.actionCode])].filter(Boolean) as string[])],
+    actionCodes: [...new Set([...(value?.actionCodes || []), ...(value?.dataBindings || []).map(item => item.actionCode), ...(value?.actionBindings || []).map(item => item.actionCode), ...(value?.tableBindings || []).flatMap(item => [item.queryActionCode, item.drop?.actionCode]), ...eventActionCodes].filter(Boolean) as string[])],
     context: {...empty.context, ...(value?.context || {})},
     fieldBindings: value?.fieldBindings || [],
     dataBindings: value?.dataBindings || [],
@@ -137,6 +193,31 @@ export const normalizePlmConfig = (value?: Partial<PlmPageConfig>): PlmPageConfi
       columnBindings: item.columnBindings || [],
       drop: item.drop?.actionCode ? {...item.drop, acceptedTypes: item.drop.acceptedTypes || []} : undefined
     })),
-    searchBindings: value?.searchBindings || []
+    searchBindings: value?.searchBindings || [],
+    eventBindings
   };
+};
+
+export const upgradePlmConfigToV2 = (config: PlmPageConfig): PlmPageConfig => {
+  const convertedEvents: PlmEventBindingV2[] = config.actionBindings.map((binding, index) => {
+    const success: PlmEventEffect[] = [];
+    if (binding.successAction === 'REFRESH') success.push({type: 'RELOAD'});
+    if (binding.successAction === 'CLOSE') success.push({type: 'CLOSE'});
+    if (binding.successAction === 'OPEN_DETAIL') {
+      success.push({type: 'OPEN_DETAIL', mapping: '${response.data.objectId}'});
+    }
+    return {
+      id: `v1-${binding.componentId}-${binding.event}-${index}`,
+      source: {componentId: binding.componentId, event: binding.event},
+      action: {actionCode: binding.actionCode, inputMapping: {}},
+      success,
+      failure: [{type: 'NOTIFY', level: 'error', message: '${response.msg}'}]
+    };
+  });
+  return normalizePlmConfig({
+    ...config,
+    bindingVersion: 2,
+    actionBindings: [],
+    eventBindings: [...config.eventBindings, ...convertedEvents]
+  });
 };

@@ -5,7 +5,7 @@ import ts from 'typescript';
 
 const source = readFileSync(new URL('../src/types.ts', import.meta.url), 'utf8');
 const {outputText} = ts.transpileModule(source, {compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020}});
-const {emptyPlmConfig, normalizePlmConfig} = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
+const {emptyPlmConfig, normalizePlmConfig, upgradePlmConfigToV2} = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
 
 test('新页清单为空且实例互不共享', () => {
   const first = emptyPlmConfig();
@@ -14,6 +14,70 @@ test('新页清单为空且实例互不共享', () => {
   assert.deepEqual(emptyPlmConfig().actionCodes, []);
   assert.deepEqual(emptyPlmConfig().dataBindings, []);
   assert.deepEqual(emptyPlmConfig().searchBindings, []);
+  assert.equal(emptyPlmConfig().bindingVersion, 2);
+  assert.deepEqual(emptyPlmConfig().eventBindings, []);
+});
+
+test('V2事件协议保留事件与Effect并自动收集直接和链式动作', () => {
+  const eventBindings = [{
+    id: 'create-da',
+    source: {componentId: 'u:create-form', event: 'submit'},
+    when: '${title}',
+    action: {actionCode: 'CREATE_DA', inputMapping: {title: '${title}'}},
+    success: [
+      {type: 'RELOAD', target: 'u:da-list'},
+      {type: 'CHAIN_ACTION', action: {actionCode: 'QUERY_DA_DETAIL', inputMapping: {objectId: '${response.data.objectId}'}}}
+    ],
+    failure: [{type: 'NOTIFY', level: 'error', message: '${response.msg}'}]
+  }];
+  const result = normalizePlmConfig({eventBindings});
+  assert.equal(result.bindingVersion, 2);
+  assert.deepEqual(result.eventBindings, eventBindings);
+  assert.deepEqual(result.actionCodes, ['CREATE_DA', 'QUERY_DA_DETAIL']);
+  assert.deepEqual(normalizePlmConfig(result), result);
+});
+
+test('事件设计器按公共动作参数提供结构化输入映射并保留高级JSON', () => {
+  const designer = readFileSync(new URL('../src/PageEventBindings.tsx', import.meta.url), 'utf8');
+  assert.equal(designer.includes('function ParameterMappingEditor'), true);
+  assert.equal(designer.includes('action?.inputParameters?.length ? action.inputParameters'), true);
+  assert.equal(designer.includes('补齐动作参数'), true);
+  assert.equal(designer.includes('参数名不能为空或重复'), true);
+  assert.equal(designer.includes('高级JSON编辑'), true);
+});
+
+test('公共动作库维护正式参数契约并由发布服务校验', () => {
+  const manager = readFileSync(new URL('../src/PlmActionManager.tsx', import.meta.url), 'utf8');
+  const migration = readFileSync(new URL('../../backend/src/main/resources/db/migration/V18__add_action_parameter_contracts.sql', import.meta.url), 'utf8');
+  const builtInContracts = readFileSync(new URL('../../backend/src/main/resources/db/migration/V19__define_builtin_action_parameter_contracts.sql', import.meta.url), 'utf8');
+  const publishService = readFileSync(new URL('../../backend/src/main/java/com/jfseat/lowcode/page/PagePublishService.java', import.meta.url), 'utf8');
+  assert.equal(manager.includes('function ActionContractEditor'), true);
+  assert.equal(manager.includes('ANY\', \'STRING\', \'NUMBER\', \'BOOLEAN\', \'OBJECT\', \'ARRAY'), true);
+  assert.equal(manager.includes('参数定义必须与映射名称一一对应'), true);
+  assert.equal(migration.includes('ADD COLUMN input_parameters_json JSONB'), true);
+  assert.equal(migration.includes("'dataType', 'ANY'"), true);
+  assert.equal(builtInContracts.includes('{"name":"objectId","dataType":"STRING","required":true'), true);
+  assert.equal(builtInContracts.includes('{"name":"affectedPlant","dataType":"ARRAY","required":true'), true);
+  assert.equal(publishService.includes('validateEventActionParameters(page.plmConfig(), actions)'), true);
+  assert.equal(publishService.includes('缺少动作 " + actionCode + " 的必填参数'), true);
+});
+
+test('未声明V2协议的历史页面继续识别为V1', () => {
+  assert.equal(normalizePlmConfig({actionBindings: [{actionCode: 'CREATE_DA'}]}).bindingVersion, 1);
+});
+
+test('V1按钮事件可显式升级为V2且保留其他绑定', () => {
+  const legacy = normalizePlmConfig({
+    actionBindings: [{componentId: 'u:create', event: 'click', actionCode: 'CREATE_DA', successAction: 'OPEN_DETAIL'}],
+    dataBindings: [{componentId: 'u:service', trigger: 'INIT', actionCode: 'QUERY_DA'}]
+  });
+  const upgraded = upgradePlmConfigToV2(legacy);
+  assert.equal(upgraded.bindingVersion, 2);
+  assert.equal(upgraded.actionBindings.length, 0);
+  assert.equal(upgraded.dataBindings.length, 1);
+  assert.equal(upgraded.eventBindings[0].action.actionCode, 'CREATE_DA');
+  assert.equal(upgraded.eventBindings[0].success[0].type, 'OPEN_DETAIL');
+  assert.equal(upgraded.eventBindings[0].success[0].mapping, '${response.data.objectId}');
 });
 
 test('旧页从字段、初始化查询、事件和Table绑定恢复清单，去重且不改输入', () => {
@@ -144,12 +208,25 @@ test('DA创建JPO按PLM属性Range校验变更类型和项目阶段', () => {
   assert.equal(source.includes('Arrays.asList("BatchProduction", "DV", "PV").contains(projectPhase)'), false);
 });
 
-test('DA拖拽加载JPO按objectId返回列表行并校验类型和所有者', () => {
+test('DA拖拽加载JPO按objectId返回列表行并仅校验类型和读取权限', () => {
   const source = readFileSync(new URL('../../../plm/spinner/schema_custom/Business/SourceFiles/JF_LowCode_mxJPO.java', import.meta.url), 'utf8');
+  const methodStart = source.indexOf('public Map getDATableRowLowCode(Context context, String[] args)');
+  const methodEnd = source.indexOf('/**', methodStart);
+  const methodSource = source.slice(methodStart, methodEnd);
   assert.equal(source.includes('public Map getDATableRowLowCode(Context context, String[] args)'), true);
-  assert.equal(source.includes('"JFDA".equals(UIUtil.getValue(row, DomainConstants.SELECT_TYPE))'), true);
-  assert.equal(source.includes('context.getUser().equals(UIUtil.getValue(row, DomainConstants.SELECT_OWNER))'), true);
-  assert.equal(source.includes('"attribute[JFDAExtensionTime]"'), true);
+  assert.equal(methodSource.includes('"JFDA".equals(UIUtil.getValue(row, DomainConstants.SELECT_TYPE))'), true);
+  assert.equal(methodSource.includes('context.getUser().equals(UIUtil.getValue(row, DomainConstants.SELECT_OWNER))'), false);
+  assert.equal(methodSource.includes('"attribute[JFDAExtensionTime]"'), true);
+});
+
+test('DA详情JPO不限制对象Owner但仍校验实际类型', () => {
+  const source = readFileSync(new URL('../../../plm/spinner/schema_custom/Business/SourceFiles/JF_LowCode_mxJPO.java', import.meta.url), 'utf8');
+  const methodStart = source.indexOf('public Map getDADetailLowCode(Context context, String[] args)');
+  const methodEnd = source.indexOf('/**', methodStart);
+  const methodSource = source.slice(methodStart, methodEnd);
+  assert.equal(methodSource.includes('"JFDA".equals(UIUtil.getValue(daInfo, DomainConstants.SELECT_TYPE))'), true);
+  assert.equal(methodSource.includes('context.getUser().equals(UIUtil.getValue(daInfo, DomainConstants.SELECT_OWNER))'), false);
+  assert.equal(methodSource.includes('无权查看该DA申请单'), false);
 });
 
 test('3DSpace Runtime将长页面限制在当前视口并启用纵向滚动', () => {
@@ -157,19 +234,55 @@ test('3DSpace Runtime将长页面限制在当前视口并启用纵向滚动', ()
   const jsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeRuntime.jsp', import.meta.url), 'utf8');
   assert.equal(/html,\s*body\s*\{[^}]*height:\s*100%;[^}]*overflow:\s*hidden;/s.test(css), true);
   assert.equal(/#jf-lowcode-root\s*\{[^}]*height:\s*100%;[^}]*overflow-y:\s*auto;/s.test(css), true);
-  assert.equal(jsp.includes('JFLowCode/runtime.css?v=20260912-1'), true);
+  assert.equal(jsp.includes('JFLowCode/runtime.css?v=20260912-2'), true);
 });
 
-test('PLM动作由当前Page发布快照解析而不是JSP业务白名单', () => {
+test('低代码搜索提交页统一UTF-8并可靠回传Space和Widget', () => {
+  const submitJsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeSearchSubmit.jsp', import.meta.url), 'utf8');
+  const launcherJsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeSearchLauncher.jsp', import.meta.url), 'utf8');
+  const runtimeJsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeRuntime.jsp', import.meta.url), 'utf8');
+  const widgetPlatform = readFileSync(new URL('../../../dashboard/LowCode_app/src/platform.ts', import.meta.url), 'utf8');
+  assert.equal(submitJsp.includes('pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"'), true);
+  assert.equal(submitJsp.includes('request.setCharacterEncoding("UTF-8")'), true);
+  assert.equal(submitJsp.includes('if (lowCodeSubmitURL == null)'), true);
+  assert.equal(submitJsp.includes('lowCodeSubmitURL = "";'), true);
+  assert.equal(submitJsp.includes('appendTarget(window.opener)'), true);
+  assert.equal(submitJsp.includes('appendTarget(window.parent)'), true);
+  assert.equal(submitJsp.includes('submitURL.pathname === window.location.pathname'), true);
+  assert.equal(submitJsp.includes('return Promise.resolve();'), true);
+  assert.equal(launcherJsp.includes('request.setCharacterEncoding("UTF-8")'), true);
+  assert.equal(runtimeJsp.includes("bridgeSubmitURL += '?lowCodeSubmitURL='"), true);
+  assert.equal(runtimeJsp.includes('resolve({ cancelled: true })'), false);
+  assert.equal(widgetPlatform.includes('if (settled) return;'), true);
+});
+
+test('PLM动作由页面引用和服务端注册表解析而不是JSP业务白名单', () => {
   const actionJsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeAction.jsp', import.meta.url), 'utf8');
   const runtimeJsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeRuntime.jsp', import.meta.url), 'utf8');
   const pageJpo = readFileSync(new URL('../../../plm/spinner/schema_custom/Business/SourceFiles/JF_LowCodePage_mxJPO.java', import.meta.url), 'utf8');
   const publishService = readFileSync(new URL('../../backend/src/main/java/com/jfseat/lowcode/page/PagePublishService.java', import.meta.url), 'utf8');
   assert.equal(actionJsp.includes('"CREATE_DA".equals(actionCode)'), false);
-  assert.equal(actionJsp.includes('"prepareActionInvocation"'), true);
+  assert.equal(actionJsp.includes('"executePublishedAction"'), true);
+  assert.equal(pageJpo.includes('registryParams.put("pageCode", ACTION_REGISTRY_PAGE)'), true);
   assert.equal(runtimeJsp.includes("JF_LowCodeAction.jsp?pageCode="), true);
   assert.equal(pageJpo.includes('public Map prepareActionInvocation'), true);
   assert.equal(pageJpo.includes('resolveMappedValue(inputMapping.get(keyValue), sourceParams)'), true);
-  assert.equal(publishService.includes('resources.put("actions", actions)'), true);
+  assert.equal(publishService.includes('resources.put("actions", actions.stream().map'), true);
+  assert.equal(publishService.includes('FuncName=publishActionRegistry'), true);
   assert.equal(publishService.includes('validatePublishedActions(actionCodes, actions)'), true);
+});
+
+test('PLM动作执行链真正应用公共动作outputMapping', () => {
+  const jsp = readFileSync(new URL('../../../plm/3dspace/common/JF_LowCodeAction.jsp', import.meta.url), 'utf8');
+  const pageJpo = readFileSync(new URL('../../../plm/spinner/schema_custom/Business/SourceFiles/JF_LowCodePage_mxJPO.java', import.meta.url), 'utf8');
+  assert.equal(jsp.includes('"executePublishedAction"'), true);
+  assert.equal(pageJpo.includes('data = mapActionOutput(context, JPO.packArgs(outputParams))'), true);
+  assert.equal(pageJpo.includes('public Object mapActionOutput(Context context, String[] args)'), true);
+  assert.equal(pageJpo.includes('invocation.put("outputMapping", action.get("outputMapping"))'), true);
+  assert.equal(pageJpo.includes('normalizeLegacyOutputMapping(outputMapping)'), true);
+  assert.equal(pageJpo.includes('merged.putAll((Map) mappedResult)'), true);
+  assert.equal(pageJpo.includes('value instanceof List && segment.matches("\\\\d+")'), true);
+  assert.equal(pageJpo.includes('result.put("msg", getActionErrorMessage(e))'), true);
+  assert.equal(pageJpo.includes('message.lastIndexOf("Message:")'), true);
+  assert.equal(pageJpo.includes('操作被业务Trigger校验阻止，请检查对象状态或关联数据'), true);
 });

@@ -61,6 +61,7 @@ public class PagePublishService {
         PageResponse page = pageService.findByPageCode(pageCode)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "页面不存在"));
         validateConfiguration();
+        validatePageBindings(page.schema(), page.plmConfig());
 
         Map<String, Object> pagePackage = new LinkedHashMap<>();
         pagePackage.put("formatVersion", 1);
@@ -78,11 +79,29 @@ public class PagePublishService {
         List<String> actionCodes = readActionCodes(page.plmConfig(), !fields.isEmpty(), hasPlmRange);
         List<PlmActionResponse> actions = plmActionService.findEnabledByCodes(actionCodes);
         validatePublishedActions(actionCodes, actions);
-        resources.put("actions", actions);
+        validateEventActionParameters(page.plmConfig(), actions);
+        //20260917 update by caipan 页面只携带动作引用，接口和映射从独立服务端注册表解析。
+        resources.put("actions", actions.stream().map(action -> Map.of(
+                "actionCode", action.actionCode(), "actionName", action.actionName())).toList());
         pagePackage.put("resources", resources);
 
         String baseUrl = properties.baseUrl().replaceAll("/+$", "");
         try {
+            //20260917 update by caipan 先同步公共动作库，注册表失败时禁止继续发布页面。
+            String registryBody = restClient.post()
+                    .uri(baseUrl + "/TWXPublicRest/TWXTicketService"
+                            + "?JPOName=JF_LowCodePage&FuncName=publishActionRegistry")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header("SecurityContext", properties.securityContext())
+                    .header("X-3DSLogin-ticket", properties.loginTicket())
+                    .body(Map.of("actions", plmActionService.findAll()))
+                    .retrieve().body(String.class);
+            JsonNode registryResult = extractJsonPayload(registryBody);
+            if (registryResult.path("status").asInt(1) != 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,
+                        "动作注册表发布失败：" + registryResult.path("msg").asText("未知错误"));
+            }
             String responseBody = restClient.post()
                     .uri(baseUrl + "/TWXPublicRest/TWXTicketService"
                             + "?JPOName=JF_LowCodePage&FuncName=publishPage")
@@ -166,6 +185,14 @@ public class PagePublishService {
                 }
             });
         }
+        JsonNode eventBindings = plmConfig == null ? null : plmConfig.path("eventBindings");
+        if (eventBindings != null && eventBindings.isArray()) {
+            eventBindings.forEach(binding -> {
+                addActionCode(actionCodes, binding.path("action").path("actionCode"));
+                collectChainedActionCodes(actionCodes, binding.path("success"));
+                collectChainedActionCodes(actionCodes, binding.path("failure"));
+            });
+        }
         if (hasFields) {
             actionCodes.add("QUERY_PAGE_FIELD_METADATA");
         }
@@ -173,6 +200,24 @@ public class PagePublishService {
             actionCodes.add("QUERY_ATTRIBUTE_RANGE");
         }
         return new ArrayList<>(actionCodes);
+    }
+
+    private void collectChainedActionCodes(Set<String> actionCodes, JsonNode effects) {
+        if (!effects.isArray()) {
+            return;
+        }
+        effects.forEach(effect -> {
+            if ("CHAIN_ACTION".equals(effect.path("type").asText())) {
+                addActionCode(actionCodes, effect.path("action").path("actionCode"));
+            }
+        });
+    }
+
+    private void addActionCode(Set<String> actionCodes, JsonNode source) {
+        String code = source.asText("").trim();
+        if (!code.isEmpty()) {
+            actionCodes.add(code);
+        }
     }
 
     /**
@@ -194,6 +239,224 @@ public class PagePublishService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "页面引用的动作不存在或已禁用：" + String.join(", ", unavailableCodes));
         }
+    }
+
+    /**
+     * 发布前按公共动作契约校验事件输入参数
+     **
+     * @param plmConfig 页面PLM绑定配置
+     * @param actions 当前页面引用的公共动作
+     * @throws ResponseStatusException 事件缺少必填参数、包含未知参数或静态值类型错误
+     * @author caipan by codex
+     * @date 2026/9/21 14:35
+     */
+    void validateEventActionParameters(JsonNode plmConfig, List<PlmActionResponse> actions) {
+        JsonNode bindings = plmConfig == null ? null : plmConfig.path("eventBindings");
+        if (bindings == null || !bindings.isArray()) {
+            return;
+        }
+        Map<String, PlmActionResponse> actionByCode = new HashMap<>();
+        actions.forEach(action -> actionByCode.put(action.actionCode(), action));
+        for (JsonNode binding : bindings) {
+            String bindingId = binding.path("id").asText("");
+            validateActionInvocation(binding.path("action"), actionByCode, "事件 " + bindingId);
+            for (String branch : List.of("success", "failure")) {
+                for (JsonNode effect : binding.path(branch)) {
+                    if ("CHAIN_ACTION".equals(effect.path("type").asText())) {
+                        validateActionInvocation(effect.path("action"), actionByCode,
+                                "事件 " + bindingId + " 的链式动作");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 校验一次页面动作调用满足注册表参数契约
+     **
+     * @param invocation 页面动作调用配置
+     * @param actionByCode 已启用动作索引
+     * @param location 错误提示中的配置位置
+     * @throws ResponseStatusException 参数契约校验失败
+     * @author caipan by codex
+     * @date 2026/9/21 14:35
+     */
+    private void validateActionInvocation(JsonNode invocation,
+                                          Map<String, PlmActionResponse> actionByCode,
+                                          String location) {
+        String actionCode = invocation.path("actionCode").asText("");
+        PlmActionResponse action = actionByCode.get(actionCode);
+        if (action == null || action.inputParameters() == null || !action.inputParameters().isArray()) {
+            return;
+        }
+        JsonNode mapping = invocation.path("inputMapping");
+        Map<String, JsonNode> definitions = new LinkedHashMap<>();
+        for (JsonNode definition : action.inputParameters()) {
+            definitions.put(definition.path("name").asText(), definition);
+        }
+        for (JsonNode definition : action.inputParameters()) {
+            String name = definition.path("name").asText();
+            if (definition.path("required").asBoolean(false) && !mapping.has(name)) {
+                throw badBinding(location + " 缺少动作 " + actionCode + " 的必填参数：" + name);
+            }
+        }
+        for (String name : mapping.propertyNames()) {
+            JsonNode definition = definitions.get(name);
+            if (definition == null) {
+                throw badBinding(location + " 包含动作 " + actionCode + " 未定义的参数：" + name);
+            }
+            JsonNode value = mapping.path(name);
+            if (value.isTextual() && value.asText().contains("${")) {
+                continue;
+            }
+            String dataType = definition.path("dataType").asText("ANY");
+            boolean validType = "ANY".equals(dataType)
+                    || ("STRING".equals(dataType) && value.isTextual())
+                    || ("NUMBER".equals(dataType) && value.isNumber())
+                    || ("BOOLEAN".equals(dataType) && value.isBoolean())
+                    || ("OBJECT".equals(dataType) && value.isObject())
+                    || ("ARRAY".equals(dataType) && value.isArray());
+            if (!validType) {
+                throw badBinding(location + " 的参数 " + name + " 不符合类型 " + dataType);
+            }
+        }
+    }
+
+    /**
+     * 发布前校验V2事件引用的组件、动作和效果配置
+     **
+     * @param schema 页面AMIS结构
+     * @param plmConfig 页面PLM绑定配置
+     * @throws ResponseStatusException 事件配置无法由Runtime解释
+     * @author caipan by codex
+     * @date 2026/9/13 12:10
+     */
+    void validatePageBindings(JsonNode schema, JsonNode plmConfig) {
+        JsonNode bindings = plmConfig == null ? null : plmConfig.path("eventBindings");
+        if (bindings == null || !bindings.isArray()) {
+            return;
+        }
+        Map<String, String> componentTypes = new LinkedHashMap<>();
+        collectComponentTypes(schema, componentTypes);
+        Set<String> componentIds = componentTypes.keySet();
+        Set<String> bindingIds = new LinkedHashSet<>();
+        Set<String> supportedEvents = Set.of("init", "click", "submit", "change",
+                "rowClick", "selectionChange", "drop");
+        Set<String> effectsRequiringTarget = Set.of("SET_DATA", "REFRESH_ROW",
+                "APPEND_ROWS", "REMOVE_ROWS", "RESET");
+        for (JsonNode binding : bindings) {
+            String bindingId = binding.path("id").asText("").trim();
+            if (bindingId.isEmpty() || !bindingIds.add(bindingId)) {
+                throw badBinding("事件标识不能为空且不能重复：" + bindingId);
+            }
+            String componentId = binding.path("source").path("componentId").asText("").trim();
+            String event = binding.path("source").path("event").asText("").trim();
+            if (!componentIds.contains(componentId)) {
+                throw badBinding("事件 " + bindingId + " 引用的组件不存在：" + componentId);
+            }
+            if (!supportedEvents.contains(event)) {
+                throw badBinding("事件 " + bindingId + " 的触发类型不支持：" + event);
+            }
+            String componentType = componentTypes.get(componentId);
+            boolean compatible = ("init".equals(event) && "service".equals(componentType))
+                    || ("click".equals(event) && "button".equals(componentType))
+                    || ("submit".equals(event) && "form".equals(componentType))
+                    || ("change".equals(event) && Set.of("input-text", "textarea", "input-number",
+                            "select", "radios", "checkboxes", "checkbox", "switch", "input-date",
+                            "input-datetime", "input-file", "input-image", "input-tree", "input-tag",
+                            "input-table", "hidden").contains(componentType))
+                    || (Set.of("rowClick", "selectionChange", "drop").contains(event)
+                            && Set.of("crud", "table", "table2").contains(componentType));
+            if (!compatible) {
+                throw badBinding("事件 " + bindingId + " 的组件类型 " + componentType
+                        + " 不支持触发 " + event);
+            }
+            //20260917 update by caipan V2拖拽保留对象类型白名单，避免迁移旧配置后扩大可投放范围
+            JsonNode acceptedTypes = binding.path("source").path("acceptedTypes");
+            if ("drop".equals(event) && !acceptedTypes.isMissingNode()
+                    && (!acceptedTypes.isArray() || !allTextValues(acceptedTypes))) {
+                throw badBinding("事件 " + bindingId + " 的允许拖入类型必须是字符串数组");
+            }
+            validateActionReference(binding.path("action"), "事件 " + bindingId);
+            validateEffects(binding.path("success"), bindingId, componentIds, effectsRequiringTarget);
+            validateEffects(binding.path("failure"), bindingId, componentIds, effectsRequiringTarget);
+        }
+    }
+
+    /**
+     * 校验JSON数组中每个元素都是非空字符串
+     **
+     * @param values 待校验数组
+     * @return boolean 全部合法时返回true
+     * @author caipan by codex
+     * @date 2026/9/17 14:30
+     */
+    private boolean allTextValues(JsonNode values) {
+        for (JsonNode value : values) {
+            if (!value.isTextual() || value.asText().isBlank()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void validateEffects(JsonNode effects, String bindingId, Set<String> componentIds,
+                                 Set<String> effectsRequiringTarget) {
+        if (!effects.isArray()) {
+            throw badBinding("事件 " + bindingId + " 的成功和失败效果必须是数组");
+        }
+        Set<String> supportedEffects = Set.of("SET_DATA", "RELOAD", "REFRESH_ROW", "APPEND_ROWS",
+                "REMOVE_ROWS", "RESET", "OPEN_DIALOG", "OPEN_DRAWER", "CLOSE", "OPEN_DETAIL",
+                "NAVIGATE", "NOTIFY", "CHAIN_ACTION");
+        for (JsonNode effect : effects) {
+            String type = effect.path("type").asText("").trim();
+            String target = effect.path("target").asText("").trim();
+            if (!supportedEffects.contains(type)) {
+                throw badBinding("事件 " + bindingId + " 包含不支持的效果：" + type);
+            }
+            if (effectsRequiringTarget.contains(type) && !componentIds.contains(target)) {
+                throw badBinding("事件 " + bindingId + " 的效果 " + type
+                        + " 引用的组件不存在：" + target);
+            }
+            if ("CHAIN_ACTION".equals(type)) {
+                validateActionReference(effect.path("action"), "事件 " + bindingId + " 的链式动作");
+            }
+        }
+    }
+
+    private void validateActionReference(JsonNode action, String location) {
+        String actionCode = action.path("actionCode").asText("").trim();
+        if (!actionCode.matches("[A-Z0-9_]{1,100}")) {
+            throw badBinding(location + " 缺少合法的公共动作编码");
+        }
+        if (!action.path("inputMapping").isObject()) {
+            throw badBinding(location + " 的动作输入映射必须是JSON对象");
+        }
+        //20260921 update by caipan 阻止空参数名进入发布包，避免运行时静默覆盖或丢失参数
+        for (String field : action.path("inputMapping").propertyNames()) {
+            if (field.isBlank()) {
+                throw badBinding(location + " 的动作输入映射包含空参数名");
+            }
+        }
+    }
+
+    private void collectComponentTypes(JsonNode node, Map<String, String> componentTypes) {
+        if (node == null) {
+            return;
+        }
+        if (node.isObject()) {
+            String id = node.path("id").asText("").trim();
+            if (!id.isEmpty()) {
+                componentTypes.put(id, node.path("type").asText("").trim());
+            }
+        }
+        if (node.isObject() || node.isArray()) {
+            node.forEach(child -> collectComponentTypes(child, componentTypes));
+        }
+    }
+
+    private ResponseStatusException badBinding(String message) {
+        return new ResponseStatusException(HttpStatus.BAD_REQUEST, "页面事件配置错误：" + message);
     }
 
     /**

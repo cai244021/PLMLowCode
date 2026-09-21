@@ -44,6 +44,14 @@ public class PlmActionDefinition {
     @Column(name = "output_mapping_json", nullable = false, columnDefinition = "jsonb")
     private JsonNode outputMappingJson;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "input_parameters_json", nullable = false, columnDefinition = "jsonb")
+    private JsonNode inputParametersJson;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "output_parameters_json", nullable = false, columnDefinition = "jsonb")
+    private JsonNode outputParametersJson;
+
     @Column(nullable = false)
     private boolean enabled;
 
@@ -57,11 +65,12 @@ public class PlmActionDefinition {
     }
 
     public PlmActionDefinition(String actionCode, PlmActionRequest request,
-                               JsonNode inputMapping, JsonNode outputMapping) {
+                               JsonNode inputMapping, JsonNode outputMapping,
+                               JsonNode inputParameters, JsonNode outputParameters) {
         this.id = UUID.randomUUID();
         this.actionCode = actionCode;
         this.createdAt = Instant.now();
-        update(request, inputMapping, outputMapping);
+        update(request, inputMapping, outputMapping, inputParameters, outputParameters);
     }
 
     /**
@@ -70,10 +79,13 @@ public class PlmActionDefinition {
      * @param request 动作配置请求
      * @param inputMapping 输入参数映射
      * @param outputMapping 输出参数映射
+     * @param inputParameters 输入参数契约
+     * @param outputParameters 输出参数契约
      * @author caipan by codex
      * @date 2026/9/3 11:10
      */
-    public void update(PlmActionRequest request, JsonNode inputMapping, JsonNode outputMapping) {
+    public void update(PlmActionRequest request, JsonNode inputMapping, JsonNode outputMapping,
+                       JsonNode inputParameters, JsonNode outputParameters) {
         this.actionName = request.actionName().trim();
         this.actionKind = request.actionKind();
         this.jpoName = normalize(request.jpoName());
@@ -81,6 +93,8 @@ public class PlmActionDefinition {
         this.httpMethod = request.httpMethod();
         this.inputMappingJson = inputMapping;
         this.outputMappingJson = outputMapping;
+        this.inputParametersJson = inputParameters;
+        this.outputParametersJson = outputParameters;
         this.enabled = request.enabled();
         this.updatedAt = Instant.now();
     }
@@ -119,6 +133,14 @@ public class PlmActionDefinition {
 
     public JsonNode getOutputMappingJson() {
         return outputMappingJson;
+    }
+
+    public JsonNode getInputParametersJson() {
+        return inputParametersJson;
+    }
+
+    public JsonNode getOutputParametersJson() {
+        return outputParametersJson;
     }
 
     public boolean isEnabled() {

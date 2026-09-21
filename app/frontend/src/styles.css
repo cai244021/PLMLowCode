@@ -430,6 +430,202 @@ body {
   grid-column: 1 / -2;
 }
 
+.event-binding {
+  margin-top: 14px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.event-binding-head,
+.effect-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.event-grid label,
+.effect-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.event-grid input,
+.event-grid select,
+.event-grid textarea,
+.effect-row input,
+.effect-row select,
+.effect-row textarea {
+  min-width: 0;
+  padding: 8px 10px;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font: inherit;
+}
+
+.event-json textarea {
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.parameter-mapping {
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  border-radius: 5px;
+}
+
+.parameter-mapping-head,
+.parameter-mapping-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.parameter-mapping-head {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.parameter-mapping-head small {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+  font-weight: normal;
+}
+
+.contract-summary {
+  display: block;
+  margin-top: 6px;
+  color: #0369a1;
+  font-family: Consolas, monospace;
+  font-size: 12px;
+}
+
+.parameter-mapping-row {
+  margin-top: 10px;
+}
+
+.parameter-mapping-row label:first-child {
+  flex: 0 1 230px;
+}
+
+.parameter-mapping-row label:nth-of-type(2) {
+  flex: 1;
+}
+
+.parameter-mapping-row .icon-danger {
+  height: 35px;
+}
+
+.mapping-arrow {
+  align-self: center;
+  color: #0284c7;
+  font-weight: 700;
+}
+
+.advanced-mapping {
+  margin-top: 12px;
+  color: #475569;
+}
+
+.advanced-mapping summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.advanced-mapping .event-json {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.action-contract {
+  padding: 14px;
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  border-radius: 6px;
+}
+
+.action-contract-row {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr auto 2fr auto;
+  gap: 10px;
+  align-items: end;
+  margin-top: 10px;
+}
+
+.action-contract-row .contract-required {
+  flex-direction: row;
+  align-items: center;
+  min-height: 35px;
+  white-space: nowrap;
+}
+
+.action-contract-row .icon-danger {
+  height: 35px;
+  padding: 0 12px;
+  background: #fff;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-contract .advanced-mapping label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.effect-branch {
+  margin-top: 14px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 5px;
+}
+
+.effect-title button {
+  padding: 5px 10px;
+  color: #0369a1;
+  background: #fff;
+  border: 1px solid #7dd3fc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.effect-row {
+  display: grid;
+  grid-template-columns: 32px repeat(2, minmax(150px, 1fr)) repeat(2, minmax(120px, .8fr)) auto;
+  gap: 10px;
+  align-items: end;
+  margin-top: 10px;
+}
+
+.effect-order {
+  align-self: center;
+  color: #0369a1;
+  font-weight: 700;
+  text-align: center;
+}
+
 .binding-row .icon-danger {
   height: 35px;
   padding: 0 12px;

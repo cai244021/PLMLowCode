@@ -6,12 +6,14 @@ import tools.jackson.databind.JsonNode;
 
 public record PlmActionRequest(
         @NotBlank String actionName,
-        @Pattern(regexp = "CREATE|UPDATE|QUERY|ACTION|NAVIGATION") String actionKind,
+        @Pattern(regexp = "CREATE|UPDATE|QUERY|ACTION") String actionKind,
         String jpoName,
         String methodName,
         @Pattern(regexp = "POST", message = "PLM动作只允许POST请求") String httpMethod,
         JsonNode inputMapping,
         JsonNode outputMapping,
+        JsonNode inputParameters,
+        JsonNode outputParameters,
         boolean enabled
 ) {
 }

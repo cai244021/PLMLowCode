@@ -51,7 +51,7 @@ export default function PageResources({config, fields, actions, onChange}: Props
       <div className="section-title"><div><h3>本页动作 · {config.actionCodes.length}</h3><p>从公共JPO动作库选入；移除仅影响本页清单，不会删除公共动作。筛选不代表PLM执行权限。</p></div></div>
       <div className="resource-columns">
         <div><h4>候选动作</h4><div className="inline-grid">
-          <label>动作类型筛选<select value={actionKind} onChange={event => setActionKind(event.target.value)}><option value="">全部动作类型</option><option value="CREATE">创建</option><option value="UPDATE">更新</option><option value="QUERY">查询</option><option value="ACTION">其他操作</option><option value="NAVIGATION">导航</option></select></label>
+          <label>动作类型筛选<select value={actionKind} onChange={event => setActionKind(event.target.value)}><option value="">全部动作类型</option><option value="CREATE">创建</option><option value="UPDATE">更新</option><option value="QUERY">查询</option><option value="ACTION">其他操作</option></select></label>
           <label>搜索候选动作<input value={actionSearch} onChange={event => setActionSearch(event.target.value)} placeholder="名称、编码、JPO或方法" /></label>
         </div><div className="resource-list">
           {candidateActions.map(action => <div className="resource-item" key={action.actionCode}><div><strong>{action.actionName}</strong><small>{action.actionKind} · {action.actionCode} · {action.jpoName}:{action.methodName}</small></div><button type="button" aria-label={`选入动作 ${action.actionCode}`} onClick={() => onChange({...config, actionCodes: [...config.actionCodes, action.actionCode]})}>选入</button></div>)}
@@ -60,7 +60,9 @@ export default function PageResources({config, fields, actions, onChange}: Props
         <div><h4>已选入本页</h4><div className="resource-list">
           {config.actionCodes.map(code => {
             const action = actions.find(item => item.actionCode === code);
-            const used = config.dataBindings.some(item => item.actionCode === code) || config.actionBindings.some(item => item.actionCode === code) || config.tableBindings.some(item => item.queryActionCode === code);
+            const usedByEvent = config.eventBindings.some(binding => binding.action.actionCode === code
+              || [...binding.success, ...binding.failure].some(effect => effect.type === 'CHAIN_ACTION' && effect.action?.actionCode === code));
+            const used = config.dataBindings.some(item => item.actionCode === code) || config.actionBindings.some(item => item.actionCode === code) || config.tableBindings.some(item => item.queryActionCode === code) || usedByEvent;
             return <div className="resource-item" key={code}><div><strong>{action?.actionName || '动作定义缺失'}</strong><small>{code}{!action ? ' · 请检查公共动作库' : !action.enabled ? ' · 已禁用，不能新增绑定' : ''}{used ? ' · 已绑定，请先删除下方绑定再移除' : ''}</small></div><button type="button" disabled={used} aria-label={`移除动作 ${code}`} onClick={() => onChange({...config, actionCodes: config.actionCodes.filter(item => item !== code)})}>移除</button></div>;
           })}
           {!config.actionCodes.length && <p className="empty-tip">尚未选入动作。Table查询只能选择本页已启用的查询动作。</p>}

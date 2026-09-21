@@ -2,6 +2,7 @@ import {useMemo} from 'react';
 import type {SchemaObject} from 'amis';
 import {collectPageComponents, collectTableColumns} from './schemaComponents';
 import PageResources from './PageResources';
+import PageEventBindings from './PageEventBindings';
 import type {
   ActionBinding,
   DataBinding,
@@ -110,8 +111,10 @@ export default function PagePlmBinding({pageCode, pageName, schema, config, fiel
         <div><strong>{components.data.length}</strong><span>初始化查询组件</span></div>
         <div><strong>{components.actions.length}</strong><span>按钮/表单组件</span></div>
         <div><strong>{components.tables.length}</strong><span>Table组件</span></div>
-        <div><strong>{config.fieldBindings.length + config.dataBindings.length + config.actionBindings.length + config.tableBindings.length + config.searchBindings.length}</strong><span>已配置绑定</span></div>
+        <div><strong>{config.fieldBindings.length + config.dataBindings.length + config.actionBindings.length + config.tableBindings.length + config.searchBindings.length + config.eventBindings.length}</strong><span>已配置绑定</span></div>
       </div>
+
+      <PageEventBindings config={config} components={components.all} actions={actions} onChange={onChange} />
 
       <div className="binding-section">
         <div className="section-title"><div><h3>3DSpace原生搜索</h3><p>将AMIS按钮绑定到emxFullSearch.jsp；多个参数使用 &amp; 连接。field、table、form、includeOIDprogram、excludeOIDprogram、showInitialResults等业务参数会透传，submitURL和requestId由Runtime统一接管。</p></div><button type="button" onClick={addSearchBinding} disabled={!components.actions.some((component) => component.type === 'button') || !components.actions.some((component) => component.type === 'form')}>新增搜索绑定</button></div>
@@ -163,7 +166,7 @@ export default function PagePlmBinding({pageCode, pageName, schema, config, fiel
       </div>
 
       <div className="binding-section">
-        <div className="section-title"><div><h3>按钮与表单事件</h3><p>页面只保存actionCode，JPO名称与方法由动作库控制。</p></div><button type="button" onClick={addActionBinding} disabled={!components.actions.length || !enabledActions.length}>新增事件</button></div>
+        <div className="section-title"><div><h3>按钮与表单事件（V1兼容）</h3><p>历史页面继续使用；新页面事件请在上方V2设计器配置。</p></div><button type="button" onClick={addActionBinding} disabled={!components.actions.length || !enabledActions.length}>新增旧版事件</button></div>
         {!components.actions.length && <div className="empty-tip">当前页面没有按钮或表单组件。</div>}
         {config.actionBindings.map((binding, index) => (
           <div className="binding-row action-row" key={`${binding.componentId}-${index}`}>
